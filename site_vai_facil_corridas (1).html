@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VaiFácil — Corridas</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#151515}
+header{background:#111;color:#fff;padding:18px 6%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:800}.logo span{color:#ffd400}
+nav a{color:#fff;text-decoration:none;margin-left:22px;font-size:14px}
+.hero{padding:55px 6%;background:#111;color:white;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:46px;margin:0 0 15px}.hero p{font-size:18px;line-height:1.5;color:#ddd}
+.btn{display:inline-block;background:#ffd400;color:#111;padding:15px 22px;border-radius:10px;text-decoration:none;font-weight:700;margin-top:12px;border:0;cursor:pointer}
+.card{background:#fff;color:#111;padding:25px;border-radius:18px;box-shadow:0 10px 30px #0002}
+.card h2{margin-top:0}.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+input,select{width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;font-size:15px}
+.result{margin-top:15px;padding:14px;background:#f1f2f4;border-radius:10px;display:none}
+section{padding:45px 6%}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature{background:#fff;padding:25px;border-radius:15px}.feature h3{margin-top:0}
+footer{padding:30px 6%;background:#111;color:#aaa;text-align:center}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.hero h1{font-size:36px}.grid{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Vai<span>Fácil</span></div>
+  <nav><a href="#passageiro">Passageiro</a><a href="#motorista">Motorista</a><a href="#sobre">Sobre</a></nav>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>Seu caminho, mais fácil.</h1>
+    <p>Uma plataforma de corridas para passageiros e motoristas. Solicite uma corrida, acompanhe o trajeto e veja uma estimativa de preço.</p>
+    <a class="btn" href="#passageiro">Pedir uma corrida</a>
+  </div>
+
+  <div class="card" id="passageiro">
+    <h2>Solicitar corrida</h2>
+    <div class="field"><label>De onde você está?</label><input id="origem" placeholder="Ex.: Rua XV de Novembro"></div>
+    <div class="field"><label>Para onde vai?</label><input id="destino" placeholder="Ex.: Centro"></div>
+    <div class="field"><label>Categoria</label>
+      <select id="categoria"><option value="1">VaiFácil — Econômico</option><option value="1.35">Conforto</option><option value="1.8">Premium</option></select>
+    </div>
+    <button class="btn" onclick="calcular()">Calcular estimativa</button>
+    <div class="result" id="resultado"></div>
+  </div>
+</div>
+
+<section id="motorista">
+<h2>Para motoristas</h2>
+<div class="grid">
+<div class="feature"><h3>🚗 Receba corridas</h3><p>Motoristas podem se cadastrar e receber solicitações próximas.</p></div>
+<div class="feature"><h3>📍 Acompanhe no mapa</h3><p>O aplicativo pode mostrar passageiro, motorista e rota em tempo real.</p></div>
+<div class="feature"><h3>💳 Pagamento</h3><p>Estrutura pronta para integrar Pix, cartão e outras formas de pagamento.</p></div>
+</div>
+</section>
+
+<section id="sobre">
+<h2>Como transformar este site em aplicativo</h2>
+<div class="grid">
+<div class="feature"><h3>1. Passageiro</h3><p>Cadastro, localização, destino, preço, pedido e avaliação.</p></div>
+<div class="feature"><h3>2. Motorista</h3><p>Cadastro, documentos, disponibilidade, aceite e navegação.</p></div>
+<div class="feature"><h3>3. Administração</h3><p>Painel para usuários, motoristas, corridas, tarifas e pagamentos.</p></div>
+</div>
+</section>
+
+<footer>© 2026 VaiFácil — Projeto inicial de plataforma de corridas.</footer>
+<script>
+function calcular(){
+ const o=document.getElementById('origem').value.trim(),d=document.getElementById('destino').value.trim();
+ const mult=Number(document.getElementById('categoria').value), box=document.getElementById('resultado');
+ if(!o||!d){box.style.display='block';box.innerHTML='Informe origem e destino.';return}
+ const km=(Math.random()*7+3), valor=(6+km*2.2)*mult;
+ box.style.display='block';box.innerHTML='<b>Estimativa:</b> '+km.toFixed(1)+' km<br><b>Valor estimado: R$ '+valor.toFixed(2).replace('.',',')+'</b><br><small>Exemplo demonstrativo — o app real usará GPS e cálculo de rota.</small>';
+}
+</script>
+</body>
+</html>
