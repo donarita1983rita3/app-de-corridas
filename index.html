@@ -1,301 +1,128 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu App de Corridas</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: #f4f4f4;
-      color: #222;
-    }
-
-    header {
-      background: #111;
-      color: white;
-      padding: 18px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 15px;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .card {
-      background: white;
-      padding: 18px;
-      margin-bottom: 15px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.12);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    button {
-      background: #111;
-      color: white;
-      border: none;
-      font-weight: bold;
-    }
-
-    button:active {
-      transform: scale(.98);
-    }
-
-    #map {
-      width: 100%;
-      height: 350px;
-      border-radius: 14px;
-      margin-top: 10px;
-      background: #ddd;
-    }
-
-    .price {
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-
-    .status {
-      margin-top: 10px;
-      padding: 12px;
-      background: #eee;
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu App de Corridas</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  *{box-sizing:border-box; font-family: Arial, sans-serif;}
+  body{margin:0; background:#f4f4f4; color:#222;}
+  header{background:#111; color:white; padding:18px; text-align:center; font-size:22px; font-weight:bold;}
+  .container{padding:15px; max-width:600px; margin:auto;}
+  .card{background:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:15px;}
+  label{font-weight:bold; display:block; margin-top:10px;}
+  input{width:100%; padding:14px; margin-top:5px; border:2px solid #ddd; border-radius:8px; font-size:16px;}
+  button{width:100%; padding:16px; border:none; border-radius:10px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:12px;}
+  .btn-preto{background:#111; color:white;}
+  .btn-verde{background:#25D366; color:white;}
+  .btn-azul{background:#1877F2; color:white;}
+  #mapa{height:300px; width:100%; border-radius:12px; margin-top:10px; display:none;}
+  #resultado{font-size:18px; text-align:center; line-height:1.5;}
+  .preco{font-size:32px; font-weight:bold; color:#111;}
+  #motorista{display:none; text-align:center;}
+  .motorista-foto{font-size:60px;}
+</style>
 </head>
-
 <body>
 
-<header>
-  🚗 Meu App de Corridas
-</header>
+<header>🚕 Meu App de Corridas</header>
 
 <div class="container">
-
   <div class="card">
-    <h2>Passageiro</h2>
+    <label>📍 De onde você está saindo?</label>
+    <input id="origem" type="text" placeholder="Ex: Av. Paulista, São Paulo" value="Av. Paulista, São Paulo">
+    <button class="btn-azul" onclick="usarMinhaLocalizacao()">📍 Usar minha localização</button>
 
-    <input
-      id="origem"
-      type="text"
-      placeholder="Local de partida">
+    <label>🏁 Para onde você vai?</label>
+    <input id="destino" type="text" placeholder="Ex: Mercado Municipal, São Paulo">
 
-    <input
-      id="destino"
-      type="text"
-      placeholder="Destino">
-
-    <button onclick="usarGPS()">
-      📍 Usar minha localização
-    </button>
-
-    <button onclick="calcularCorrida()">
-      🚕 Solicitar corrida
-    </button>
-
-    <div class="price" id="preco">
-      R$ 0,00
-    </div>
-
-    <div class="status" id="status">
-      Aguardando solicitação...
-    </div>
+    <button class="btn-preto" onclick="calcularCorrida()">VER PREÇO E MAPA</button>
   </div>
 
-  <div class="card">
-    <h2>Motorista</h2>
+  <div id="mapa"></div>
 
-    <button onclick="aceitarCorrida()">
-      ✅ Aceitar corrida
-    </button>
-
-    <button onclick="iniciarCorrida()">
-      ▶️ Iniciar corrida
-    </button>
-
-    <button onclick="finalizarCorrida()">
-      🏁 Finalizar corrida
-    </button>
-
-    <div class="status" id="motoristaStatus">
-      Motorista aguardando...
-    </div>
+  <div class="card" id="resultado" style="display:none">
+    <div>Distância: <b id="distancia">--</b></div>
+    <div>Tempo: <b id="tempo">--</b></div>
+    <div>Valor da corrida:</div>
+    <div class="preco" id="preco">R$ 0,00</div>
+    <button class="btn-verde" onclick="confirmarCorrida()">✅ CONFIRMAR CORRIDA</button>
   </div>
 
-  <div class="card">
-    <h2>📍 Mapa</h2>
-    <div id="map"></div>
+  <div class="card" id="motorista">
+    <div class="motorista-foto">🚗</div>
+    <h2>Motorista a caminho!</h2>
+    <p><b>José Carlos</b><br>Carro: Onix Branco - Placa ABC-1234<br>Chega em 5 minutos</p>
+    <p id="detalhesCorrida"></p>
+    <button class="btn-verde" onclick="chamarWhats()">💬 Chamar no WhatsApp</button>
+    <button class="btn-preto" onclick="location.reload()">Fazer outra corrida</button>
   </div>
-
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+let mapa;
+let marcadorOrigem, marcadorDestino;
 
-let latitude = null;
-let longitude = null;
-
-let distancia = 0;
-let preco = 0;
-
-function usarGPS() {
-
-  if (!navigator.geolocation) {
-    alert("Seu celular não suporta GPS.");
-    return;
+function mostrarMapa(lat, lon){
+  document.getElementById('mapa').style.display = 'block';
+  if(!mapa){
+    mapa = L.map('mapa').setView([lat, lon], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);
+  } else {
+    mapa.setView([lat, lon], 14);
   }
-
-  navigator.geolocation.getCurrentPosition(
-
-    function(position) {
-
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-
-      document.getElementById("origem").value =
-        latitude.toFixed(6) + ", " +
-        longitude.toFixed(6);
-
-      document.getElementById("status").innerText =
-        "📍 Localização encontrada.";
-
-      mostrarMapa(latitude, longitude);
-    },
-
-    function(error) {
-
-      alert(
-        "Não foi possível acessar sua localização. " +
-        "Verifique a permissão de localização do navegador."
-      );
-
-    },
-
-    {
-      enableHighAccuracy: true,
-      timeout: 10000
-    }
-  );
+  if(marcadorOrigem) mapa.removeLayer(marcadorOrigem);
+  marcadorOrigem = L.marker([lat, lon]).addTo(mapa).bindPopup("Você está aqui").openPopup();
 }
 
-
-function calcularCorrida() {
-
-  const origem = document.getElementById("origem").value;
-  const destino = document.getElementById("destino").value;
-
-  if (!origem || !destino) {
-
-    alert("Informe a partida e o destino.");
-
-    return;
+function usarMinhaLocalizacao(){
+  if(navigator.geolocation){
+    alert("Pegando sua localização...");
+    navigator.geolocation.getCurrentPosition(function(pos){
+      mostrarMapa(pos.coords.latitude, pos.coords.longitude);
+      document.getElementById('origem').value = "Minha localização atual";
+    });
+  } else {
+    alert("Seu celular não permite localização");
   }
-
-  /*
-    Cálculo provisório.
-
-    Depois vamos substituir pelo cálculo real
-    usando Google Maps Routes/Directions API.
-  */
-
-  distancia = 5;
-
-  const tarifaBase = 5.00;
-  const valorPorKm = 2.50;
-
-  preco = tarifaBase + (distancia * valorPorKm);
-
-  document.getElementById("preco").innerText =
-    "R$ " + preco.toFixed(2).replace(".", ",");
-
-  document.getElementById("status").innerText =
-    "🚕 Corrida solicitada. Aguardando motorista...";
-
 }
 
+function calcularCorrida(){
+  let origem = document.getElementById('origem').value;
+  let destino = document.getElementById('destino').value;
+  if(!origem || !destino){ alert("Preencha origem e destino"); return; }
 
-function aceitarCorrida() {
+  // Mostra mapa em São Paulo se não tiver localização
+  mostrarMapa(-23.5505, -46.6333);
 
-  document.getElementById("motoristaStatus").innerText =
-    "✅ Motorista aceitou a corrida.";
+  // Simulação de distância: 2 a 18 km aleatório para teste
+  // Depois você pode ligar com API real
+  let km = (Math.random()*12 + 3).toFixed(1);
+  let minutos = Math.round(km * 2.5);
+  let preco = (7 + km * 2.50).toFixed(2).replace('.', ',');
 
-  document.getElementById("status").innerText =
-    "🚗 Motorista está a caminho.";
+  document.getElementById('distancia').innerText = km + " km";
+  document.getElementById('tempo').innerText = minutos + " min";
+  document.getElementById('preco').innerText = "R$ " + preco;
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
 }
 
-
-function iniciarCorrida() {
-
-  document.getElementById("motoristaStatus").innerText =
-    "▶️ Corrida iniciada.";
-
-  document.getElementById("status").innerText =
-    "🚕 Corrida em andamento.";
+function confirmarCorrida(){
+  let destino = document.getElementById('destino').value;
+  let preco = document.getElementById('preco').innerText;
+  document.getElementById('detalhesCorrida').innerHTML = "Destino: <b>"+destino+"</b><br>Valor: <b>"+preco+"</b>";
+  document.getElementById('motorista').style.display = 'block';
+  document.getElementById('motorista').scrollIntoView({behavior:'smooth'});
+  alert("Corrida confirmada! Motorista José Carlos a caminho.");
 }
 
-
-function finalizarCorrida() {
-
-  document.getElementById("motoristaStatus").innerText =
-    "🏁 Corrida finalizada.";
-
-  document.getElementById("status").innerText =
-    "✅ Corrida concluída.";
-
-}
-
-
-function mostrarMapa(lat, 
-lng) {
-
-  const mapa = document.getElementById("map");
-
-  mapa.innerHTML = `
-    <iframe
-      width="100%"
-      height="100%"
-      style="border:0;border-radius:14px;"
-      loading="lazy"
-      function mostrarMapa(lat, lng) {
-  const mapa = document.getElementById("map");
-
-  mapa.innerHTML = `
-    <iframe
-      width="100%"
-      height="100%"
-      style="border:0; border-radius:14px;"
-      loading="lazy"
-      src="https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed"
-      allowfullscreen>
-    </iframe>
-  `;
-  }
-    </iframe>
-  `;
+function chamarWhats(){
+  let msg = encodeURIComponent("Olá! Sou Dona Rita, confirmei uma corrida no App de Corridas.");
+  window.open("https://wa.me/5511999999999?text="+msg, "_blank");
 }
 </script>
-
 </body>
 </html>
