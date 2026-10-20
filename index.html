@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -35,7 +35,6 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">👤 PASSAGEIRO</button>
 <button id="btnMot" class="btn-cinza" onclick="mostrarAba('mot')">🚗 MOTORISTA</button>
 </div>
-
 <div id="abaPass">
 <div class="card">
 <label>👤 Seu nome</label><input id="nomePass" placeholder="Ex: Maria">
@@ -48,7 +47,6 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <div id="resultado" style="display:none"></div>
 <div id="motoristaBox" style="display:none"></div>
 </div>
-
 <div class="card" id="pagamentoBox" style="display:none">
 <h2 style="text-align:center">💰 Como vai pagar, Dona Rita?</h2>
 <div class="pixbox">
@@ -63,13 +61,12 @@ Chave Pix: <b>31509952802</b><br>
 <button class="btn-laranja" onclick="ligar()">📞 LIGAR 41 98809-9495</button>
 <button class="btn-preto" onclick="confirmarPagamento()">✅ JÁ PAGUEI - CONFIRMAR CORRIDA</button>
 </div>
-
 <div class="card">
 <div class="total">💰 TOTAL GANHO HOJE: R$ <span id="totalGanho">0.00</span><br><span style="font-size:14px;color:#fff">Corridas: <span id="qtdCorridas">0</span></span></div>
 <h3>📜 Minhas corridas</h3><div id="hist"></div>
+<button class="btn-cinza" onclick="limparHist()">🗑️ Limpar histórico pra começar a ganhar de verdade</button>
 </div>
 </div>
-
 <div id="abaMot" style="display:none">
 <div class="card">
 <h3>🚗 Cadastro Motorista - Ease Flash</h3>
@@ -85,18 +82,20 @@ Chave Pix: <b>31509952802</b><br>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let mapa, lat0=-23.6939, lon0=-46.5650, latD, lonD, precoFinal=13, historico=JSON.parse(localStorage.getItem('easeflash')||'[]');
+let mapa, lat0=-23.6939, lon0=-46.5650, latD, lonD, precoFinal=13;
+let historico=JSON.parse(localStorage.getItem('easeflash')||'[]');
 function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('btnPass').classList.toggle('ativo',t=='pass');document.getElementById('btnMot').classList.toggle('ativo',t=='mot')}
 async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{lat0=p.coords.latitude;lon0=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat0}&lon=${lon0}`);let d=await r.json();document.getElementById('origem').value=d.display_name||'Minha localização';alert('Localização pegada! Agora escreve o destino!')})}
 async function buscarCoordenada(e){let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(e+' São Bernardo do Campo')}`);let d=await r.json();return d[0]}
 async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert('Escreva para onde vai!');let c=await buscarCoordenada(dest);if(!c)return alert('Não achei esse lugar, tenta de novo!');latD=parseFloat(c.lat);lonD=parseFloat(c.lon);let dist=Math.sqrt(Math.pow(latD-lat0,2)+Math.pow(lonD-lon0,2))*111;precoFinal=Math.max(13, Math.round((8+dist*2.5)));document.getElementById('resultado').style.display='block';document.getElementById('resultado').innerHTML=`<div class='preco'>R$ ${precoFinal},00</div><p style='text-align:center'>Distância: ${dist.toFixed(1)} km<br>Motorista: Rita - 41 98809-9495<br>Carro: Onix Branco</p>`;document.getElementById('valorPix').innerText=precoFinal;document.getElementById('pagamentoBox').style.display='block';document.getElementById('mapa').style.display='block';if(!mapa){mapa=L.map('mapa').setView([lat0,lon0],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa)}mapa.setView([lat0,lon0],13);L.marker([lat0,lon0]).addTo(mapa).bindPopup('Você aqui').openPopup();L.marker([latD,lonD]).addTo(mapa).bindPopup(dest);document.getElementById('motoristaBox').style.display='block';document.getElementById('motoristaBox').innerHTML=`<div class='card'><h3>🚗 Sua motorista chegou!</h3><p><b>Rita</b> - Onix Branco - 41 98809-9495</p></div>`;atualizarHist()}
 function copiarPix(){navigator.clipboard.writeText('31509952802');document.getElementById('pixCopiado').innerText='✅ PIX COPIADO! Agora cola no seu Mercado Pago e paga!';alert('Pix 31509952802 copiado!')}
 function pagarCartao(){alert('Vai abrir o Mercado Pago para pagar no cartão!');window.open('https://www.mercadopago.com.br','_blank')}
-function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||'Passageiro';let dest=document.getElementById('destino').value;let msg=`Olá Rita! Sou ${nome}, quero corrida EASE FLASH de ${document.getElementById('origem').value} para ${dest} - Preço R$ ${precoFinal},00 - Vou pagar no Pix/Cartão`;window.open(`https://wa.me/5541988099495?text=${encodeURIComponent(msg)}`,'_blank')}
+function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||'Cliente';let dest=document.getElementById('destino').value;let msg=`Olá Rita! Sou ${nome}, quero corrida EASE FLASH de ${document.getElementById('origem').value} para ${dest} - Preço R$ ${precoFinal},00 - Vou pagar no Pix/Cartão`;window.open(`https://wa.me/5541988099495?text=${encodeURIComponent(msg)}`,'_blank')}
 function ligar(){window.location.href='tel:+5541988099495'}
-function confirmarPagamento(){let nome=document.getElementById('nomePass').value||'Passageiro';let dest=document.getElementById('destino').value;historico.push({nome,dest,preco:precoFinal,data:new Date().toLocaleString()});localStorage.setItem('easeflash',JSON.stringify(historico));alert('✅ CORRIDA CONFIRMADA! Rita já está indo! Você pagou R$ '+precoFinal+',00');atualizarHist();enviarZapMotorista()}
+function confirmarPagamento(){let nome=document.getElementById('nomePass').value;if(!nome){nome='Rita Teste';document.getElementById('nomePass').value=nome}let dest=document.getElementById('destino').value||'Shopping Metrópole';let precoNum=parseInt(precoFinal);historico.push({nome:nome,dest:dest,preco:precoNum,data:new Date().toLocaleString()});localStorage.setItem('easeflash',JSON.stringify(historico));alert('✅ CORRIDA CONFIRMADA! Rita já está indo! Você pagou R$ '+precoNum+',00');atualizarHist();enviarZapMotorista()}
 function cadastrarMot(){let n=document.getElementById('nomeMot').value||'Rita';document.getElementById('motOnline').style.display='block';document.getElementById('dadosMot').innerText=`${n} - ${document.getElementById('carroMot').value} - ${document.getElementById('placaMot').value} - Online para corridas!`}
-function atualizarHist(){let total=0;document.getElementById('hist').innerHTML=historico.map(h=>{total+=h.preco;return `<div class='hist'><b>${h.nome}</b> - ${h.dest} - R$ ${h.preco},00 - ${h.data}</div>`}).join('');document.getElementById('totalGanho').innerText=total.toFixed(2);document.getElementById('qtdCorridas').innerText=historico.length}
+function atualizarHist(){let total=0;let html='';historico.forEach(h=>{let p=parseInt(h.preco)||13;total+=p;html+=`<div class='hist'><b>${h.nome}</b> - ${h.dest} - R$ ${p},00 - ${h.data}</div>`});document.getElementById('hist').innerHTML=html;document.getElementById('totalGanho').innerText=total.toFixed(2).replace('.',',');document.getElementById('qtdCorridas').innerText=historico.length}
+function limparHist(){localStorage.removeItem('easeflash');historico=[];atualizarHist();alert('Histórico limpo! Agora começa do zero pra ganhar de verdade!')}
 atualizarHist();
 </script>
 </body>
