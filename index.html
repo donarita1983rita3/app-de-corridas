@@ -1,128 +1,85 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu App de Corridas</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<title>Ease Flash</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-  *{box-sizing:border-box; font-family: Arial, sans-serif;}
-  body{margin:0; background:#f4f4f4; color:#222;}
-  header{background:#111; color:white; padding:18px; text-align:center; font-size:22px; font-weight:bold;}
-  .container{padding:15px; max-width:600px; margin:auto;}
-  .card{background:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:15px;}
-  label{font-weight:bold; display:block; margin-top:10px;}
-  input{width:100%; padding:14px; margin-top:5px; border:2px solid #ddd; border-radius:8px; font-size:16px;}
-  button{width:100%; padding:16px; border:none; border-radius:10px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:12px;}
-  .btn-preto{background:#111; color:white;}
-  .btn-verde{background:#25D366; color:white;}
-  .btn-azul{background:#1877F2; color:white;}
-  #mapa{height:300px; width:100%; border-radius:12px; margin-top:10px; display:none;}
-  #resultado{font-size:18px; text-align:center; line-height:1.5;}
-  .preco{font-size:32px; font-weight:bold; color:#111;}
-  #motorista{display:none; text-align:center;}
-  .motorista-foto{font-size:60px;}
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#FFF8E7}
+header{background:#000;color:#fff;padding:18px;text-align:center;font-size:26px;font-weight:bold}
+header span{color:#FFD700;font-size:14px;display:block}
+.container{max-width:600px;margin:auto;padding:15px}
+.card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:15px}
+label{font-weight:bold;display:block;margin-top:12px}
+input,select{width:100%;padding:14px;margin-top:5px;border:2px solid #ddd;border-radius:9px;font-size:16px}
+button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin-top:12px}
+.btn-preto{background:#111;color:#fff}
+.btn-verde{background:#25D366;color:#fff}
+.btn-azul{background:#1877F2;color:#fff}
+.btn-laranja{background:#FF7A00;color:#fff}
+.btn-cinza{background:#eee;color:#333}
+#mapa{height:320px;border-radius:12px;display:none;margin-top:10px}
+.preco{font-size:34px;font-weight:bold;text-align:center}
+.hist{background:#f9f9f9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
+.tabs{display:flex;gap:10px}.tabs button{flex:1}.ativo{background:#111!important;color:#fff!important}
 </style>
 </head>
 <body>
-
-<header>🚕 Meu App de Corridas</header>
-
+<header>⚡ EASE FLASH <span>Corridas rápidas - WhatsApp 41 98809-9495</span></header>
 <div class="container">
-  <div class="card">
-    <label>📍 De onde você está saindo?</label>
-    <input id="origem" type="text" placeholder="Ex: Av. Paulista, São Paulo" value="Av. Paulista, São Paulo">
-    <button class="btn-azul" onclick="usarMinhaLocalizacao()">📍 Usar minha localização</button>
-
-    <label>🏁 Para onde você vai?</label>
-    <input id="destino" type="text" placeholder="Ex: Mercado Municipal, São Paulo">
-
-    <button class="btn-preto" onclick="calcularCorrida()">VER PREÇO E MAPA</button>
-  </div>
-
-  <div id="mapa"></div>
-
-  <div class="card" id="resultado" style="display:none">
-    <div>Distância: <b id="distancia">--</b></div>
-    <div>Tempo: <b id="tempo">--</b></div>
-    <div>Valor da corrida:</div>
-    <div class="preco" id="preco">R$ 0,00</div>
-    <button class="btn-verde" onclick="confirmarCorrida()">✅ CONFIRMAR CORRIDA</button>
-  </div>
-
-  <div class="card" id="motorista">
-    <div class="motorista-foto">🚗</div>
-    <h2>Motorista a caminho!</h2>
-    <p><b>José Carlos</b><br>Carro: Onix Branco - Placa ABC-1234<br>Chega em 5 minutos</p>
-    <p id="detalhesCorrida"></p>
-    <button class="btn-verde" onclick="chamarWhats()">💬 Chamar no WhatsApp</button>
-    <button class="btn-preto" onclick="location.reload()">Fazer outra corrida</button>
-  </div>
+<div class="tabs">
+<button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">🚕 PASSAGEIRO</button>
+<button id="btnMot" class="btn-cinza" onclick="mostrarAba('mot')">🚗 MOTORISTA</button>
 </div>
-
+<div id="abaPass">
+<div class="card">
+<label>👤 Seu nome</label><input id="nomePass" placeholder="Ex: Maria">
+<label>📱 Seu WhatsApp</label><input id="zapPass" placeholder="Ex: 41999999999">
+<label>📍 De onde você está saindo?</label><input id="origem" value="Minha localização atual">
+<button class="btn-azul" onclick="pegarGPS()">📍 Usar minha localização de verdade</button>
+<label>🏁 Para onde você vai?</label><input id="destino" placeholder="Ex: Shopping, Curitiba">
+<button class="btn-preto" onclick="calcularReal()">VER PREÇO REAL E MAPA</button>
+</div>
+<div id="mapa"></div>
+<div class="card" id="resultado" style="display:none"></div>
+<div class="card" id="motoristaBox" style="display:none">
+<div style="font-size:50px;text-align:center">🚗</div>
+<h2 style="text-align:center">Pedido pronto!</h2><p id="detalhes"></p>
+<button class="btn-verde" onclick="enviarZapMotorista()">💬 CHAMAR NO WHATSAPP 41 98809-9495</button>
+<button class="btn-laranja" onclick="ligar()">📞 LIGAR 41 98809-9495</button>
+<button class="btn-preto" onclick="location.reload()">Fazer outra corrida</button>
+</div>
+<div class="card"><h3>📋 Minhas corridas</h3><div id="hist"></div></div>
+</div>
+<div id="abaMot" style="display:none">
+<div class="card">
+<h3>🚗 Cadastro Motorista - Ease Flash</h3>
+<p>Motorista oficial: <b>Rita - 41 98809-9495</b></p>
+<label>Seu nome</label><input id="nomeMot" placeholder="Ex: Rita">
+<label>Seu carro</label><input id="carroMot" placeholder="Ex: Onix Branco">
+<label>Placa</label><input id="placaMot" placeholder="ABC-1234">
+<label>Seu WhatsApp</label><input id="zapMot" placeholder="41988099495">
+<button class="btn-verde" onclick="cadastrarMot()">✅ FICAR ONLINE</button>
+<div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">● VOCÊ ESTÁ ONLINE</h2><p id="dadosMot"></p></div>
+</div>
+</div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let mapa;
-let marcadorOrigem, marcadorDestino;
-
-function mostrarMapa(lat, lon){
-  document.getElementById('mapa').style.display = 'block';
-  if(!mapa){
-    mapa = L.map('mapa').setView([lat, lon], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);
-  } else {
-    mapa.setView([lat, lon], 14);
-  }
-  if(marcadorOrigem) mapa.removeLayer(marcadorOrigem);
-  marcadorOrigem = L.marker([lat, lon]).addTo(mapa).bindPopup("Você está aqui").openPopup();
-}
-
-function usarMinhaLocalizacao(){
-  if(navigator.geolocation){
-    alert("Pegando sua localização...");
-    navigator.geolocation.getCurrentPosition(function(pos){
-      mostrarMapa(pos.coords.latitude, pos.coords.longitude);
-      document.getElementById('origem').value = "Minha localização atual";
-    });
-  } else {
-    alert("Seu celular não permite localização");
-  }
-}
-
-function calcularCorrida(){
-  let origem = document.getElementById('origem').value;
-  let destino = document.getElementById('destino').value;
-  if(!origem || !destino){ alert("Preencha origem e destino"); return; }
-
-  // Mostra mapa em São Paulo se não tiver localização
-  mostrarMapa(-23.5505, -46.6333);
-
-  // Simulação de distância: 2 a 18 km aleatório para teste
-  // Depois você pode ligar com API real
-  let km = (Math.random()*12 + 3).toFixed(1);
-  let minutos = Math.round(km * 2.5);
-  let preco = (7 + km * 2.50).toFixed(2).replace('.', ',');
-
-  document.getElementById('distancia').innerText = km + " km";
-  document.getElementById('tempo').innerText = minutos + " min";
-  document.getElementById('preco').innerText = "R$ " + preco;
-  document.getElementById('resultado').style.display = 'block';
-  document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
-}
-
-function confirmarCorrida(){
-  let destino = document.getElementById('destino').value;
-  let preco = document.getElementById('preco').innerText;
-  document.getElementById('detalhesCorrida').innerHTML = "Destino: <b>"+destino+"</b><br>Valor: <b>"+preco+"</b>";
-  document.getElementById('motorista').style.display = 'block';
-  document.getElementById('motorista').scrollIntoView({behavior:'smooth'});
-  alert("Corrida confirmada! Motorista José Carlos a caminho.");
-}
-
-function chamarWhats(){
-  let msg = encodeURIComponent("Olá! Sou Dona Rita, confirmei uma corrida no App de Corridas.");
-  window.open("https://wa.me/5511999999999?text="+msg, "_blank");
-}
+let mapa, latO=-25.428, lonO=-49.273, latD, lonD, precoFinal="R$ 0,00";
+function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('btnPass').classList.toggle('ativo',t=='pass');document.getElementById('btnMot').classList.toggle('ativo',t=='mot');}
+function mostrarMapa(){document.getElementById('mapa').style.display='block';if(!mapa){mapa=L.map('mapa').setView([latO,lonO],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);}else{mapa.setView([latO,lonO],13);}L.marker([latO,lonO]).addTo(mapa).bindPopup("Você aqui").openPopup();if(latD)L.marker([latD,lonD]).addTo(mapa).bindPopup("Destino");}
+async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{latO=p.coords.latitude;lonO=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latO}&lon=${lonO}&format=json`);let j=await r.json();document.getElementById('origem').value=j.display_name;mostrarMapa();alert("Localização achada!");});}
+async function buscarCoordenada(t){let r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(t+', Brasil')}&format=json&limit=1`);let j=await r.json();return j[0]?[parseFloat(j[0].lat),parseFloat(j[0].lon)]:null;}
+async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert("Escreva para onde vai");document.getElementById('resultado').innerText="Calculando rota de verdade...";document.getElementById('resultado').style.display='block';let cO=await buscarCoordenada(document.getElementById('origem').value);let cD=await buscarCoordenada(dest);if(!cO||!cD){alert("Endereço não achado, escreve bairro e cidade");return;}latO=cO[0];lonO=cO[1];latD=cD[0];lonD=cD[1];let rota=await fetch(`https://router.project-osrm.org/route/v1/driving/${lonO},${latO};${lonD},${latD}?overview=false`);let jr=await rota.json();let km=(jr.routes[0].distance/1000).toFixed(1);let min=Math.round(jr.routes[0].duration/60);let preco=(7+km*2.5).toFixed(2).replace('.',',');precoFinal="R$ "+preco;document.getElementById('resultado').innerHTML=`<div style="text-align:center">Distância: <b>${km} km</b> | Tempo: <b>${min} min</b></div><div>Valor:</div><div class="preco">${precoFinal}</div><div style="text-align:center">Base R$ 7,00 + R$ 2,50 por km</div><label>💳 Pagamento?</label><select id="pagamento"><option>Dinheiro</option><option>Pix</option><option>Cartão na hora</option></select><button class="btn-verde" onclick="confirmarReal()">✅ CONFIRMAR CORRIDA DE VERDADE</button>`;mostrarMapa();}
+function confirmarReal(){let nome=document.getElementById('nomePass').value||"Passageiro";let dest=document.getElementById('destino').value;document.getElementById('detalhes').innerHTML=`<b>${nome}</b><br>De: ${document.getElementById('origem').value}<br>Para: <b>${dest}</b><br>Valor: <b>${precoFinal}</b><br>Pagamento: ${document.getElementById('pagamento').value}<br>Motorista: Rita 41 98809-9495`;document.getElementById('motoristaBox').style.display='block';let h=JSON.parse(localStorage.getItem('easeflash')||'[]');h.unshift({dest,preco:precoFinal,data:new Date().toLocaleString('pt-BR')});localStorage.setItem('easeflash',JSON.stringify(h));mostrarHist();document.getElementById('motoristaBox').scrollIntoView({behavior:'smooth'});}
+function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||"Passageiro";let zap=document.getElementById('zapPass').value;let msg=encodeURIComponent(`⚡ EASE FLASH - NOVA CORRIDA\n👤 Passageiro: ${nome} - ${zap}\n📍 Origem: ${document.getElementById('origem').value}\n🏁 Destino: ${document.getElementById('destino').value}\n💰 Valor: ${precoFinal}\n💳 Pagamento: ${document.getElementById('pagamento').value}\n\nVocê aceita?`);window.open("https://wa.me/5541988099495?text="+msg,"_blank");}
+function ligar(){window.location.href="tel:+5541988099495";}
+function cadastrarMot(){let n=document.getElementById('nomeMot').value,c=document.getElementById('carroMot').value,p=document.getElementById('placaMot').value;if(!n||!c)return alert("Preencha nome e carro");document.getElementById('dadosMot').innerHTML=`<b>${n}</b><br>${c} - ${p}`;document.getElementById('motOnline').style.display='block';alert("Você está ONLINE!");}
+function mostrarHist(){let h=JSON.parse(localStorage.getItem('easeflash')||'[]');document.getElementById('hist').innerHTML=h.length?h.map(x=>`<div class="hist">🏁 ${x.dest}<br>💰 ${x.preco} - ${x.data}</div>`).join(''):"Nenhuma corrida ainda";}
+mostrarHist();
 </script>
 </body>
 </html>
