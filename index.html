@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ease Flash</title>
+<title>EASE FLASH - São Bernardo do Campo</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#FFF8E7}
-header{background:#000;color:#fff;padding:18px;text-align:center;font-size:26px;font-weight:bold}
+body{margin:0;background:#FFF7E7}
+header{background:#000;color:#FFD700;padding:18px;text-align:center;font-size:26px;font-weight:bold}
 header span{color:#FFD700;font-size:14px;display:block}
 .container{max-width:600px;margin:auto;padding:15px}
 .card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:15px}
@@ -17,42 +17,59 @@ input,select{width:100%;padding:14px;margin-top:5px;border:2px solid #ddd;border
 button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin-top:12px}
 .btn-preto{background:#111;color:#fff}
 .btn-verde{background:#25D366;color:#fff}
-.btn-azul{background:#1877F2;color:#fff}
+.btn-azul{background:#009EE3;color:#fff}
 .btn-laranja{background:#FF7A00;color:#fff}
 .btn-cinza{background:#eee;color:#333}
 #mapa{height:320px;border-radius:12px;display:none;margin-top:10px}
 .preco{font-size:34px;font-weight:bold;text-align:center}
-.hist{background:#f9f9f9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
+.hist{background:#F9F9F9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
 .tabs{display:flex;gap:10px}.tabs button{flex:1}.ativo{background:#111!important;color:#fff!important}
+.pixbox{background:#E8FFF0;border:2px dashed #25D366;padding:12px;border-radius:10px;text-align:center;margin-top:10px}
+.total{background:#111;color:#FFD700;padding:15px;border-radius:12px;text-align:center;font-size:20px;font-weight:bold}
 </style>
 </head>
 <body>
-<header>⚡ EASE FLASH <span>Corridas rápidas - WhatsApp 41 98809-9495</span></header>
+<header>⚡ EASE FLASH <span>Corridas rápidas - São Bernardo do Campo - WhatsApp 41 98809-9495</span></header>
 <div class="container">
 <div class="tabs">
-<button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">🚕 PASSAGEIRO</button>
+<button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">👤 PASSAGEIRO</button>
 <button id="btnMot" class="btn-cinza" onclick="mostrarAba('mot')">🚗 MOTORISTA</button>
 </div>
+
 <div id="abaPass">
 <div class="card">
 <label>👤 Seu nome</label><input id="nomePass" placeholder="Ex: Maria">
 <label>📱 Seu WhatsApp</label><input id="zapPass" placeholder="Ex: 41999999999">
-<label>📍 De onde você está saindo?</label><input id="origem" value="Minha localização atual">
-<button class="btn-azul" onclick="pegarGPS()">📍 Usar minha localização de verdade</button>
-<label>🏁 Para onde você vai?</label><input id="destino" placeholder="Ex: Shopping, Curitiba">
-<button class="btn-preto" onclick="calcularReal()">VER PREÇO REAL E MAPA</button>
-</div>
+<label>📍 De onde você está saindo?</label><input id="origem" value="Minha localização">
+<button class="btn-cinza" onclick="pegarGPS()">📍 Usar minha localização de verdade</button>
+<label>🎯 Para onde você vai?</label><input id="destino" placeholder="Ex: Shopping, São Bernardo do Campo">
+<button class="btn-preto" onclick="calcularReal()">👉 VER PREÇO REAL E MAPA</button>
 <div id="mapa"></div>
-<div class="card" id="resultado" style="display:none"></div>
-<div class="card" id="motoristaBox" style="display:none">
-<div style="font-size:50px;text-align:center">🚗</div>
-<h2 style="text-align:center">Pedido pronto!</h2><p id="detalhes"></p>
+<div id="resultado" style="display:none"></div>
+<div id="motoristaBox" style="display:none"></div>
+</div>
+
+<div class="card" id="pagamentoBox" style="display:none">
+<h2 style="text-align:center">💰 Como vai pagar, Dona Rita?</h2>
+<div class="pixbox">
+<b>💚 PIX - R$ <span id="valorPix">13</span></b><br>
+Chave Pix: <b>31509952802</b><br>
+<button class="btn-verde" onclick="copiarPix()">📋 COPIAR PIX 31509952802</button>
+<p id="pixCopiado" style="color:green;font-weight:bold"></p>
+</div>
+<button class="btn-azul" onclick="pagarCartao()">💙 PAGAR COM CARTÃO - Mercado Pago</button>
+<p style="text-align:center;font-size:14px">Cartão aprovado na hora! Pode ser crédito ou débito</p>
 <button class="btn-verde" onclick="enviarZapMotorista()">💬 CHAMAR NO WHATSAPP 41 98809-9495</button>
 <button class="btn-laranja" onclick="ligar()">📞 LIGAR 41 98809-9495</button>
-<button class="btn-preto" onclick="location.reload()">Fazer outra corrida</button>
+<button class="btn-preto" onclick="confirmarPagamento()">✅ JÁ PAGUEI - CONFIRMAR CORRIDA</button>
 </div>
-<div class="card"><h3>📋 Minhas corridas</h3><div id="hist"></div></div>
+
+<div class="card">
+<div class="total">💰 TOTAL GANHO HOJE: R$ <span id="totalGanho">0.00</span><br><span style="font-size:14px;color:#fff">Corridas: <span id="qtdCorridas">0</span></span></div>
+<h3>📜 Minhas corridas</h3><div id="hist"></div>
 </div>
+</div>
+
 <div id="abaMot" style="display:none">
 <div class="card">
 <h3>🚗 Cadastro Motorista - Ease Flash</h3>
@@ -62,24 +79,25 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <label>Placa</label><input id="placaMot" placeholder="ABC-1234">
 <label>Seu WhatsApp</label><input id="zapMot" placeholder="41988099495">
 <button class="btn-verde" onclick="cadastrarMot()">✅ FICAR ONLINE</button>
-<div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">● VOCÊ ESTÁ ONLINE</h2><p id="dadosMot"></p></div>
+<div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">🟢 VOCÊ ESTÁ ONLINE!</h2><p id="dadosMot"></p><button class="btn-laranja" onclick="location.reload()">Sair / Fazer outra corrida</button></div>
 </div>
 </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let mapa, latO=-25.428, lonO=-49.273, latD, lonD, precoFinal="R$ 0,00";
-function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('btnPass').classList.toggle('ativo',t=='pass');document.getElementById('btnMot').classList.toggle('ativo',t=='mot');}
-function mostrarMapa(){document.getElementById('mapa').style.display='block';if(!mapa){mapa=L.map('mapa').setView([latO,lonO],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);}else{mapa.setView([latO,lonO],13);}L.marker([latO,lonO]).addTo(mapa).bindPopup("Você aqui").openPopup();if(latD)L.marker([latD,lonD]).addTo(mapa).bindPopup("Destino");}
-async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{latO=p.coords.latitude;lonO=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latO}&lon=${lonO}&format=json`);let j=await r.json();document.getElementById('origem').value=j.display_name;mostrarMapa();alert("Localização achada!");});}
-async function buscarCoordenada(t){let r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(t+', Brasil')}&format=json&limit=1`);let j=await r.json();return j[0]?[parseFloat(j[0].lat),parseFloat(j[0].lon)]:null;}
-async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert("Escreva para onde vai");document.getElementById('resultado').innerText="Calculando rota de verdade...";document.getElementById('resultado').style.display='block';let cO=await buscarCoordenada(document.getElementById('origem').value);let cD=await buscarCoordenada(dest);if(!cO||!cD){alert("Endereço não achado, escreve bairro e cidade");return;}latO=cO[0];lonO=cO[1];latD=cD[0];lonD=cD[1];let rota=await fetch(`https://router.project-osrm.org/route/v1/driving/${lonO},${latO};${lonD},${latD}?overview=false`);let jr=await rota.json();let km=(jr.routes[0].distance/1000).toFixed(1);let min=Math.round(jr.routes[0].duration/60);let preco=(7+km*2.5).toFixed(2).replace('.',',');precoFinal="R$ "+preco;document.getElementById('resultado').innerHTML=`<div style="text-align:center">Distância: <b>${km} km</b> | Tempo: <b>${min} min</b></div><div>Valor:</div><div class="preco">${precoFinal}</div><div style="text-align:center">Base R$ 7,00 + R$ 2,50 por km</div><label>💳 Pagamento?</label><select id="pagamento"><option>Dinheiro</option><option>Pix</option><option>Cartão na hora</option></select><button class="btn-verde" onclick="confirmarReal()">✅ CONFIRMAR CORRIDA DE VERDADE</button>`;mostrarMapa();}
-function confirmarReal(){let nome=document.getElementById('nomePass').value||"Passageiro";let dest=document.getElementById('destino').value;document.getElementById('detalhes').innerHTML=`<b>${nome}</b><br>De: ${document.getElementById('origem').value}<br>Para: <b>${dest}</b><br>Valor: <b>${precoFinal}</b><br>Pagamento: ${document.getElementById('pagamento').value}<br>Motorista: Rita 41 98809-9495`;document.getElementById('motoristaBox').style.display='block';let h=JSON.parse(localStorage.getItem('easeflash')||'[]');h.unshift({dest,preco:precoFinal,data:new Date().toLocaleString('pt-BR')});localStorage.setItem('easeflash',JSON.stringify(h));mostrarHist();document.getElementById('motoristaBox').scrollIntoView({behavior:'smooth'});}
-function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||"Passageiro";let zap=document.getElementById('zapPass').value;let msg=encodeURIComponent(`⚡ EASE FLASH - NOVA CORRIDA\n👤 Passageiro: ${nome} - ${zap}\n📍 Origem: ${document.getElementById('origem').value}\n🏁 Destino: ${document.getElementById('destino').value}\n💰 Valor: ${precoFinal}\n💳 Pagamento: ${document.getElementById('pagamento').value}\n\nVocê aceita?`);window.open("https://wa.me/5541988099495?text="+msg,"_blank");}
-function ligar(){window.location.href="tel:+5541988099495";}
-function cadastrarMot(){let n=document.getElementById('nomeMot').value,c=document.getElementById('carroMot').value,p=document.getElementById('placaMot').value;if(!n||!c)return alert("Preencha nome e carro");document.getElementById('dadosMot').innerHTML=`<b>${n}</b><br>${c} - ${p}`;document.getElementById('motOnline').style.display='block';alert("Você está ONLINE!");}
-function mostrarHist(){let h=JSON.parse(localStorage.getItem('easeflash')||'[]');document.getElementById('hist').innerHTML=h.length?h.map(x=>`<div class="hist">🏁 ${x.dest}<br>💰 ${x.preco} - ${x.data}</div>`).join(''):"Nenhuma corrida ainda";}
-mostrarHist();
+let mapa, lat0=-23.6939, lon0=-46.5650, latD, lonD, precoFinal=13, historico=JSON.parse(localStorage.getItem('easeflash')||'[]');
+function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('btnPass').classList.toggle('ativo',t=='pass');document.getElementById('btnMot').classList.toggle('ativo',t=='mot')}
+async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{lat0=p.coords.latitude;lon0=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat0}&lon=${lon0}`);let d=await r.json();document.getElementById('origem').value=d.display_name||'Minha localização';alert('Localização pegada! Agora escreve o destino!')})}
+async function buscarCoordenada(e){let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(e+' São Bernardo do Campo')}`);let d=await r.json();return d[0]}
+async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert('Escreva para onde vai!');let c=await buscarCoordenada(dest);if(!c)return alert('Não achei esse lugar, tenta de novo!');latD=parseFloat(c.lat);lonD=parseFloat(c.lon);let dist=Math.sqrt(Math.pow(latD-lat0,2)+Math.pow(lonD-lon0,2))*111;precoFinal=Math.max(13, Math.round((8+dist*2.5)));document.getElementById('resultado').style.display='block';document.getElementById('resultado').innerHTML=`<div class='preco'>R$ ${precoFinal},00</div><p style='text-align:center'>Distância: ${dist.toFixed(1)} km<br>Motorista: Rita - 41 98809-9495<br>Carro: Onix Branco</p>`;document.getElementById('valorPix').innerText=precoFinal;document.getElementById('pagamentoBox').style.display='block';document.getElementById('mapa').style.display='block';if(!mapa){mapa=L.map('mapa').setView([lat0,lon0],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa)}mapa.setView([lat0,lon0],13);L.marker([lat0,lon0]).addTo(mapa).bindPopup('Você aqui').openPopup();L.marker([latD,lonD]).addTo(mapa).bindPopup(dest);document.getElementById('motoristaBox').style.display='block';document.getElementById('motoristaBox').innerHTML=`<div class='card'><h3>🚗 Sua motorista chegou!</h3><p><b>Rita</b> - Onix Branco - 41 98809-9495</p></div>`;atualizarHist()}
+function copiarPix(){navigator.clipboard.writeText('31509952802');document.getElementById('pixCopiado').innerText='✅ PIX COPIADO! Agora cola no seu Mercado Pago e paga!';alert('Pix 31509952802 copiado!')}
+function pagarCartao(){alert('Vai abrir o Mercado Pago para pagar no cartão!');window.open('https://www.mercadopago.com.br','_blank')}
+function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||'Passageiro';let dest=document.getElementById('destino').value;let msg=`Olá Rita! Sou ${nome}, quero corrida EASE FLASH de ${document.getElementById('origem').value} para ${dest} - Preço R$ ${precoFinal},00 - Vou pagar no Pix/Cartão`;window.open(`https://wa.me/5541988099495?text=${encodeURIComponent(msg)}`,'_blank')}
+function ligar(){window.location.href='tel:+5541988099495'}
+function confirmarPagamento(){let nome=document.getElementById('nomePass').value||'Passageiro';let dest=document.getElementById('destino').value;historico.push({nome,dest,preco:precoFinal,data:new Date().toLocaleString()});localStorage.setItem('easeflash',JSON.stringify(historico));alert('✅ CORRIDA CONFIRMADA! Rita já está indo! Você pagou R$ '+precoFinal+',00');atualizarHist();enviarZapMotorista()}
+function cadastrarMot(){let n=document.getElementById('nomeMot').value||'Rita';document.getElementById('motOnline').style.display='block';document.getElementById('dadosMot').innerText=`${n} - ${document.getElementById('carroMot').value} - ${document.getElementById('placaMot').value} - Online para corridas!`}
+function atualizarHist(){let total=0;document.getElementById('hist').innerHTML=historico.map(h=>{total+=h.preco;return `<div class='hist'><b>${h.nome}</b> - ${h.dest} - R$ ${h.preco},00 - ${h.data}</div>`}).join('');document.getElementById('totalGanho').innerText=total.toFixed(2);document.getElementById('qtdCorridas').innerText=historico.length}
+atualizarHist();
 </script>
 </body>
 </html>
