@@ -1,9 +1,12 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EASE FLASH - São Bernardo do Campo</title>
+<title>EASE FLASH - Corridas São Bernardo do Campo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048319.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
@@ -20,6 +23,7 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 .btn-azul{background:#009EE3;color:#fff}
 .btn-laranja{background:#FF7A00;color:#fff}
 .btn-cinza{background:#eee;color:#333}
+.btn-suporte{background:#FF0000;color:#fff;position:fixed;bottom:15px;right:15px;width:70px;height:70px;border-radius:50%;font-size:28px;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,.4);padding:0}
 #mapa{height:320px;border-radius:12px;display:none;margin-top:10px}
 .preco{font-size:34px;font-weight:bold;text-align:center}
 .hist{background:#F9F9F9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
@@ -28,11 +32,21 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 .total{background:#111;color:#FFD700;padding:15px;border-radius:12px;text-align:center;font-size:20px;font-weight:bold}
 .qrbox{background:#fff;border:3px solid #25D366;border-radius:14px;padding:15px;text-align:center;margin-top:12px}
 .qrbox img{width:220px;height:220px}
+.badge-play{background:#000;color:#fff;padding:12px;border-radius:10px;text-align:center;font-weight:bold;margin-top:10px}
+.suporte-card{background:#FFEFEF;border:2px solid #FF0000;padding:15px;border-radius:12px;text-align:center}
 </style>
 </head>
 <body>
 <header>⚡ EASE FLASH <span>Corridas rápidas - São Bernardo do Campo - WhatsApp 41 98809-9495</span></header>
 <div class="container">
+<div class="badge-play">📱 EASE FLASH - Em breve na Google Play Store!</div>
+<div class="card suporte-card">
+<h3 style="margin:0">🆘 PRECISA DE AJUDA?</h3>
+<p style="margin:5px 0">Não achou o endereço? Pix não foi? Quer cancelar?</p>
+<button class="btn-verde" onclick="falarSuporte()">💬 FALAR COM SUPORTE AGORA - RITA</button>
+<button class="btn-laranja" onclick="ligar()">📞 LIGAR PARA SUPORTE 41 98809-9495</button>
+<p style="font-size:13px">Suporte das 7h até 23h - Responde rapidinho!</p>
+</div>
 <div class="tabs">
 <button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">👤 PASSAGEIRO</button>
 <button id="btnMot" class="btn-cinza" onclick="mostrarAba('mot')">🚗 MOTORISTA</button>
@@ -75,6 +89,11 @@ Chave Aleatória:<br><b style="font-size:12px;word-break:break-all">93549cb6-a5e
 <h3>📜 Minhas corridas</h3><div id="hist"></div>
 <button class="btn-cinza" onclick="limparHist()">🗑️ Limpar histórico</button>
 </div>
+<div class="card suporte-card">
+<h3>🆘 DEU ALGUM PROBLEMA NA CORRIDA?</h3>
+<button class="btn-verde" onclick="falarSuporte()">💬 FALAR COM SUPORTE - WHATSAPP</button>
+<button class="btn-cinza" onclick="reportarProblema()">⚠️ REPORTAR PROBLEMA</button>
+</div>
 </div>
 <div id="abaMot" style="display:none">
 <div class="card">
@@ -89,6 +108,7 @@ Chave Aleatória:<br><b style="font-size:12px;word-break:break-all">93549cb6-a5e
 </div>
 </div>
 </div>
+<button class="btn-suporte" onclick="falarSuporte()">🆘</button>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 let mapa, lat0=-23.6939, lon0=-46.5650, latD, lonD, precoFinal=13;
@@ -97,6 +117,8 @@ const CHAVE_PIX='93549cb6-a5e3-4463-a22f-bee68ea80f2c';
 const PIX_COPIA_COLA='00020126580014br.gov.bcb.pix013693549cb6-a5e3-4463-a22f-bee68ea80f2c5204000053039865802BR5905RAU216009Sao Paulo610901227-20062240520daqr206369441566520063049392';
 function gerarQR(valor){let payload=PIX_COPIA_COLA;let url='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(payload);document.getElementById('imgQR').src=url;document.getElementById('valorQR').innerText=valor;}
 function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('btnPass').classList.toggle('ativo',t=='pass');document.getElementById('btnMot').classList.toggle('ativo',t=='mot')}
+function falarSuporte(){let nome=document.getElementById('nomePass').value||'Cliente';let msg=`Olá Rita! Preciso de SUPORTE no EASE FLASH! Sou ${nome}, estou com problema no app! Me ajuda por favor!`;window.open(`https://wa.me/5541988099495?text=${encodeURIComponent(msg)}`,'_blank')}
+function reportarProblema(){let p=prompt('Qual foi o problema? Escreve aqui que a Rita já vê:\n1 - Pix não foi\n2 - Não achei endereço\n3 - Motorista não chegou\n4 - Outro');if(p){alert('Problema reportado! A Rita já vai te chamar no WhatsApp!');falarSuporte()}}
 async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{lat0=p.coords.latitude;lon0=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat0}&lon=${lon0}`);let d=await r.json();document.getElementById('origem').value=d.display_name||'Minha localização';alert('Localização pegada! Agora escreve o destino!')})}
 async function buscarCoordenada(e){let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(e+' São Bernardo do Campo')}`);let d=await r.json();return d[0]}
 async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert('Escreva para onde vai!');let c=await buscarCoordenada(dest);if(!c)return alert('Não achei esse lugar, tenta de novo!');latD=parseFloat(c.lat);lonD=parseFloat(c.lon);let dist=Math.sqrt(Math.pow(latD-lat0,2)+Math.pow(lonD-lon0,2))*111;precoFinal=Math.max(13, Math.round((8+dist*2.5)));document.getElementById('resultado').style.display='block';document.getElementById('resultado').innerHTML=`<div class='preco'>R$ ${precoFinal},00</div><p style='text-align:center'>Distância: ${dist.toFixed(1)} km<br>Motorista: Rita - 41 98809-9495<br>Carro: Onix Branco</p>`;document.getElementById('valorPix').innerText=precoFinal;document.getElementById('pagamentoBox').style.display='block';document.getElementById('mapa').style.display='block';gerarQR(precoFinal);if(!mapa){mapa=L.map('mapa').setView([lat0,lon0],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa)}mapa.setView([lat0,lon0],13);L.marker([lat0,lon0]).addTo(mapa).bindPopup('Você aqui').openPopup();L.marker([latD,lonD]).addTo(mapa).bindPopup(dest);document.getElementById('motoristaBox').style.display='block';document.getElementById('motoristaBox').innerHTML=`<div class='card'><h3>🚗 Sua motorista chegou!</h3><p><b>Rita</b> - Onix Branco - 41 98809-9495</p></div>`;atualizarHist()}
