@@ -1,10 +1,9 @@
- <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EASE FLASH - Todas Modalidades - São Bernardo do Campo</title>
-<link rel="manifest" href="manifest.json">
+<title>EASE FLASH - Completo - São Bernardo do Campo</title>
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048319.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -17,24 +16,24 @@ header span{color:#FFD700;font-size:14px;display:block}
 .card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:15px}
 label{font-weight:bold;display:block;margin-top:12px}
 input,select{width:100%;padding:14px;margin-top:5px;border:2px solid #ddd;border-radius:9px;font-size:16px}
-button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin-top:12px}
-.btn-preto{background:#111;color:#fff}.btn-verde{background:#25D366;color:#fff}.btn-azul{background:#009EE3;color:#fff}.btn-laranja{background:#FF7A00;color:#fff}.btn-cinza{background:#eee;color:#333}.btn-rosa{background:#FF69B4;color:#fff}.btn-roxo{background:#8A2BE2;color:#fff}.btn-amarelo{background:#FFD700;color:#000}
-.btn-suporte{background:#FF0000;color:#fff;position:fixed;bottom:15px;right:15px;width:70px;height:70px;border-radius:50%;font-size:28px;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,.4);padding:0}
+button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin-top:12px;cursor:pointer}
+.btn-preto{background:#111;color:#fff}.btn-verde{background:#25D366;color:#fff}.btn-azul{background:#009EE3;color:#fff}.btn-laranja{background:#FF7A00;color:#fff}.btn-cinza{background:#eee;color:#333}.btn-rosa{background:#FF69B4;color:#fff}.btn-roxo{background:#8A2BE2;color:#fff}
+.btn-suporte{background:#FF0000;color:#fff;position:fixed;bottom:15px;right:15px;width:70px;height:70px;border-radius:50%;font-size:28px;z-index:9999;padding:0}
 #mapa{height:320px;border-radius:12px;display:none;margin-top:10px}
 .preco{font-size:34px;font-weight:bold;text-align:center}
 .hist{background:#F9F9F9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{flex:1;min-width:110px}.ativo{background:#111!important;color:#fff!important}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{flex:1;min-width:100px}.ativo{background:#111!important;color:#fff!important}
 .categorias{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .categorias button{padding:14px;font-size:14px;border:2px solid #ddd}
-.cat-ativo{background:#FFD700!important;color:#000!important;border:3px solid #000!important;transform:scale(1.03)}
-.cat-mulher-ativo{background:#FF69B4!important;color:#fff!important;border:3px solid #C71585!important;transform:scale(1.03)}
-.cat-bag-ativo{background:#FF7A00!important;color:#fff!important;border:3px solid #8B4513!important;transform:scale(1.03)}
-.cat-entrega-ativo{background:#25D366!important;color:#fff!important;border:3px solid #1A7A3A!important;transform:scale(1.03)}
-.cat-luxo-ativo{background:#000!important;color:#FFD700!important;border:3px solid #FFD700!important;transform:scale(1.03)}
-.cat-van-ativo{background:#009EE3!important;color:#fff!important;border:3px solid #005F8A!important;transform:scale(1.03)}
-.cat-pet-ativo{background:#FFA500!important;color:#fff!important;border:3px solid #CC8400!important;transform:scale(1.03)}
-.cat-acess-ativo{background:#8A2BE2!important;color:#fff!important;border:3px solid #5B1A8A!important;transform:scale(1.03)}
-.cat-viagem-ativo{background:#2B0A3D!important;color:#FFD700!important;border:3px solid #FFD700!important;transform:scale(1.03)}
+.cat-ativo{background:#FFD700!important;color:#000!important;border:3px solid #000!important}
+.cat-mulher-ativo{background:#FF69B4!important;color:#fff!important;border:3px solid #C71585!important}
+.cat-bag-ativo{background:#FF7A00!important;color:#fff!important;border:3px solid #8B4513!important}
+.cat-entrega-ativo{background:#25D366!important;color:#fff!important;border:3px solid #1A7A3A!important}
+.cat-luxo-ativo{background:#000!important;color:#FFD700!important;border:3px solid #FFD700!important}
+.cat-van-ativo{background:#009EE3!important;color:#fff!important;border:3px solid #005F8A!important}
+.cat-pet-ativo{background:#FFA500!important;color:#fff!important;border:3px solid #CC8400!important}
+.cat-acess-ativo{background:#8A2BE2!important;color:#fff!important;border:3px solid #5B1A8A!important}
+.cat-viagem-ativo{background:#2B0A3D!important;color:#FFD700!important;border:3px solid #FFD700!important}
 .pixbox{background:#E8FFF0;border:2px dashed #25D366;padding:12px;border-radius:10px;text-align:center;margin-top:10px}
 .total{background:#111;color:#FFD700;padding:15px;border-radius:12px;text-align:center;font-size:20px;font-weight:bold}
 .qrbox{background:#fff;border:3px solid #25D366;border-radius:14px;padding:15px;text-align:center;margin-top:12px}
@@ -51,13 +50,11 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <body>
 <header>⚡ EASE FLASH <span>Corridas, Entregas, Viagens - São Bernardo do Campo - WhatsApp 41 98809-9495</span></header>
 <div class="container">
-<div class="badge-play">📱 EASE FLASH - TODAS MODALIDADES - Em breve na Google Play Store!</div>
+<div class="badge-play">📱 EASE FLASH - APP COMPLETO - Em breve na Google Play!</div>
 <div class="card suporte-card">
 <h3 style="margin:0">🆘 PRECISA DE AJUDA?</h3>
-<p style="margin:5px 0">Não achou o endereço? Pix não foi? Quer cancelar?</p>
 <button class="btn-verde" onclick="falarSuporte()">💬 FALAR COM SUPORTE AGORA - RITA</button>
-<button class="btn-laranja" onclick="ligar()">📞 LIGAR PARA SUPORTE 41 98809-9495</button>
-<p style="font-size:13px">Suporte das 7h até 23h - Responde rapidinho!</p>
+<button class="btn-laranja" onclick="ligar()">📞 LIGAR 41 98809-9495</button>
 </div>
 <div class="tabs">
 <button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">👤 PASSAGEIRO</button>
@@ -69,9 +66,9 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <div class="card">
 <label>👤 Seu nome</label><input id="nomePass" placeholder="Ex: Maria">
 <label>📱 Seu WhatsApp</label><input id="zapPass" placeholder="Ex: 41999999999">
-<h3 style="text-align:center;margin-top:15px">🚗🏍️💖🧳📦✨🚐🐶♿🛣️ TODAS MODALIDADES - ESCOLHE A SUA!</h3>
+<h3 style="text-align:center">🚗🏍️💖🧳📦✨🚐🐶♿🛣️ ESCOLHE COMO VOCÊ QUER IR!</h3>
 <div class="categorias">
-<button id="btnCarro" class="btn-cinza cat-ativo" onclick="escolherCategoria('carro')">🚗 CARRO<br><span style="font-size:12px">R$ 13 - Normal</span></button>
+<button id="btnCarro" class="btn-cinza cat-ativo" onclick="escolherCategoria('carro')">🚗 CARRO<br><span style="font-size:12px">R$ 13 - Normal - 4 pessoas</span></button>
 <button id="btnMoto" class="btn-cinza" onclick="escolherCategoria('moto')">🏍️ MOTO<br><span style="font-size:12px">R$ 8 - Rapidinho</span></button>
 <button id="btnMulher" class="btn-cinza" onclick="escolherCategoria('mulher')">💖 MULHER<br><span style="font-size:12px">R$ 15 - Só mulher</span></button>
 <button id="btnBag" class="btn-cinza" onclick="escolherCategoria('bag')">🧳 BAG<br><span style="font-size:12px">R$ 20 - Com malas</span></button>
@@ -83,12 +80,12 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <button id="btnViagem" class="btn-cinza" onclick="escolherCategoria('viagem')">🛣️ VIAGEM<br><span style="font-size:12px">R$ 50 - Longa</span></button>
 </div>
 <p id="catTexto" style="text-align:center;font-weight:bold;color:#FF7A00">Você escolheu: 🚗 CARRO - R$ 13,00 mínimo - Onix Branco</p>
-<div id="avisoNoturno" class="noturno" style="display:none">🌙 AGORA É DEPOIS DAS 22h! Pagamento Especial Noturno + R$ 5,00 - Mais segurança! Só a Rita!</div>
+<div id="avisoNoturno" class="noturno" style="display:none">🌙 AGORA É DEPOIS DAS 22h! Pagamento Especial Noturno + R$ 5,00 - Só a Rita!</div>
 <div id="detalhesExtras" style="display:none;background:#F0F0F0;border:2px solid #ddd;padding:12px;border-radius:10px;margin-top:10px">
-<div id="bagDetalhes" style="display:none"><b>🧳 BAG - Viagem com Malas!</b><br><label>Quantas malas?</label><select id="qtdMalas"><option value="1">1 mala</option><option value="2">2 malas</option><option value="3">3 malas</option><option value="4">4 malas ou mais</option><option value="utensilios">Utensílios / Caixa</option></select><label>O que vai levar?</label><input id="oQueLevar" placeholder="Ex: 2 malas, vai pra rodoviária"></div>
-<div id="entregaDetalhes" style="display:none"><b>📦 ENTREGA!</b><br><div class="categorias"><button class="btn-cinza cat-entrega-ativo" id="btnEntMoto" onclick="escolherTipoEntrega('moto')">🏍️ MOTO R$ 10</button><button class="btn-cinza" id="btnEntCarro" onclick="escolherTipoEntrega('carro')">🚗 CARRO R$ 18</button></div><label>O que vai entregar?</label><input id="oQueEntregar" placeholder="Ex: Documento, lanche"><label>Quem recebe?</label><input id="quemRecebe" placeholder="Ex: João - 41999999999"></div>
-<div id="petDetalhes" style="display:none"><b>🐶 PET!</b><br><label>Qual pet?</label><select id="tipoPet"><option value="cachorro">Cachorro pequeno</option><option value="cachorro_grande">Cachorro grande</option><option value="gato">Gato</option><option value="outro">Outro pet</option></select><label>Nome do pet</label><input id="nomePet" placeholder="Ex: Rex"></div>
-<div id="vanDetalhes" style="display:none"><b>🚐 VAN - 6 lugares!</b><br><label>Quantas pessoas?</label><select id="qtdPessoas"><option value="4">4 pessoas</option><option value="5">5 pessoas</option><option value="6">6 pessoas</option><option value="7">7 ou mais</option></select></div>
+<div id="bagDetalhes" style="display:none"><b>🧳 BAG - Viagem com Malas!</b><br><label>Quantas malas?</label><select id="qtdMalas"><option value="1">1 mala</option><option value="2">2 malas</option><option value="3">3 malas</option><option value="4">4 malas ou mais</option><option value="utensilios">Utensílios / Caixa / Compra</option></select><label>O que vai levar?</label><input id="oQueLevar" placeholder="Ex: 2 malas, vai pra rodoviária"></div>
+<div id="entregaDetalhes" style="display:none"><b>📦 ENTREGA!</b><br><div class="categorias"><button class="btn-cinza cat-entrega-ativo" id="btnEntMoto" onclick="escolherTipoEntrega('moto')">🏍️ MOTO R$ 10</button><button class="btn-cinza" id="btnEntCarro" onclick="escolherTipoEntrega('carro')">🚗 CARRO R$ 18</button></div><label>O que vai entregar?</label><input id="oQueEntregar" placeholder="Ex: Documento, remédio, lanche"><label>Quem recebe?</label><input id="quemRecebe" placeholder="Ex: João - 41999999999"><label>Observação</label><select id="obsEntrega"><option value="nao">Só entregar</option><option value="troco">Trazer troco</option><option value="assinatura">Precisa assinatura</option><option value="foto">Tirar foto</option></select></div>
+<div id="petDetalhes" style="display:none"><b>🐶 PET!</b><br><label>Qual pet?</label><select id="tipoPet"><option value="cachorro">Cachorro pequeno</option><option value="cachorro_grande">Cachorro grande</option><option value="gato">Gato</option></select><label>Nome do pet</label><input id="nomePet" placeholder="Ex: Rex"></div>
+<div id="vanDetalhes" style="display:none"><b>🚐 VAN!</b><br><label>Quantas pessoas?</label><select id="qtdPessoas"><option value="4">4 pessoas</option><option value="5">5 pessoas</option><option value="6">6 pessoas</option><option value="7">7 ou mais</option></select></div>
 <div id="viagemDetalhes" style="display:none"><b>🛣️ VIAGEM LONGA!</b><br><label>Para onde?</label><select id="destViagem"><option value="sao_paulo">São Paulo - R$ 80</option><option value="santos">Santos - R$ 120</option><option value="guaruja">Guarujá - R$ 130</option><option value="rodoviaria">Rodoviária Tietê - R$ 70</option><option value="aeroporto">Aeroporto Guarulhos - R$ 90</option><option value="outro">Outro lugar</option></select></div>
 </div>
 <label>📍 De onde você está saindo?</label><input id="origem" value="Minha localização">
@@ -99,26 +96,25 @@ button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;fon
 <div id="resultado" style="display:none"></div>
 <div id="motoristaBox" style="display:none"></div>
 </div>
-<div class="card entrega-card"><h2 style="margin:0">📦 EASE ENTREGA</h2><p>🏍️ Moto R$ 10 - Documento, lanche, remédio<br>🚗 Carro R$ 18 - Caixa grande</p><button class="btn-verde" onclick="escolherCategoria('entrega')">📦 QUERO FAZER ENTREGA</button></div>
-<div class="card bag-card"><h2 style="margin:0">🧳 EASE BAG</h2><p>Porta-mala grande, Rita ajuda a carregar! Rodoviária, Aeroporto!</p><button class="btn-laranja" onclick="escolherCategoria('bag')">🧳 QUERO IR COM MALAS - R$ 20</button></div>
-<div class="card mulher-card"><h2 style="margin:0">💖 EASE MULHER</h2><p>Só mulher dirigindo pra mulher! Segurança!</p><button class="btn-rosa" onclick="escolherCategoria('mulher')">💖 QUERO IR SÓ COM MULHER</button></div>
-<div class="card" style="background:#FFF8E1;border:3px solid #FFD700"><h2 style="margin:0;text-align:center">✨🚐🐶♿🛣️ MAIS MODALIDADES</h2><p style="text-align:center">✨ LUXO R$ 25 - Ar gelado, carro chique<br>🚐 VAN R$ 30 - 6 pessoas, família, igreja<br>🐶 PET R$ 18 - Leva seu pet<br>♿ ACESSÍVEL R$ 15 - Cadeirante, idoso<br>🛣️ VIAGEM R$ 50 - São Paulo, Santos, Aeroporto</p></div>
-<div class="card mensal-card"><h2 style="margin:0">💳 PLANOS MENSAIS</h2><p>💖 MULHER R$ 89,90 - Ilimitado até 10km<br>📦 ENTREGA R$ 99,90 - Entregas ilimitadas<br>👑 VIP R$ 129,90 - Tudo ilimitado! Carro, moto, bag, entrega!</p><button class="btn-verde" onclick="assinarMensal()">💖 QUERO ASSINAR PLANO</button><button class="btn-preto" onclick="verMensal()">📋 JÁ SOU ASSINANTE</button><p id="assinanteInfo" style="display:none;background:#fff;color:#000;padding:10px;border-radius:8px;font-weight:bold">✅ Você é assinante! Corrida GRÁTIS até 10km!</p></div>
+<div class="card entrega-card"><h2 style="margin:0">📦 EASE ENTREGA</h2><p>🏍️ Moto R$ 10 - Documento, lanche<br>🚗 Carro R$ 18 - Caixa grande</p><button class="btn-verde" onclick="escolherCategoria('entrega')">📦 QUERO FAZER ENTREGA</button></div>
+<div class="card bag-card"><h2 style="margin:0">🧳 EASE BAG</h2><p>Porta-mala grande, Rita ajuda a carregar!</p><button class="btn-laranja" onclick="escolherCategoria('bag')">🧳 QUERO IR COM MALAS - R$ 20</button></div>
+<div class="card mulher-card"><h2 style="margin:0">💖 EASE MULHER</h2><p>Só mulher dirigindo pra mulher!</p><button class="btn-rosa" onclick="escolherCategoria('mulher')">💖 QUERO IR SÓ COM MULHER</button></div>
+<div class="card mensal-card"><h2 style="margin:0">💳 PLANOS MENSAIS</h2><p>💖 MULHER R$ 89,90 - Ilimitado até 10km<br>📦 ENTREGA R$ 99,90 - Entregas ilimitadas<br>👑 VIP R$ 129,90 - Tudo ilimitado!</p><button class="btn-verde" onclick="assinarMensal()">💖 QUERO ASSINAR PLANO</button><button class="btn-preto" onclick="verMensal()">📋 JÁ SOU ASSINANTE</button><p id="assinanteInfo" style="display:none;background:#fff;color:#000;padding:10px;border-radius:8px;font-weight:bold">✅ Você é assinante! Corrida GRÁTIS até 10km!</p></div>
 <div class="card" id="pagamentoBox" style="display:none">
-<h2 style="text-align:center">💰 Como vai pagar, Dona Rita?</h2>
-<div id="avisoMensal" style="display:none;background:#FF69B4;color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:bold">💖 Você tem MENSALIDADE! Corrida GRÁTIS!</div>
-<div class="qrbox"><h3>📱 PAGA COM QR CODE - É SÓ APONTAR!</h3><img id="imgQR" src=""><p style="font-weight:bold;font-size:20px;color:#25D366">R$ <span id="valorQR">13</span>,00</p><p style="font-size:13px">Para: Rita - Chave Aleatória<br>Sem CPF - 100% seguro!</p></div>
-<div class="pixbox"><b>💚 PIX - R$ <span id="valorPix">13</span> - <span id="tipoPix">CARRO</span></b><br>Chave Aleatória:<br><b style="font-size:12px;word-break:break-all">93549cb6-a5e3-4463-a22f-bee68ea80f2c</b><br><button class="btn-verde" onclick="copiarPix()">📋 COPIAR CHAVE PIX ALEATÓRIA</button><p id="pixCopiado" style="color:green;font-weight:bold"></p><button class="btn-verde" onclick="copiarCopiaCola()">📋 COPIAR PIX COPIA E COLA</button></div>
+<h2 style="text-align:center">💰 Como vai pagar?</h2>
+<div id="avisoMensal" style="display:none;background:#FF69B4;color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:bold">💖 Você tem MENSALIDADE! GRÁTIS!</div>
+<div class="qrbox"><h3>📱 PAGA COM QR CODE</h3><img id="imgQR" src=""><p style="font-weight:bold;font-size:20px;color:#25D366">R$ <span id="valorQR">13</span>,00</p><p style="font-size:13px">Para: Rita - Chave Aleatória - Sem CPF!</p></div>
+<div class="pixbox"><b>💚 PIX - R$ <span id="valorPix">13</span> - <span id="tipoPix">CARRO</span></b><br>Chave Aleatória:<br><b style="font-size:12px;word-break:break-all">93549cb6-a5e3-4463-a22f-bee68ea80f2c</b><br><button class="btn-verde" onclick="copiarPix()">📋 COPIAR CHAVE PIX</button><p id="pixCopiado" style="color:green;font-weight:bold"></p><button class="btn-verde" onclick="copiarCopiaCola()">📋 COPIAR PIX COPIA E COLA</button></div>
 <button class="btn-azul" onclick="pagarCartao()">💙 PAGAR COM CARTÃO - Mercado Pago</button>
 <button class="btn-verde" onclick="enviarZapMotorista()">💬 CHAMAR NO WHATSAPP 41 98809-9495</button>
 <button class="btn-laranja" onclick="ligar()">📞 LIGAR 41 98809-9495</button>
 <button class="btn-preto" onclick="confirmarPagamento()">✅ JÁ PAGUEI - CONFIRMAR</button>
 </div>
-<div class="card"><div class="total">💰 TOTAL GANHO HOJE: R$ <span id="totalGanho">0.00</span><br><span style="font-size:12px;color:#fff">Corridas: <span id="qtdCorridas">0</span> | 🚗 <span id="qtdCarro">0</span> | 🏍️ <span id="qtdMoto">0</span> | 💖 <span id="qtdMulher">0</span> | 🧳 <span id="qtdBag">0</span> | 📦 <span id="qtdEntrega">0</span> | ✨ <span id="qtdLuxo">0</span> | 🚐 <span id="qtdVan">0</span> | 🐶 <span id="qtdPet">0</span></span></div><h3>📜 Minhas corridas e entregas</h3><div id="hist"></div><button class="btn-cinza" onclick="limparHist()">🗑️ Limpar histórico</button></div>
+<div class="card"><div class="total">💰 TOTAL GANHO HOJE: R$ <span id="totalGanho">0.00</span><br><span style="font-size:12px;color:#fff">Corridas: <span id="qtdCorridas">0</span> | 🚗 <span id="qtdCarro">0</span> | 🏍️ <span id="qtdMoto">0</span> | 💖 <span id="qtdMulher">0</span> | 🧳 <span id="qtdBag">0</span> | 📦 <span id="qtdEntrega">0</span></span></div><h3>📜 Minhas corridas</h3><div id="hist"></div><button class="btn-cinza" onclick="limparHist()">🗑️ Limpar histórico</button></div>
 </div>
-<div id="abaMot" style="display:none"><div class="card"><h3>🚗 Motorista / Entregador - Ease Flash</h3><p>Motorista oficial: <b>Rita - 41 98809-9495</b></p><label>Seu nome</label><input id="nomeMot" placeholder="Ex: Rita"><label>Você vai de que?</label><div class="categorias"><button class="btn-cinza cat-ativo" onclick="escolherVeiculoMot('carro')">🚗 CARRO</button><button class="btn-cinza" onclick="escolherVeiculoMot('moto')">🏍️ MOTO</button><button class="btn-cinza" onclick="escolherVeiculoMot('mulher')">💖 MULHER</button><button class="btn-cinza" onclick="escolherVeiculoMot('bag')">🧳 BAG</button><button class="btn-cinza" onclick="escolherVeiculoMot('entrega')">📦 ENTREGA</button><button class="btn-cinza" onclick="escolherVeiculoMot('luxo')">✨ LUXO</button><button class="btn-cinza" onclick="escolherVeiculoMot('van')">🚐 VAN</button><button class="btn-cinza" onclick="escolherVeiculoMot('pet')">🐶 PET</button></div><label>Seu veículo</label><input id="carroMot" placeholder="Ex: Onix Branco"><label>Placa</label><input id="placaMot" placeholder="ABC-1234"><label>WhatsApp</label><input id="zapMot" placeholder="41988099495"><button class="btn-verde" onclick="cadastrarMot()">✅ FICAR ONLINE</button><div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">🟢 VOCÊ ESTÁ ONLINE!</h2><p id="dadosMot"></p><button class="btn-laranja" onclick="location.reload()">Sair</button></div></div></div>
+<div id="abaMot" style="display:none"><div class="card"><h3>🚗 Motorista - Ease Flash</h3><p>Motorista: <b>Rita - 41 98809-9495</b></p><label>Seu nome</label><input id="nomeMot" placeholder="Ex: Rita"><label>Você vai de que?</label><div class="categorias"><button class="btn-cinza cat-ativo" onclick="escolherVeiculoMot('carro')">🚗 CARRO</button><button class="btn-cinza" onclick="escolherVeiculoMot('moto')">🏍️ MOTO</button><button class="btn-cinza" onclick="escolherVeiculoMot('mulher')">💖 MULHER</button><button class="btn-cinza" onclick="escolherVeiculoMot('bag')">🧳 BAG</button><button class="btn-cinza" onclick="escolherVeiculoMot('entrega')">📦 ENTREGA</button><button class="btn-cinza" onclick="escolherVeiculoMot('luxo')">✨ LUXO</button><button class="btn-cinza" onclick="escolherVeiculoMot('van')">🚐 VAN</button><button class="btn-cinza" onclick="escolherVeiculoMot('pet')">🐶 PET</button></div><label>Seu veículo</label><input id="carroMot" placeholder="Ex: Onix Branco"><label>Placa</label><input id="placaMot" placeholder="ABC-1234"><label>WhatsApp</label><input id="zapMot" placeholder="41988099495"><button class="btn-verde" onclick="cadastrarMot()">✅ FICAR ONLINE</button><div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">🟢 VOCÊ ESTÁ ONLINE!</h2><p id="dadosMot"></p><button class="btn-laranja" onclick="location.reload()">Sair</button></div></div></div>
 <div id="abaEnt" style="display:none"><div class="card entrega-card"><h2>📦 Central de Entregas</h2><label>O que vai entregar?</label><input id="entNome" placeholder="Ex: Documento"><label>Buscar onde?</label><input id="entOrigem" placeholder="Ex: Minha casa"><label>Entregar onde?</label><input id="entDestino" placeholder="Ex: Escritório"><button class="btn-verde" onclick="pedirEntregaRapida()">📦 PEDIR ENTREGA AGORA</button><div id="entResult" style="margin-top:10px"></div></div></div>
-<div id="abaPlan" style="display:none"><div class="card mensal-card"><h2>💳 PLANOS</h2><p>💖 MULHER R$ 89,90<br>📦 ENTREGA R$ 99,90<br>👑 VIP R$ 129,90 - Tudo ilimitado!<br>🧳 BAG MENSAL R$ 79,90 - Viagens com malas ilimitadas!</p><button class="btn-verde" onclick="assinarMensal()">💳 ASSINAR PLANO VIP R$ 129,90</button></div></div>
+<div id="abaPlan" style="display:none"><div class="card mensal-card"><h2>💳 PLANOS</h2><p>💖 MULHER R$ 89,90<br>📦 ENTREGA R$ 99,90<br>👑 VIP R$ 129,90 - Tudo ilimitado!</p><button class="btn-verde" onclick="assinarMensal()">💳 ASSINAR VIP R$ 129,90</button></div></div>
 </div>
 <button class="btn-suporte" onclick="falarSuporte()">🆘</button>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -128,17 +124,16 @@ let historico=JSON.parse(localStorage.getItem('easeflash')||'[]');
 const CHAVE_PIX='93549cb6-a5e3-4463-a22f-bee68ea80f2c';
 const PIX_COPIA_COLA='00020126580014br.gov.bcb.pix013693549cb6-a5e3-4463-a22f-bee68ea80f2c5204000053039865802BR5905RAU216009Sao Paulo610901227-20062240520daqr206369441566520063049392';
 const PRECO={carro:13,moto:8,mulher:15,bag:20,entrega:10,luxo:25,van:30,pet:18,acess:15,viagem:50};
-const NOME={carro:'🚗 CARRO - Onix Branco',moto:'🏍️ MOTO - Honda CG 160',mulher:'💖 MULHER - Só com Rita',bag:'🧳 BAG - Porta-mala grande',entrega:'📦 ENTREGA',luxo:'✨ LUXO - Carro chique, ar gelado',van:'🚐 VAN - 6 lugares',pet:'🐶 PET - Leva seu pet',acess:'♿ ACESSÍVEL - Cadeirante, idoso',viagem:'🛣️ VIAGEM - Longa'};
+const NOME={carro:'🚗 CARRO - Onix Branco',moto:'🏍️ MOTO - Honda CG 160',mulher:'💖 MULHER - Só com Rita',bag:'🧳 BAG - Porta-mala grande',entrega:'📦 ENTREGA',luxo:'✨ LUXO - Carro chique',van:'🚐 VAN - 6 lugares',pet:'🐶 PET - Leva seu pet',acess:'♿ ACESSÍVEL - Cadeirante',viagem:'🛣️ VIAGEM - Longa'};
 function horaNoturna(){let h=new Date().getHours();return h>=22||h<5}
 function gerarQR(v){document.getElementById('imgQR').src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(PIX_COPIA_COLA);document.getElementById('valorQR').innerText=v}
 function escolherTipoEntrega(t){tipoEntrega=t;document.getElementById('btnEntMoto').classList.toggle('cat-entrega-ativo',t=='moto');document.getElementById('btnEntCarro').classList.toggle('cat-entrega-ativo',t=='carro');precoFinal=t=='moto'?10:18}
-function escolherCategoria(t){categoria=t;let ids=['carro','moto','mulher','bag','entrega','luxo','van','pet','acess','viagem'];ids.forEach(id=>{let b=document.getElementById('btn'+id.charAt(0).toUpperCase()+id.slice(1));if(b){b.classList.remove('cat-ativo','cat-mulher-ativo','cat-bag-ativo','cat-entrega-ativo','cat-luxo-ativo','cat-van-ativo','cat-pet-ativo','cat-acess-ativo','cat-viagem-ativo')}});let btn=document.getElementById('btn'+t.charAt(0).toUpperCase()+t.slice(1));let cls=t=='mulher'?'cat-mulher-ativo':t=='bag'?'cat-bag-ativo':t=='entrega'?'cat-entrega-ativo':t=='luxo'?'cat-luxo-ativo':t=='van'?'cat-van-ativo':t=='pet'?'cat-pet-ativo':t=='acess'?'cat-acess-ativo':t=='viagem'?'cat-viagem-ativo':'cat-ativo';if(btn)btn.classList.add(cls);precoFinal=PRECO[t]||13;document.getElementById('catTexto').innerText='Você escolheu: '+NOME[t]+' - R$ '+precoFinal+',00 mínimo';document.getElementById('detalhesExtras').style.display=['bag','entrega','pet','van','viagem'].includes(t)?'block':'none';['bag','entrega','pet','van','viagem'].forEach(k=>{let el=document.getElementById(k+'Detalhes');if(el)el.style.display=k==t?'block':'none'});document.getElementById('tipoPix').innerText=t.toUpperCase();if(horaNoturna()){document.getElementById('avisoNoturno').style.display='block';if(!souAssinante)precoFinal+=5}else{document.getElementById('avisoNoturno').style.display='none'}}
+function escolherCategoria(t){categoria=t;let ids=['carro','moto','mulher','bag','entrega','luxo','van','pet','acess','viagem'];ids.forEach(id=>{let b=document.getElementById('btn'+id.charAt(0).toUpperCase()+id.slice(1));if(b)b.classList.remove('cat-ativo','cat-mulher-ativo','cat-bag-ativo','cat-entrega-ativo','cat-luxo-ativo','cat-van-ativo','cat-pet-ativo','cat-acess-ativo','cat-viagem-ativo')});let btn=document.getElementById('btn'+t.charAt(0).toUpperCase()+t.slice(1));let cls=t=='mulher'?'cat-mulher-ativo':t=='bag'?'cat-bag-ativo':t=='entrega'?'cat-entrega-ativo':t=='luxo'?'cat-luxo-ativo':t=='van'?'cat-van-ativo':t=='pet'?'cat-pet-ativo':t=='acess'?'cat-acess-ativo':t=='viagem'?'cat-viagem-ativo':'cat-ativo';if(btn)btn.classList.add(cls);precoFinal=PRECO[t]||13;document.getElementById('catTexto').innerText='Você escolheu: '+NOME[t]+' - R$ '+precoFinal+',00 mínimo';document.getElementById('detalhesExtras').style.display=['bag','entrega','pet','van','viagem'].includes(t)?'block':'none';['bag','entrega','pet','van','viagem'].forEach(k=>{let el=document.getElementById(k+'Detalhes');if(el)el.style.display=k==t?'block':'none'});document.getElementById('tipoPix').innerText=t.toUpperCase();if(horaNoturna()){document.getElementById('avisoNoturno').style.display='block';if(!souAssinante)precoFinal+=5}else{document.getElementById('avisoNoturno').style.display='none'}}
 function escolherVeiculoMot(t){veiculoMot=t}
 function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('abaEnt').style.display=t=='ent'?'block':'none';document.getElementById('abaPlan').style.display=t=='plan'?'block':'none';['btnPass','btnMot','btnEnt','btnPlan'].forEach(id=>document.getElementById(id).classList.remove('ativo'));document.getElementById(t=='pass'?'btnPass':t=='mot'?'btnMot':t=='ent'?'btnEnt':'btnPlan').classList.add('ativo')}
 function falarSuporte(){let nome=document.getElementById('nomePass').value||'Cliente';window.open(`https://wa.me/5541988099495?text=${encodeURIComponent('Olá Rita! Preciso de SUPORTE no EASE FLASH! Sou '+nome)}`,'_blank')}
 function assinarMensal(){souAssinante=true;document.getElementById('assinanteInfo').style.display='block';document.getElementById('avisoMensal').style.display='block';alert('💖 PLANO ATIVADO! Você pode andar o mês todo!');window.open(`https://wa.me/5541988099495?text=${encodeURIComponent('Olá Rita! Quero ASSINAR PLANO EASE FLASH!')}`,'_blank')}
 function verMensal(){souAssinante=true;document.getElementById('assinanteInfo').style.display='block';document.getElementById('avisoMensal').style.display='block';alert('✅ Você é assinante! Corrida grátis até 10km!')}
-function pagarMensal(){assinarMensal()}
 function pedirEntregaRapida(){let o=document.getElementById('entNome').value||'Encomenda';let d=document.getElementById('entDestino').value||'Cliente';document.getElementById('entResult').innerHTML=`<div style='background:#E8FFF0;padding:12px;border-radius:8px'><b>📦 Entrega pedida!</b><br>${o} - Para: ${d}<br>Rita já vai buscar!</div>`;window.open(`https://wa.me/5541988099495?text=${encodeURIComponent('Olá Rita! Quero ENTREGA! '+o+' - Entregar: '+d)}`,'_blank')}
 async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{lat0=p.coords.latitude;lon0=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat0}&lon=${lon0}`);let d=await r.json();document.getElementById('origem').value=d.display_name||'Minha localização';alert('Localização pegada!')})}
 async function buscarCoordenada(e){let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(e+' São Bernardo do Campo')}`);let d=await r.json();return d[0]}
@@ -150,7 +145,7 @@ function enviarZapMotorista(){let nome=document.getElementById('nomePass').value
 function ligar(){window.location.href='tel:+5541988099495'}
 function confirmarPagamento(){let nome=document.getElementById('nomePass').value||'Cliente';let dest=document.getElementById('destino').value||'Shopping';let precoNum=parseInt(precoFinal);historico.push({nome:nome,dest:dest,preco:precoNum,cat:categoria,data:new Date().toLocaleString()});localStorage.setItem('easeflash',JSON.stringify(historico));alert('✅ CONFIRMADO! Rita já está indo! R$ '+precoNum+',00');atualizarHist();enviarZapMotorista()}
 function cadastrarMot(){let n=document.getElementById('nomeMot').value||'Rita';document.getElementById('motOnline').style.display='block';document.getElementById('dadosMot').innerText=`${n} - ${document.getElementById('carroMot').value} - Online!`}
-function atualizarHist(){let total=0,cont={};let html='';historico.forEach(h=>{let p=parseInt(h.preco)||13;total+=p;cont[h.cat]=(cont[h.cat]||0)+1;html+=`<div class='hist'><b>${h.nome}</b> - ${NOME[h.cat]||h.cat} - ${h.dest} - R$ ${p},00 - ${h.data}</div>`});document.getElementById('hist').innerHTML=html;document.getElementById('totalGanho').innerText=total.toFixed(2).replace('.',',');document.getElementById('qtdCorridas').innerText=historico.length;document.getElementById('qtdCarro').innerText=cont['carro']||0;document.getElementById('qtdMoto').innerText=cont['moto']||0;document.getElementById('qtdMulher').innerText=cont['mulher']||0;document.getElementById('qtdBag').innerText=cont['bag']||0;document.getElementById('qtdEntrega').innerText=cont['entrega']||0;document.getElementById('qtdLuxo').innerText=cont['luxo']||0;document.getElementById('qtdVan').innerText=cont['van']||0;document.getElementById('qtdPet').innerText=cont['pet']||0}
+function atualizarHist(){let total=0,cont={};let html='';historico.forEach(h=>{let p=parseInt(h.preco)||13;total+=p;cont[h.cat]=(cont[h.cat]||0)+1;html+=`<div class='hist'><b>${h.nome}</b> - ${NOME[h.cat]||h.cat} - ${h.dest} - R$ ${p},00 - ${h.data}</div>`});document.getElementById('hist').innerHTML=html;document.getElementById('totalGanho').innerText=total.toFixed(2).replace('.',',');document.getElementById('qtdCorridas').innerText=historico.length;document.getElementById('qtdCarro').innerText=cont['carro']||0;document.getElementById('qtdMoto').innerText=cont['moto']||0;document.getElementById('qtdMulher').innerText=cont['mulher']||0;document.getElementById('qtdBag').innerText=cont['bag']||0;document.getElementById('qtdEntrega').innerText=cont['entrega']||0}
 function limparHist(){localStorage.removeItem('easeflash');historico=[];atualizarHist();alert('Histórico limpo!')}
 atualizarHist();gerarQR(13);if(horaNoturna())document.getElementById('avisoNoturno').style.display='block'
 </script>
