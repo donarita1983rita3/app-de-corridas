@@ -1,0 +1,16 @@
+{
+  "name": "EASE FLASH Paranaguá PR",
+  "short_name": "EASE FLASH",
+  "description": "Corridas e Entregas Paranaguá PR - Carro R$ 12 Moto R$ 8",
+  "start_url": "https://donarita1983rita3.github.io/app-de-corridas/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1048/1048319.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
