@@ -170,5 +170,35 @@ function limparHist(){localStorage.removeItem('easeflash');historico=[];atualiza
 atualizarHist();gerarQR(12);if(horaNoturna())document.getElementById('avisoNoturno').style.display='block'
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
 </script>
-</body>
+</body><script>
+// Faz abrir direto na aba motorista se o link tiver #motorista
+if(window.location.hash === '#motorista'){
+  setTimeout(function(){
+    const btn = document.querySelector('[onclick*="motorista"]') || document.getElementById('motorista') || document.querySelector('button:nth-child(2)');
+    if(btn) btn.click();
+    // rola até o formulário
+    window.scrollTo(0, 600);
+  }, 500);
+}
+</script><script>
+// Faz abrir direto na aba motorista se o link tiver #motorista
+if(window.location.hash === '#motorista'){
+  setTimeout(function(){
+    const btn = document.querySelector('[onclick*="motorista"]') || document.getElementById('motorista') || document.querySelector('button:nth-child(2)');
+    if(btn) btn.click();
+    // rola até o formulário
+    window.scrollTo(0, 600);
+  }, 500);
+}
+</<script>
+// Faz abrir direto na aba motorista se o link tiver #motorista
+if(window.location.hash === '#motorista'){
+  setTimeout(function(){
+    const btn = document.querySelector('[onclick*="motorista"]') || document.getElementById('motorista') || document.querySelector('button:nth-child(2)');
+    if(btn) btn.click();
+    // rola até o formulário
+    window.scrollTo(0, 600);
+  }, 500);
+}
+</script>
 </html>
