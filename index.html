@@ -168,8 +168,8 @@ function cadastrarMot(){let n=document.getElementById('nomeMot').value||'Rita';d
 function atualizarHist(){let total=0;let html='';historico.forEach(h=>{let p=parseInt(h.preco)||12;total+=p;html+=`<div class='hist'><b>${h.nome}</b> - ${h.cat} - ${h.dest} - R$ ${p},00</div>`});document.getElementById('hist').innerHTML=html;document.getElementById('totalGanho').innerText=total.toFixed(2);document.getElementById('qtdCorridas').innerText=historico.length}
 function limparHist(){localStorage.removeItem('easeflash');historico=[];atualizarHist()}
 atualizarHist();gerarQR(12);if(horaNoturna())document.getElementById('avisoNoturno').style.display='block'
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
-</scrita"]');
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
+</script>
   
 <script>
 // Abre motorista automatico se vier do Facebook
