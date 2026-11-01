@@ -169,16 +169,22 @@ function atualizarHist(){let total=0;let html='';historico.forEach(h=>{let p=par
 function limparHist(){localStorage.removeItem('easeflash');historico=[];atualizarHist()}
 atualizarHist();gerarQR(12);if(horaNoturna())document.getElementById('avisoNoturno').style.display='block'
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</scrita"]');
+  
+<script>
+// Abre motorista automatico se vier do Facebook
+(function(){
+  var isMotoristaHash = window.location.hash === '#motorista';
+  var isFacebook = window.location.href.indexOf('fbclid') > -1 || document.referrer.indexOf('facebook') > -1;
+  
+  if(isMotoristaHash || isFacebook){
+    setTimeout(function(){
+      var btn = document.querySelector('[onclick*="Mot"], [onclick*="mot"]');
+      if(btn){ btn.click(); }
+      window.scrollTo(0, 600);
+    }, 800);
+  }
+})();
 </script>
 </body>
-<script>
-// Faz abrir direto na aba motorista se o link tiver #motorista
-if(window.location.hash === '#motorista'){
-  setTimeout(function(){
-    const btn = document.querySelector('[onclick*="motorista"]');
-    if(btn) btn.click();
-    window.scrollTo(0, 600);
-  }, 500);
-}
-</script>
 </html>
