@@ -1,4 +1,12 @@
- <!DOCTYPE html>
+ Agora sim! Vamos deixar o *EASE FLASH* completo com cadastro!
+
+Vou colocar:
+- *Cadastro de Motorista* (nome, telefone, placa, carro)
+- *Cadastro de Clientes* (nome, telefone, endereço)
+- Tudo salvo no app
+
+É só fazer igual você já aprendeu: apaga tudo no GitHub e cola esse código novo:
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -7,60 +15,100 @@
 <style>
 body{background:#000;color:#fff;font-family:sans-serif;margin:0;padding:10px}
 .card{background:#111;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
-input{width:100%;padding:14px;border-radius:12px;border:1px solid #333;margin:6px 0;background:#fff;color:#111;font-weight:700}
-button{width:100%;padding:14px;border-radius:12px;border:none;margin:6px 0;font-weight:900;cursor:pointer;font-size:15px}
-.btn-calc{background:#FFE600;color:#000;box-shadow:0 0 15px rgba(255,230,0,0.4)}
-.btn-save{background:#fff;color:#000}
-.btn-zap{background:#FFE600;color:#000}
-.btn-mp{background:#009EE3;color:#fff}
-h2{color:#FFE600;text-shadow:0 0 10px rgba(255,230,0,0.5)}
-#qrcode{display:flex;justify-content:center;margin-top:12px}
-.qrbox{background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center;border:2px solid #FFE600}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #333;margin:5px 0;background:#fff;color:#111;font-weight:600;box-sizing:border-box}
+button{width:100%;padding:13px;border-radius:12px;border:none;margin:5px 0;font-weight:900;cursor:pointer;font-size:14px}
+.btn-yellow{background:#FFE600;color:#000}
+.btn-white{background:#fff;color:#000}
+.btn-blue{background:#009EE3;color:#fff}
+.btn-gray{background:#222;color:#FFE600;border:1px solid #FFE600}
+.tab{display:flex;gap:8px;margin:10px 0}
+.tab button{flex:1;padding:10px}
+.active{background:#FFE600 !important;color:#000 !important}
+h2{color:#FFE600;text-align:center}
+h3{color:#FFE600;margin:10px 0 5px 0}
+.item{padding:8px;border-bottom:1px solid #222;display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
-<h2 style="text-align:center;font-size:26px;margin:20px 0">⚡ EASE FLASH APP DE CORRIDAS ⚡</h2>
+<h2>⚡ EASE FLASH APP DE CORRIDAS ⚡</h2>
 
-<div class="card">
-<input id="nome" placeholder="Nome do cliente">
-<input id="origem" placeholder="Origem">
-<input id="destino" placeholder="Destino" value="5">
-<button class="btn-calc" onclick="calc()">💰 CALCULAR PREÇO</button>
-<div id="res" style="text-align:center;padding:12px;background:#111;border-radius:10px;margin:10px 0;display:none;border:1px solid #FFE600"></div>
-<div id="qrcode"></div>
-<button class="btn-save" onclick="salvar()">✅ CONFIRMAR E SALVAR</button>
-<button class="btn-zap" onclick="zap()">📱 ENVIAR NO ZAP</button>
-<button class="btn-mp" onclick="cartao()">💳 PAGAR COM CARTÃO / PIX - MERCADO PAGO</button>
+<div class="tab">
+<button id="t1" class="active" onclick="aba(1)">CORRIDA</button>
+<button id="t2" onclick="aba(2)">MOTORISTAS</button>
+<button id="t3" onclick="aba(3)">CLIENTES</button>
 </div>
 
-<div class="card">
-<h3 style="color:#FFE600">Histórico</h3>
+<!-- ABA 1 - CORRIDA -->
+<div id="aba1" class="card">
+<input id="nome" placeholder="Nome do cliente">
+<input id="origem" placeholder="Origem">
+<input id="destino" placeholder="Destino KM" value="5">
+<button class="btn-yellow" onclick="calc()">💰 CALCULAR PREÇO</button>
+<div id="res" style="text-align:center;padding:12px;background:#000;border-radius:10px;margin:8px 0;display:none;border:1px solid #FFE600"></div>
+<div id="qrcode" style="display:flex;justify-content:center"></div>
+<button class="btn-white" onclick="salvar()">✅ CONFIRMAR E SALVAR</button>
+<button class="btn-yellow" onclick="zap()">📱 ENVIAR NO ZAP</button>
+<button class="btn-blue" onclick="cartao()">💳 PAGAR MERCADO PAGO</button>
+<h3>Histórico Corridas</h3>
 <div id="lista"></div>
+</div>
+
+<!-- ABA 2 - MOTORISTA -->
+<div id="aba2" class="card" style="display:none">
+<h3>Cadastro Motorista</h3>
+<input id="m_nome" placeholder="Nome do motorista">
+<input id="m_tel" placeholder="WhatsApp (ex: 41 99999-9999)">
+<input id="m_placa" placeholder="Placa do carro">
+<input id="m_carro" placeholder="Modelo / Cor do carro">
+<input id="m_cnh" placeholder="CNH">
+<button class="btn-yellow" onclick="addMotorista()">+ CADASTRAR MOTORISTA</button>
+<div id="listaMotorista" style="margin-top:12px"></div>
+</div>
+
+<!-- ABA 3 - CLIENTE -->
+<div id="aba3" class="card" style="display:none">
+<h3>Cadastro Cliente</h3>
+<input id="c_nome" placeholder="Nome completo">
+<input id="c_tel" placeholder="WhatsApp">
+<input id="c_end" placeholder="Endereço / Bairro">
+<button class="btn-yellow" onclick="addCliente()">+ CADASTRAR CLIENTE</button>
+<div id="listaCliente" style="margin-top:12px"></div>
 </div>
 
 <script>
 var hist = JSON.parse(localStorage.getItem('hist')||'[]');
+var motoristas = JSON.parse(localStorage.getItem('motoristas')||'[]');
+var clientes = JSON.parse(localStorage.getItem('clientes')||'[]');
 var preco = 0;
 var MEU_LINK = "https://link.mercadopago.com.br/donaritacorridas";
+
+function aba(n){
+document.getElementById('aba1').style.display=n==1?'block':'none';
+document.getElementById('aba2').style.display=n==2?'block':'none';
+document.getElementById('aba3').style.display=n==3?'block':'none';
+document.getElementById('t1').className=n==1?'active':'';
+document.getElementById('t2').className=n==2?'active':'';
+document.getElementById('t3').className=n==3?'active':'';
+}
+
 function calc(){
 var d = parseFloat(document.getElementById('destino').value)||5;
 preco = Math.round(5 + d*2.5);
 var r=document.getElementById('res');
 r.style.display='block';
 r.innerHTML="Distância: "+d+"km<br><b style='color:#FFE600;font-size:20px'>Preço: R$"+preco+"</b>";
-var q=document.getElementById('qrcode');
-q.innerHTML='<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(MEU_LINK)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'</div>';
+document.getElementById('qrcode').innerHTML='<div style="background:#fff;color:#111;padding:10px;border-radius:12px;text-align:center;border:2px solid #FFE600"><img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(MEU_LINK)+'" style="width:160px"><br><b>MERCADO PAGO R$'+preco+'</b></div>';
 }
 function salvar(){
 var n=document.getElementById('nome').value;
 if(!n){alert('Coloca o nome');return}
 hist.unshift({nome:n,valor:preco,data:new Date().toLocaleDateString()});
 localStorage.setItem('hist',JSON.stringify(hist));
-render();
+renderHist();
 alert('Salvo R$'+preco);
 }
-function render(){
-document.getElementById('lista').innerHTML=hist.map(o=>'<div style="padding:8px 0;border-bottom:1px solid #222"><b style=\"color:#FFE600\">'+o.nome+'</b> - R$'+o.valor+' - '+o.data+'</div>').join('')||'Sem histórico';
+function renderHist(){
+document.getElementById('lista').innerHTML=hist.map(o=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - R$'+o.valor+'</span><span>'+o.data+'</span></div>').join('')||'Sem corridas';
 }
 function zap(){
 var n=document.getElementById('nome').value||'Cliente';
@@ -68,7 +116,50 @@ var txt='Olá! ⚡ Ease Flash - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui:
 window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 function cartao(){window.open(MEU_LINK,'_blank');}
-render();
+
+// MOTORISTAS
+function addMotorista(){
+var nome=document.getElementById('m_nome').value;
+if(!nome){alert('Nome do motorista');return}
+var m={nome:nome,tel:document.getElementById('m_tel').value,placa:document.getElementById('m_placa').value,carro:document.getElementById('m_carro').value,cnh:document.getElementById('m_cnh').value};
+motoristas.unshift(m);
+localStorage.setItem('motoristas',JSON.stringify(motoristas));
+document.getElementById('m_nome').value='';document.getElementById('m_tel').value='';document.getElementById('m_placa').value='';document.getElementById('m_carro').value='';document.getElementById('m_cnh').value='';
+renderMotoristas();
+}
+function renderMotoristas(){
+document.getElementById('listaMotorista').innerHTML=motoristas.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - '+o.placa+' - '+o.carro+'<br><small>'+o.tel+'</small></span><button onclick="delM('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum motorista';
+}
+function delM(i){motoristas.splice(i,1);localStorage.setItem('motoristas',JSON.stringify(motoristas));renderMotoristas();}
+
+// CLIENTES
+function addCliente(){
+var nome=document.getElementById('c_nome').value;
+if(!nome){alert('Nome do cliente');return}
+var c={nome:nome,tel:document.getElementById('c_tel').value,end:document.getElementById('c_end').value};
+clientes.unshift(c);
+localStorage.setItem('clientes',JSON.stringify(clientes));
+document.getElementById('c_nome').value='';document.getElementById('c_tel').value='';document.getElementById('c_end').value='';
+renderClientes();
+}
+function renderClientes(){
+document.getElementById('listaCliente').innerHTML=clientes.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b><br><small>'+o.tel+' - '+o.end+'</small></span><button onclick="delC('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum cliente';
+}
+function delC(i){clientes.splice(i,1);localStorage.setItem('clientes',JSON.stringify(clientes));renderClientes();}
+
+renderHist();renderMotoristas();renderClientes();
 </script>
 </body>
 </html>
+*O que você ganhou agora:*
+
+- Aba *CORRIDA* (igual antes, amarelo)
+- Aba *MOTORISTAS*: cadastra nome, zap, placa, carro, CNH. Salva e pode apagar
+- Aba *CLIENTES*: cadastra nome, zap, endereço. Salva e pode apagar
+
+Tudo fica salvo no celular, não apaga!
+
+Cola lá e clica Commit changes, depois abre:
+*https://donarita1983rita3.github.io/app-de-corridas/?v=cadastros*
+
+Me fala se funcionou!
