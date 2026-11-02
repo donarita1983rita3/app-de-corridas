@@ -3,188 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EASE FLASH Paranaguá PR - Oficial - Instale Grátis</title>
-<meta name="description" content="EASE FLASH Paranaguá PR - Corridas, Entregas, Viagens - Carro R$ 12, Moto R$ 8, Viagem Curitiba R$ 150 - 100% Seguro - Suporte 41 98809-9495">
-<meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="EASE FLASH">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1048/1048319.png">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048319.png">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<title>App de Corridas - Worldwide</title>
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#FFF7E7}
-header{background:#000;color:#FFD700;padding:18px;text-align:center;font-size:26px;font-weight:bold}
-header span{color:#FFD700;font-size:14px;display:block}
-.container{max-width:650px;margin:auto;padding:15px}
-.card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:15px}
-label{font-weight:bold;display:block;margin-top:12px}
-input,select{width:100%;padding:14px;margin-top:5px;border:2px solid #ddd;border-radius:9px;font-size:16px}
-button{width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin-top:12px;cursor:pointer}
-.btn-preto{background:#111;color:#fff}.btn-verde{background:#25D366;color:#fff}.btn-azul{background:#009EE3;color:#fff}.btn-laranja{background:#FF7A00;color:#fff}.btn-cinza{background:#eee;color:#333}.btn-rosa{background:#FF69B4;color:#fff}
-.btn-suporte{background:#FF0000;color:#fff;position:fixed;bottom:15px;right:15px;width:70px;height:70px;border-radius:50%;font-size:28px;z-index:9999;padding:0}
-#mapa{height:320px;border-radius:12px;display:none;margin-top:10px}
-.preco{font-size:34px;font-weight:bold;text-align:center}
-.hist{background:#F9F9F9;padding:10px;border-radius:8px;margin-top:8px;border-left:4px solid #FFD700}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{flex:1;min-width:100px}.ativo{background:#111!important;color:#fff!important}
-.categorias{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.categorias button{padding:14px;font-size:14px;border:2px solid #ddd}
-.cat-ativo{background:#FFD700!important;color:#000!important;border:3px solid #000!important}
-.cat-mulher-ativo{background:#FF69B4!important;color:#fff!important;border:3px solid #C71585!important}
-.cat-bag-ativo{background:#FF7A00!important;color:#fff!important;border:3px solid #8B4513!important}
-.cat-entrega-ativo{background:#25D366!important;color:#fff!important;border:3px solid #1A7A3A!important}
-.cat-luxo-ativo{background:#000!important;color:#FFD700!important;border:3px solid #FFD700!important}
-.cat-van-ativo{background:#009EE3!important;color:#fff!important;border:3px solid #005F8A!important}
-.cat-pet-ativo{background:#FFA500!important;color:#fff!important;border:3px solid #CC8400!important}
-.cat-acess-ativo{background:#8A2BE2!important;color:#fff!important;border:3px solid #5B1A8A!important}
-.cat-viagem-ativo{background:#2B0A3D!important;color:#FFD700!important;border:3px solid #FFD700!important}
-.pixbox{background:#E8FFF0;border:2px dashed #25D366;padding:12px;border-radius:10px;text-align:center;margin-top:10px}
-.total{background:#111;color:#FFD700;padding:15px;border-radius:12px;text-align:center;font-size:20px;font-weight:bold}
-.qrbox{background:#fff;border:3px solid #25D366;border-radius:14px;padding:15px;text-align:center;margin-top:12px}
-.qrbox img{width:220px;height:220px}
-.suporte-card{background:#FFEFEF;border:2px solid #FF0000;padding:15px;border-radius:12px;text-align:center}
-.mulher-card{background:#FFF0F5;border:3px solid #FF69B4;padding:15px;border-radius:14px;text-align:center}
-.bag-card{background:#FFF5E6;border:3px solid #FF7A00;padding:15px;border-radius:14px;text-align:center}
-.entrega-card{background:#E8FFF0;border:3px solid #25D366;padding:15px;border-radius:14px;text-align:center}
-.mensal-card{background:linear-gradient(135deg,#FF69B4,#8A2BE2);color:#fff;padding:18px;border-radius:14px;text-align:center}
-.noturno{background:#2B0A3D;color:#FFD700;padding:10px;border-radius:10px;text-align:center;font-weight:bold;margin-top:10px}
-.tabela-preco{background:#FFF8E1;border:2px solid #FFD700;padding:12px;border-radius:10px;font-size:13px;line-height:1.6}
-.confianca{background:#E8FFF0;border:2px solid #25D366;padding:12px;border-radius:12px;text-align:center}
-.selo{display:inline-block;background:#25D366;color:#fff;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold;margin:3px}
-.estrela{color:#FFD700;font-size:20px}
-.instalar{background:linear-gradient(135deg,#000,#333);color:#FFD700;padding:15px;border-radius:12px;text-align:center;border:3px solid #FFD700}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{background:#0f0f0f;color:#fff}
+.lang-bar{display:flex;justify-content:center;gap:6px;padding:12px;background:#0f0f0f;position:sticky;top:0;z-index:99;flex-wrap:wrap;border-bottom:1px solid #222}
+.lang{padding:7px 12px;border-radius:20px;border:1px solid #333;cursor:pointer;font-size:11px;background:#1a1a1a;color:#aaa;font-weight:800;min-width:42px;text-align:center}
+.lang.active{background:#fff;color:#111;border-color:#fff}
+.grid{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:#1a1a1a;border-radius:16px;padding:16px;border:1px solid #222}
+label{font-size:10px;font-weight:800;color:#666;text-transform:uppercase;display:block;margin:10px 0 6px}
+input,select{width:100%;padding:13px;border:1px solid #2a2a2a;border-radius:12px;background:#111;color:#fff}
+.btn{padding:14px 22px;border-radius:12px;border:0;font-weight:800;cursor:pointer;width:100%;margin-top:8px}
+.btn-w{background:#fff;color:#111}
+.btn-d{background:#222;color:#fff}
+.btn-g{background:#25D366;color:#fff}
+.result{background:#111;border:1px solid #333;border-radius:12px;padding:14px;margin-top:12px;text-align:center;display:none}
+.agenda-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #222}
+.small{font-size:11px;color:#777}
 </style>
 </head>
 <body>
-<header>⚡ EASE FLASH PARANAGUÁ <span>Paranaguá - PR - Litoral - WhatsApp 41 98809-9495</span></header>
-<div class="container">
-<div class="card instalar">
-<h2 style="margin:0">📱 INSTALE GRÁTIS - Igual Play Store!</h2>
-<p>Sem pagar nada! Fica no seu celular com ícone!</p>
-<button class="btn-verde" onclick="instalarApp()">📱 INSTALAR APP GRÁTIS</button>
-<p style="font-size:12px;background:#fff;color:#000;padding:8px;border-radius:8px">Android: 3 pontinhos > Adicionar à tela inicial<br>iPhone: Compartilhar > Adicionar à Tela de Início<br>Em breve na Play Store Oficial!</p>
+<div class="lang-bar">
+<span class="lang active" onclick="setLang('pt')">PT</span>
+<span class="lang" onclick="setLang('es')">ES</span>
+<span class="lang" onclick="setLang('en')">EN</span>
+<span class="lang" onclick="setLang('zh')">中文</span>
+<span class="lang" onclick="setLang('ja')">日本</span>
+<span class="lang" onclick="setLang('ko')">한국</span>
+<span class="lang" onclick="setLang('fr')">FR</span>
+<span class="lang" onclick="setLang('de')">DE</span>
+<span class="lang" onclick="setLang('it')">IT</span>
+<span class="lang" onclick="setLang('ar')">العربية</span>
+<span class="lang" onclick="setLang('ru')">RU</span>
+<span class="lang" onclick="setLang('hi')">हि</span>
 </div>
-<div class="card confianca">
-<h3 style="margin:0">✅ EMPRESA VERIFICADA PARANAGUÁ PR</h3>
-<p style="margin:5px 0"><span class="estrela">⭐⭐⭐⭐⭐</span> <b>4.9 - 2.347 avaliações</b></p>
-<span class="selo">✅ 100% SEGURO</span><span class="selo">✅ SUPORTE LOCAL</span><span class="selo">✅ PIX SEGURO</span>
-<p style="font-size:11px">EASE FLASH Transportes - Rita - Paranaguá PR - 41 98809-9495<br>Segunda a Domingo 6h às 23h - <a href="privacidade.html">Política de Privacidade</a></p>
+
+<div style="padding:30px 20px;text-align:center">
+<h1 id="tHero">APP DE CORRIDAS - WORLDWIDE</h1>
+<p id="pHero" class="small" style="margin-top:8px">GPS + PIX + Cartão + Motorista - 12 Idiomas</p>
 </div>
-<div class="card tabela-preco">
-<h3 style="text-align:center;margin:0">💰 TABELA OFICIAL PARANAGUÁ - PR</h3>
-<b>🚗 CARRO:</b> Fixa R$ 12 + R$ 2,00/km - Uber R$ 13-18<br>
-<b>🏍️ MOTO:</b> Fixa R$ 8 + R$ 1,50/km<br>
-<b>💖 MULHER:</b> Fixa R$ 14 + R$ 2,00/km<br>
-<b>🧳 BAG:</b> Fixa R$ 18 + R$ 2,50/km<br>
-<b>📦 ENTREGA MOTO:</b> Fixa R$ 8 + R$ 1,50/km | CARRO R$ 15 + R$ 2/km<br>
-<b>✨ LUXO:</b> R$ 20 + R$ 2,50/km | <b>🚐 VAN:</b> R$ 25 + R$ 3/km<br>
-<b>🐶 PET:</b> R$ 15 + R$ 2/km | <b>♿ ACESSÍVEL:</b> R$ 14 + R$ 2/km<br>
-<b>🛣️ VIAGEM:</b> Curitiba R$ 150 | Aeroporto R$ 160 | Matinhos R$ 40 | Pontal R$ 45 | Morretes R$ 60 | Antonina R$ 50<br>
-<b>🌙 NOTURNO 22h-5h:</b> + R$ 3
-</div>
-<div class="tabs"><button id="btnPass" class="btn-cinza ativo" onclick="mostrarAba('pass')">👤 PASSAGEIRO</button><button id="btnMot" class="btn-cinza" onclick="mostrarAba('mot')">🚗 MOTORISTA</button><button id="btnEnt" class="btn-cinza" onclick="mostrarAba('ent')">📦 ENTREGAS</button><button id="btnPlan" class="btn-cinza" onclick="mostrarAba('plan')">💳 PLANOS</button></div>
-<div id="abaPass">
+
+<div class="grid" id="app">
 <div class="card">
-<label>👤 Seu nome</label><input id="nomePass" placeholder="Ex: Maria">
-<label>📱 Seu WhatsApp</label><input id="zapPass" placeholder="Ex: 41999999999">
-<h3 style="text-align:center">🚗🏍️💖🧳📦✨🚐🐶♿🛣️ ESCOLHE - PARANAGUÁ!</h3>
-<div class="categorias">
-<button id="btnCarro" class="btn-cinza cat-ativo" onclick="escolherCategoria('carro')">🚗 CARRO<br><span style="font-size:12px">R$ 12 + R$ 2/km</span></button>
-<button id="btnMoto" class="btn-cinza" onclick="escolherCategoria('moto')">🏍️ MOTO<br><span style="font-size:12px">R$ 8 + R$ 1,50/km</span></button>
-<button id="btnMulher" class="btn-cinza" onclick="escolherCategoria('mulher')">💖 MULHER<br><span style="font-size:12px">R$ 14 + R$ 2/km</span></button>
-<button id="btnBag" class="btn-cinza" onclick="escolherCategoria('bag')">🧳 BAG<br><span style="font-size:12px">R$ 18 + R$ 2,50/km</span></button>
-<button id="btnEntrega" class="btn-cinza" onclick="escolherCategoria('entrega')">📦 ENTREGA<br><span style="font-size:12px">Moto R$ 8 / Carro R$ 15</span></button>
-<button id="btnLuxo" class="btn-cinza" onclick="escolherCategoria('luxo')">✨ LUXO<br><span style="font-size:12px">R$ 20 + R$ 2,50/km</span></button>
-<button id="btnVan" class="btn-cinza" onclick="escolherCategoria('van')">🚐 VAN<br><span style="font-size:12px">R$ 25 + R$ 3/km</span></button>
-<button id="btnPet" class="btn-cinza" onclick="escolherCategoria('pet')">🐶 PET<br><span style="font-size:12px">R$ 15 + R$ 2/km</span></button>
-<button id="btnAcess" class="btn-cinza" onclick="escolherCategoria('acess')">♿ ACESSÍVEL<br><span style="font-size:12px">R$ 14 + R$ 2/km</span></button>
-<button id="btnViagem" class="btn-cinza" onclick="escolherCategoria('viagem')">🛣️ VIAGEM<br><span style="font-size:12px">Curitiba R$ 150</span></button>
+<h3 id="hNovo">Novo Pedido</h3>
+<label id="lCat">Categoria</label>
+<select id="categoria" onchange="escolherCategoria(this.value)">
+<option value="barbearia">Barbearia</option>
+<option value="viagem">Viagem / Entrega</option>
+<option value="entrega">Entrega Rapida</option>
+</select>
+<label id="lCli">Cliente</label><input id="nome" placeholder="Nome">
+<label id="lZap">WhatsApp</label><input id="zap" placeholder="55...">
+<label id="lOri">Origem</label><input id="origem" placeholder="Origem">
+<label id="lDes">Destino / Serviço</label><input id="destino" placeholder="Destino">
+<button class="btn btn-d" id="bGPS" onclick="pegarGPS()">PEGAR MEU GPS</button>
+<button class="btn btn-d" id="bCalc" onclick="calcularReal()">CALCULAR PREÇO</button>
+<div id="resultado" class="result"></div>
+<label id="lServ">Serviço</label><select id="serv"></select>
+<label id="lData">Data</label><input id="data" type="date">
+<label id="lHora">Hora</label><input id="hora" type="time">
+<button class="btn btn-w" id="bConf" onclick="confirmarPagamento()">CONFIRMAR E SALVAR</button>
+<button class="btn btn-g" id="bZap" onclick="enviarZapMotorista()">ENVIAR NO ZAP DO MOTORISTA</button>
+<button class="btn btn-d" id="bPix" onclick="copiarPix()">COPIAR PIX</button>
+<button class="btn btn-d" id="bCart" onclick="pagarCartao()">PAGAR CARTAO</button>
 </div>
-<p id="catTexto" style="text-align:center;font-weight:bold;color:#FF7A00">Você escolheu: 🚗 CARRO - Fixa R$ 12 + R$ 2,00/km</p>
-<div id="avisoNoturno" class="noturno" style="display:none">🌙 22h-5h + R$ 3,00 Noturno!</div>
-<div id="detalhesExtras" style="display:none;background:#F0F0F0;border:2px solid #ddd;padding:12px;border-radius:10px;margin-top:10px">
-<div id="bagDetalhes" style="display:none"><b>🧳 BAG!</b><label>Quantas malas?</label><select id="qtdMalas"><option value="1">1 mala</option><option value="2">2 malas</option><option value="3">3 malas</option><option value="4">4 malas</option><option value="utensilios">Caixa/Utensílios</option></select><label>O que levar?</label><input id="oQueLevar" placeholder="Ex: 2 malas rodoviária"></div>
-<div id="entregaDetalhes" style="display:none"><b>📦 ENTREGA!</b><div class="categorias"><button class="btn-cinza cat-entrega-ativo" id="btnEntMoto" onclick="escolherTipoEntrega('moto')">🏍️ MOTO R$ 8</button><button class="btn-cinza" id="btnEntCarro" onclick="escolherTipoEntrega('carro')">🚗 CARRO R$ 15</button></div><label>O que entregar?</label><input id="oQueEntregar" placeholder="Ex: Documento"><label>Quem recebe?</label><input id="quemRecebe" placeholder="Ex: João 41999"></div>
-<div id="petDetalhes" style="display:none"><b>🐶 PET!</b><label>Pet?</label><select id="tipoPet"><option value="cachorro">Cachorro pequeno</option><option value="cachorro_grande">Cachorro grande</option><option value="gato">Gato</option></select><label>Nome pet</label><input id="nomePet" placeholder="Ex: Rex"></div>
-<div id="vanDetalhes" style="display:none"><b>🚐 VAN!</b><label>Quantas pessoas?</label><select id="qtdPessoas"><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7+</option></select></div>
-<div id="viagemDetalhes" style="display:none"><b>🛣️ VIAGEM PARANAGUÁ!</b><label>Para onde?</label><select id="destViagem"><option value="curitiba">Curitiba R$ 150</option><option value="aeroporto">Aeroporto R$ 160</option><option value="matinhos">Matinhos R$ 40</option><option value="pontal">Pontal R$ 45</option><option value="morretes">Morretes R$ 60</option><option value="antonina">Antonina R$ 50</option><option value="outro">Outro R$ 20 + R$ 2,50/km</option></select></div>
+<div class="card">
+<h3 id="hHist">Histórico / Agenda</h3>
+<button class="btn btn-d" style="padding:8px;font-size:11px" id="bLimpar" onclick="limparHist()">LIMPAR HISTORICO</button>
+<div id="lista" style="margin-top:10px"></div>
+<div style="margin-top:20px">
+<h4 id="hMot" style="font-size:12px">MOTORISTAS</h4>
+<input id="nomeMot" placeholder="Nome motorista" style="margin-top:6px">
+<input id="zapMot" placeholder="Zap motorista">
+<button class="btn btn-d" id="bCad" onclick="cadastrarMot()">CADASTRAR MOTORISTA</button>
+<div id="listaMot" style="margin-top:10px"></div>
 </div>
-<label>📍 De onde?</label><input id="origem" value="Minha localização - Paranaguá">
-<button class="btn-cinza" onclick="pegarGPS()">📍 Usar minha localização</button>
-<label>🎯 Para onde?</label><input id="destino" placeholder="Ex: Rodoviária, Condor, Porto">
-<button class="btn-preto" onclick="calcularReal()">👉 VER PREÇO EXATO</button>
-<div id="mapa"></div>
-<div id="resultado" style="display:none"></div>
-<div id="motoristaBox" style="display:none"></div>
+<div style="margin-top:12px;display:flex;justify-content:center"><div id="qrcode"></div></div>
 </div>
-<div class="card" id="pagamentoBox" style="display:none">
-<h2 style="text-align:center">💰 Como pagar?</h2>
-<div class="qrbox"><h3>📱 QR CODE PIX</h3><img id="imgQR" src=""><p style="font-weight:bold;font-size:20px;color:#25D366">R$ <span id="valorQR">12</span>,00</p></div>
-<div class="pixbox"><b>💚 PIX R$ <span id="valorPix">12</span> - <span id="tipoPix">CARRO</span></b><br><b style="font-size:12px;word-break:break-all">93549cb6-a5e3-4463-a22f-bee68ea80f2c</b><br><button class="btn-verde" onclick="copiarPix()">📋 COPIAR PIX</button><p id="pixCopiado" style="color:green;font-weight:bold"></p><button class="btn-verde" onclick="copiarCopiaCola()">📋 COPIA E COLA</button></div>
-<button class="btn-azul" onclick="pagarCartao()">💙 CARTÃO Mercado Pago</button>
-<button class="btn-verde" onclick="enviarZapMotorista()">💬 WHATSAPP 41 98809-9495</button>
-<button class="btn-preto" onclick="confirmarPagamento()">✅ JÁ PAGUEI</button>
 </div>
-<div class="card"><div class="total">💰 TOTAL HOJE: R$ <span id="totalGanho">0.00</span> | Corridas: <span id="qtdCorridas">0</span></div><div id="hist"></div><button class="btn-cinza" onclick="limparHist()">🗑️ Limpar</button></div>
-</div>
-<div id="abaMot" style="display:none"><div class="card"><h3>🚗 Motorista Paranaguá</h3><label>Seu nome</label><input id="nomeMot" placeholder="Ex: Rita"><label>Veículo</label><input id="carroMot" placeholder="Ex: Onix Branco"><label>Placa</label><input id="placaMot" placeholder="ABC-1234"><label>WhatsApp</label><input id="zapMot" placeholder="41988099495"><button class="btn-verde" onclick="cadastrarMot()">✅ FICAR ONLINE</button><div id="motOnline" style="display:none;text-align:center"><h2 style="color:green">🟢 ONLINE EM PARANAGUÁ!</h2><p id="dadosMot"></p></div></div></div>
-<div id="abaEnt" style="display:none"><div class="card entrega-card"><h2>📦 Entregas Paranaguá</h2><label>O que?</label><input id="entNome" placeholder="Ex: Documento"><label>De onde?</label><input id="entOrigem" placeholder="Centro"><label>Para onde?</label><input id="entDestino" placeholder="Porto"><button class="btn-verde" onclick="pedirEntregaRapida()">📦 PEDIR ENTREGA R$ 8</button><div id="entResult"></div></div></div>
-<div id="abaPlan" style="display:none"><div class="card mensal-card"><h2>💳 PLANOS</h2><p>💖 MULHER R$ 79,90<br>📦 ENTREGA R$ 89,90<br>👑 VIP R$ 109,90</p><button class="btn-verde" onclick="assinarMensal()">💳 ASSINAR VIP</button></div></div>
-</div>
-<button class="btn-suporte" onclick="falarSuporte()">🆘</button>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-let mapa,lat0=-25.5163,lon0=-48.5228,latD,lonD,precoFinal=12,categoria='carro',souAssinante=false,tipoEntrega='moto';
-let historico=JSON.parse(localStorage.getItem('easeflash')||'[]');
-const CHAVE_PIX='93549cb6-a5e3-4463-a22f-bee68ea80f2c';
-const PIX_COPIA_COLA='00020126580014br.gov.bcb.pix013693549cb6-a5e3-4463-a22f-bee68ea80f2c5204000053039865802BR5905RAU216009Sao Paulo610901227-20062240520daqr206369441566520063049392';
-const TAXA_FIXA={carro:12,moto:8,mulher:14,bag:18,entrega:8,luxo:20,van:25,pet:15,acess:14,viagem:20};
-const POR_KM={carro:2,moto:1.5,mulher:2,bag:2.5,entrega:1.5,luxo:2.5,van:3,pet:2,acess:2,viagem:2.5};
-const NOME={carro:'🚗 CARRO',moto:'🏍️ MOTO',mulher:'💖 MULHER',bag:'🧳 BAG',entrega:'📦 ENTREGA',luxo:'✨ LUXO',van:'🚐 VAN',pet:'🐶 PET',acess:'♿ ACESSÍVEL',viagem:'🛣️ VIAGEM'};
-function instalarApp(){alert('Para instalar:\nAndroid: 3 pontinhos > Adicionar à tela inicial > Instalar\n\niPhone: Compartilhar > Adicionar à Tela de Início');}
-function horaNoturna(){let h=new Date().getHours();return h>=22||h<5}
-function gerarQR(v){document.getElementById('imgQR').src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(PIX_COPIA_COLA);document.getElementById('valorQR').innerText=v}
-function escolherTipoEntrega(t){tipoEntrega=t;document.getElementById('btnEntMoto').classList.toggle('cat-entrega-ativo',t=='moto');document.getElementById('btnEntCarro').classList.toggle('cat-entrega-ativo',t=='carro');precoFinal=t=='moto'?8:15}
-function escolherCategoria(t){categoria=t;let ids=['carro','moto','mulher','bag','entrega','luxo','van','pet','acess','viagem'];ids.forEach(id=>{let b=document.getElementById('btn'+id.charAt(0).toUpperCase()+id.slice(1));if(b)b.classList.remove('cat-ativo','cat-mulher-ativo','cat-bag-ativo','cat-entrega-ativo','cat-luxo-ativo','cat-van-ativo','cat-pet-ativo','cat-acess-ativo','cat-viagem-ativo')});let btn=document.getElementById('btn'+t.charAt(0).toUpperCase()+t.slice(1));let cls=t=='mulher'?'cat-mulher-ativo':t=='bag'?'cat-bag-ativo':t=='entrega'?'cat-entrega-ativo':t=='luxo'?'cat-luxo-ativo':t=='van'?'cat-van-ativo':t=='pet'?'cat-pet-ativo':t=='acess'?'cat-acess-ativo':t=='viagem'?'cat-viagem-ativo':'cat-ativo';if(btn)btn.classList.add(cls);let fixa=TAXA_FIXA[t];let km=POR_KM[t];if(t=='entrega'){fixa=tipoEntrega=='moto'?8:15;km=tipoEntrega=='moto'?1.5:2}precoFinal=fixa;document.getElementById('catTexto').innerText='Você escolheu: '+NOME[t]+' - Fixa R$ '+fixa+' + R$ '+km.toFixed(2).replace('.',',')+'/km';document.getElementById('detalhesExtras').style.display=['bag','entrega','pet','van','viagem'].includes(t)?'block':'none';['bag','entrega','pet','van','viagem'].forEach(k=>{let el=document.getElementById(k+'Detalhes');if(el)el.style.display=k==t?'block':'none'});document.getElementById('tipoPix').innerText=t.toUpperCase();if(horaNoturna()){document.getElementById('avisoNoturno').style.display='block'}else{document.getElementById('avisoNoturno').style.display='none'}}
-function mostrarAba(t){document.getElementById('abaPass').style.display=t=='pass'?'block':'none';document.getElementById('abaMot').style.display=t=='mot'?'block':'none';document.getElementById('abaEnt').style.display=t=='ent'?'block':'none';document.getElementById('abaPlan').style.display=t=='plan'?'block':'none';['btnPass','btnMot','btnEnt','btnPlan'].forEach(id=>document.getElementById(id).classList.remove('ativo'));document.getElementById(t=='pass'?'btnPass':t=='mot'?'btnMot':t=='ent'?'btnEnt':'btnPlan').classList.add('ativo')}
-function falarSuporte(){window.open(`https://wa.me/5541988099495?text=Olá Rita! Suporte EASE FLASH Paranaguá!`,'_blank')}
-function assinarMensal(){souAssinante=true;alert('Plano ativado!');window.open(`https://wa.me/5541988099495?text=Quero assinar plano EASE FLASH`,'_blank')}
-function pedirEntregaRapida(){let o=document.getElementById('entNome').value||'Encomenda';let d=document.getElementById('entDestino').value||'Cliente';document.getElementById('entResult').innerHTML=`<div style='background:#E8FFF0;padding:12px;border-radius:8px'><b>📦 Entrega pedida!</b><br>${o} - Para: ${d}</div>`;window.open(`https://wa.me/5541988099495?text=Entrega Paranaguá: ${o} para ${d}`,'_blank')}
-async function pegarGPS(){navigator.geolocation.getCurrentPosition(async p=>{lat0=p.coords.latitude;lon0=p.coords.longitude;let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat0}&lon=${lon0}`);let d=await r.json();document.getElementById('origem').value=d.display_name||'Paranaguá';alert('Localização pegada!')})}
-async function buscarCoordenada(e){let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(e+' Paranaguá Paraná')}`);let d=await r.json();return d[0]}
-async function calcularReal(){let dest=document.getElementById('destino').value;if(!dest)return alert('Escreva para onde vai!');let c=await buscarCoordenada(dest);if(!c)return alert('Não achei em Paranaguá!');latD=parseFloat(c.lat);lonD=parseFloat(c.lon);let dist=Math.sqrt(Math.pow(latD-lat0,2)+Math.pow(lonD-lon0,2))*111;let fixa=TAXA_FIXA[categoria];let pkm=POR_KM[categoria];if(categoria=='entrega'){fixa=tipoEntrega=='moto'?8:15;pkm=tipoEntrega=='moto'?1.5:2}
-precoFinal=Math.round(fixa + dist * pkm);
-if(categoria=='viagem'){let v=document.getElementById('destViagem').value;if(v=='curitiba')precoFinal=150;else if(v=='aeroporto')precoFinal=160;else if(v=='matinhos')precoFinal=40;else if(v=='pontal')precoFinal=45;else if(v=='morretes')precoFinal=60;else if(v=='antonina')precoFinal=50;else if(v=='ilha_mel')precoFinal=45}
-let noturno=horaNoturna();if(noturno)precoFinal+=3;
-document.getElementById('resultado').style.display='block';document.getElementById('resultado').innerHTML=`<div class='preco'>R$ ${precoFinal},00</div><p style='text-align:center'>${NOME[categoria]} - Fixa R$ ${fixa} + R$ ${pkm}/km - Dist ${dist.toFixed(1)}km<br>Total R$ ${precoFinal} ${noturno?'🌙 Noturno + R$ 3':''}<br>Rita - 41 98809-9495</p>`;document.getElementById('valorPix').innerText=precoFinal;document.getElementById('tipoPix').innerText=categoria.toUpperCase();document.getElementById('pagamentoBox').style.display='block';document.getElementById('mapa').style.display='block';gerarQR(precoFinal);if(!mapa){mapa=L.map('mapa').setView([lat0,lon0],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa)}mapa.setView([lat0,lon0],13);L.marker([lat0,lon0]).addTo(mapa).bindPopup('Você').openPopup();L.marker([latD,lonD]).addTo(mapa).bindPopup(dest);atualizarHist()}
-function copiarPix(){navigator.clipboard.writeText(CHAVE_PIX);document.getElementById('pixCopiado').innerText='✅ COPIADO!'}
-function copiarCopiaCola(){navigator.clipboard.writeText(PIX_COPIA_COLA);document.getElementById('pixCopiado').innerText='✅ COPIA E COLA COPIADO!'}
-function pagarCartao(){window.open('https://www.mercadopago.com.br','_blank')}
-function enviarZapMotorista(){let nome=document.getElementById('nomePass').value||'Cliente';let dest=document.getElementById('destino').value;window.open(`https://wa.me/5541988099495?text=Olá Rita! Sou ${nome}, quero ${NOME[categoria]} de ${document.getElementById('origem').value} para ${dest} - R$ ${precoFinal}`,'_blank')}
-function ligar(){window.location.href='tel:+5541988099495'}
-function confirmarPagamento(){let nome=document.getElementById('nomePass').value||'Cliente';let dest=document.getElementById('destino').value||'Rodoviária';let precoNum=parseInt(precoFinal);historico.push({nome:nome,dest:dest,preco:precoNum,cat:categoria,data:new Date().toLocaleString()});localStorage.setItem('easeflash',JSON.stringify(historico));alert('✅ CONFIRMADO! Rita indo! R$ '+precoNum);atualizarHist();enviarZapMotorista()}
-function cadastrarMot(){let n=document.getElementById('nomeMot').value||'Rita';document.getElementById('motOnline').style.display='block';document.getElementById('dadosMot').innerText=`${n} - ${document.getElementById('carroMot').value} - Online Paranaguá!`}
-function atualizarHist(){let total=0;let html='';historico.forEach(h=>{let p=parseInt(h.preco)||12;total+=p;html+=`<div class='hist'><b>${h.nome}</b> - ${h.cat} - ${h.dest} - R$ ${p},00</div>`});document.getElementById('hist').innerHTML=html;document.getElementById('totalGanho').innerText=total.toFixed(2);document.getElementById('qtdCorridas').innerText=historico.length}
-function limparHist(){localStorage.removeItem('easeflash');historico=[];atualizarHist()}
-atualizarHist();gerarQR(12);if(horaNoturna())document.getElementById('avisoNoturno').style.display='block'
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
-</script>
-  
-<script>
-// Abre motorista automatico se vier do Facebook
-(function(){
-  var isMotoristaHash = window.location.hash === '#motorista';
-  var isFacebook = window.location.href.indexOf('fbclid') > -1 || document.referrer.indexOf('facebook') > -1;
-  
-  if(isMotoristaHash || isFacebook){
-    setTimeout(function(){
-      var btn = document.querySelector('[onclick*="Mot"], [onclick*="mot"]');
-      if(btn){ btn.click(); }
-      window.scrollTo(0, 600);
-    }, 800);
-  }
-})();
+let categoria='viagem'; let historico=JSON.parse(localStorage.getItem('hist_dona')||'[]'); let motoristas=JSON.parse(localStorage.getItem('mot_dona')||'[]');
+let fixa=5; let pkm=2.5; let precoFinal=0; let lang='pt';
+
+function escolherCategoria(t){categoria=t; calcularReal();}
+async function pegarGPS(){if(!navigator.geolocation){alert('GPS nao suportado');return;} navigator.geolocation.getCurrentPosition(p=>{document.getElementById('origem').value=p.coords.latitude+','+p.coords.longitude;}, e=>alert('Erro GPS'));}
+async function calcularReal(){let dest=document.getElementById('destino').value||'5'; let dist=5; if(!isNaN(parseFloat(dest))){dist=parseFloat(dest)} precoFinal=Math.round(fixa + dist * pkm); let noturno=horaNoturna(); if(noturno)precoFinal=Math.round(precoFinal*1.2); let res=document.getElementById('resultado'); res.style.display='block'; res.innerHTML=`<b>${getT('dist')}: ${dist}km</b><br>${getT('price')}: R$${precoFinal} ${noturno?'(noturno)':''}`; return precoFinal;}
+function horaNoturna(){let h=new Date().getHours(); return h>=22||h<=5;}
+function copiarPix(){navigator.clipboard.writeText('SEU-PIX-AQUI').then(()=>alert('PIX copiado'));}
+function pagarCartao(){window.open('https://mpago.la/link','_blank');}
+function enviarZapMotorista(){let nome=document.getElementById('nome').value; let origem=document.getElementById('origem').value; let dest=document.getElementById('destino').value; if(!nome){alert(getT('fillName'));return;} let txt=`${getT('newOrder')}: ${nome} - ${getT('from')}: ${origem} ${getT('to')}: ${dest} - ${getT('price')}: R$${precoFinal}`; let zap = motoristas[0]?.zap || '5541999999999'; window.open(`https://wa.me/${zap.replace(/\D/g,'')}?text=${encodeURIComponent(txt)}`,'_blank');}
+function confirmarPagamento(){let nome=document.getElementById('nome').value; let serv=document.getElementById('serv').value; let data=document.getElementById('data').value; let hora=document.getElementById('hora').value; if(!nome){alert(getT('fillName'));return;} let o={id:Date.now(),nome,serv,data,hora,valor:precoFinal,categoria,destino:document.getElementById('destino').value}; historico.unshift(o); localStorage.setItem('hist_dona',JSON.stringify(historico)); atualizarHist(); gerarQR(12); alert(getT('saved')+' R$'+precoFinal);}
+function cadastrarMot(){let n=document.getElementById('nomeMot').value; let z=document.getElementById('zapMot').value; if(!n||!z){alert(getT('fillDriver'));return;} motoristas.push({nome:n,zap:z}); localStorage.setItem('mot_dona',JSON.stringify(motoristas)); renderMot();}
+function atualizarHist(){let h=document.getElementById('lista'); h.innerHTML=historico.map(o=>`<div class='agenda-item'><div><b>${o.nome}</b><br><span class='small'>${o.data||''} ${o.hora||''} - ${o.serv||o.destino||''} - R$${o.valor||0}</span></div></div>`).join('') || `<span class=small>${getT('noHist')}</span>`;}
+function limparHist(){localStorage.removeItem('hist_dona'); historico=[]; atualizarHist();}
+function gerarQR(t){let q=document.getElementById('qrcode'); if(q)q.innerHTML=`<div style='width:120px;height:120px;background:#fff;color:#111;display:grid;place-items:center;font-weight:900;border-radius:8px'>PIX QR<br>R$${precoFinal}</div>`;}
+function renderMot(){let el=document.getElementById('listaMot'); el.innerHTML=motoristas.map(m=>`<div class='agenda-item'><span>${m.nome}</span><span class='small'>${m.zap}</span></div>`).join('');}
+
+// TRADUÇÃO MUNDIAL
+const dict={
+pt:{hero:"APP DE CORRIDAS - WORLDWIDE",sub:"GPS + PIX + Cartão + Motorista - 12 Idiomas",novo:"Novo Pedido",cat:"Categoria",cli:"Cliente",zap:"WhatsApp",ori:"Origem",des:"Destino / Serviço",gps:"PEGAR MEU GPS",calc:"CALCULAR PREÇO",serv:"Serviço",data:"Data",hora:"Hora",conf:"CONFIRMAR E SALVAR",zapBtn:"ENVIAR NO ZAP DO MOTORISTA",pix:"COPIAR PIX",cart:"PAGAR CARTAO",hist:"Histórico / Agenda",limpar:"LIMPAR HISTORICO",mot:"MOTORISTAS",cad:"CADASTRAR MOTORISTA",dist:"Distancia",price:"Preço",newOrder:"Novo pedido",from:"De",to:"Para",fillName:"Preencha nome",saved:"Salvo! Valor",fillDriver:"Preencha motorista",noHist:"Sem historico",barb:"Barbearia",viagem:"Viagem / Entrega",entrega:"Entrega Rapida",servs:["Corte Masculino - R$35","Viagem - R$25","Entrega - R$15"]},
+es:{hero:"APP DE CARRERAS - MUNDIAL",sub:"GPS + PIX + Tarjeta + Conductor",novo:"Nuevo Pedido",cat:"Categoría",cli:"Cliente",zap:"WhatsApp",ori:"Origen",des:"Destino / Servicio",gps:"TOMAR MI GPS",calc:"CALCULAR PRECIO",serv:"Servicio",data:"Fecha",hora:"Hora",conf:"CONFIRMAR Y GUARDAR",zapBtn:"ENVIAR AL WHATSAPP",pix:"COPIAR PIX",cart:"PAGAR TARJETA",hist:"Historial",limpar:"LIMPIAR HISTORIAL",mot:"CONDUCTORES",cad:"REGISTRAR CONDUCTOR",dist:"Distancia",price:"Precio",newOrder:"Nuevo pedido",from:"De",to:"Para",fillName:"Rellene nombre",saved:"Guardado! Valor",fillDriver:"Rellene conductor",noHist:"Sin historial",barb:"Barbería",viagem:"Viaje / Entrega",entrega:"Entrega Rapida",servs:["Corte - $10","Viaje - $10","Entrega - $5"]},
+en:{hero:"RIDE APP - WORLDWIDE",sub:"GPS + PIX + Card + Driver",novo:"New Order",cat:"Category",cli:"Client",zap:"WhatsApp",ori:"Origin",des:"Destination / Service",gps:"GET MY GPS",calc:"CALCULATE PRICE",serv:"Service",data:"Date",hora:"Time",conf:"CONFIRM AND SAVE",zapBtn:"SEND TO DRIVER WHATSAPP",pix:"COPY PIX",cart:"PAY WITH CARD",hist:"History",limpar:"CLEAR HISTORY",mot:"DRIVERS",cad:"REGISTER DRIVER",dist:"Distance",price:"Price",newOrder:"New order",from:"From",to:"To",fillName:"Fill name",saved:"Saved! Value",fillDriver:"Fill driver",noHist:"No history",barb:"Barbershop",viagem:"Trip / Delivery",entrega:"Fast Delivery",servs:["Haircut - $20","Trip - $15","Delivery - $8"]},
+zh:{hero:"打车应用 - 全球版",sub:"GPS + PIX + 银行卡 + 司机",novo:"新订单",cat:"类别",cli:"客户",zap:"WhatsApp",ori:"起点",des:"目的地 / 服务",gps:"获取我的GPS",calc:"计算价格",serv:"服务",data:"日期",hora:"时间",conf:"确认并保存",zapBtn:"发送到司机WhatsApp",pix:"复制PIX",cart:"刷卡支付",hist:"历史记录",limpar:"清除历史",mot:"司机",cad:"注册司机",dist:"距离",price:"价格",newOrder:"新订单",from:"从",to:"到",fillName:"请填写姓名",saved:"已保存！金额",fillDriver:"请填写司机",noHist:"无历史记录",barb:"理发店",viagem:"行程 / 配送",entrega:"快速配送",servs:["理发 - ¥100","行程 - ¥80","配送 - ¥50"]},
+ja:{hero:"配車アプリ - ワールドワイド",sub:"GPS + PIX + カード + ドライバー",novo:"新規注文",cat:"カテゴリー",cli:"顧客",zap:"WhatsApp",ori:"出発地",des:"目的地 / サービス",gps:"GPSを取得",calc:"料金計算",serv:"サービス",data:"日付",hora:"時間",conf:"確認して保存",zapBtn:"ドライバーに送信",pix:"PIXをコピー",cart:"カードで支払う",hist:"履歴",limpar:"履歴をクリア",mot:"ドライバー",cad:"ドライバー登録",dist:"距離",price:"価格",newOrder:"新規注文",from:"から",to:"まで",fillName:"名前を入力",saved:"保存しました！金額",fillDriver:"ドライバーを入力",noHist:"履歴なし",barb:"床屋",viagem:"移動 / 配送",entrega:"速達",servs:["カット - ¥2000","移動 - ¥1500","配送 - ¥800"]},
+ko:{hero:"라이드 앱 - 월드와이드",sub:"GPS + PIX + 카드 + 드라이버",novo:"새 주문",cat:"카테고리",cli:"고객",zap:"WhatsApp",ori:"출발지",des:"목적지 / 서비스",gps:"내 GPS 가져오기",calc:"가격 계산",serv:"서비스",data:"날짜",hora:"시간",conf:"확인 및 저장",zapBtn:"드라이버에게 보내기",pix:"PIX 복사",cart:"카드로 결제",hist:"기록",limpar:"기록 지우기",mot:"드라이버",cad:"드라이버 등록",dist:"거리",price:"가격",newOrder:"새 주문",from:"부터",to:"까지",fillName:"이름 입력",saved:"저장됨! 금액",fillDriver:"드라이버 입력",noHist:"기록 없음",barb:"이발소",viagem:"이동 / 배달",entrega:"빠른 배달",servs:["커트 - ₩20000","이동 - ₩15000","배달 - ₩8000"]},
+fr:{hero:"APP DE COURSES - MONDIAL",sub:"GPS + PIX + Carte + Chauffeur",novo:"Nouvelle Commande",cat:"Catégorie",cli:"Client",zap:"WhatsApp",ori:"Origine",des:"Destination / Service",gps:"PRENDRE MON GPS",calc:"CALCULER LE PRIX",serv:"Service",data:"Date",hora:"Heure",conf:"CONFIRMER ET SAUVEGARDER",zapBtn:"ENVOYER AU CHAUFFEUR",pix:"COPIER PIX",cart:"PAYER PAR CARTE",hist:"Historique",limpar:"EFFACER L'HISTORIQUE",mot:"CHAUFFEURS",cad:"ENREGISTRER CHAUFFEUR",dist:"Distance",price:"Prix",newOrder:"Nouvelle commande",from:"De",to:"À",fillName:"Remplir nom",saved:"Enregistré! Valeur",fillDriver:"Remplir chauffeur",noHist:"Pas d'historique",barb:"Barbier",viagem:"Voyage / Livraison",entrega:"Livraison Rapide",servs:["Coupe - €15","Voyage - €12","Livraison - €6"]},
+de:{hero:"FAHRT APP - WELTWEIT",sub:"GPS + PIX + Karte + Fahrer",novo:"Neue Bestellung",cat:"Kategorie",cli:"Kunde",zap:"WhatsApp",ori:"Herkunft",des:"Ziel / Service",gps:"MEIN GPS HOLEN",calc:"PREIS BERECHNEN",serv:"Service",data:"Datum",hora:"Zeit",conf:"BESTÄTIGEN UND SPEICHERN",zapBtn:"AN FAHRER SENDEN",pix:"PIX KOPIEREN",cart:"MIT KARTE ZAHLEN",hist:"Verlauf",limpar:"VERLAUF LÖSCHEN",mot:"FAHRER",cad:"FAHRER REGISTRIEREN",dist:"Entfernung",price:"Preis",newOrder:"Neue Bestellung",from:"Von",to:"Nach",fillName:"Name ausfüllen",saved:"Gespeichert! Wert",fillDriver:"Fahrer ausfüllen",noHist:"Kein Verlauf",barb:"Friseur",viagem:"Fahrt / Lieferung",entrega:"Schnelle Lieferung",servs:["Haarschnitt - €15","Fahrt - €12","Lieferung - €6"]},
+it:{hero:"APP CORSE - WORLDWIDE",sub:"GPS + PIX + Carta + Autista",novo:"Nuovo Ordine",cat:"Categoria",cli:"Cliente",zap:"WhatsApp",ori:"Origine",des:"Destinazione / Servizio",gps:"PRENDI IL MIO GPS",calc:"CALCOLA PREZZO",serv:"Servizio",data:"Data",hora:"Ora",conf:"CONFERMA E SALVA",zapBtn:"INVIA ALL'AUTISTA",pix:"COPIA PIX",cart:"PAGA CON CARTA",hist:"Cronologia",limpar:"CANCELLA CRONOLOGIA",mot:"AUTISTI",cad:"REGISTRA AUTISTA",dist:"Distanza",price:"Prezzo",newOrder:"Nuovo ordine",from:"Da",to:"A",fillName:"Compila nome",saved:"Salvato! Valore",fillDriver:"Compila autista",noHist:"Nessuna cronologia",barb:"Barbiere",viagem:"Viaggio / Consegna",entrega:"Consegna Rapida",servs:["Taglio - €15","Viaggio - €12","Consegna - €6"]},
+ar:{hero:"تطبيق الرحلات - عالمي",sub:"GPS + PIX + بطاقة + سائق",novo:"طلب جديد",cat:"فئة",cli:"عميل",zap:"واتساب",ori:"الأصل",des:"الوجهة / الخدمة",gps:"احصل على GPS",calc:"احسب السعر",serv:"خدمة",data:"تاريخ",hora:"وقت",conf:"تأكيد وحفظ",zapBtn:"إرسال للسائق",pix:"نسخ PIX",cart:"الدفع بالبطاقة",hist:"السجل",limpar:"مسح السجل",mot:"السائقون",cad:"تسجيل سائق",dist:"مسافة",price:"سعر",newOrder:"طلب جديد",from:"من",to:"إلى",fillName:"املأ الاسم",saved:"تم الحفظ! القيمة",fillDriver:"املأ السائق",noHist:"لا يوجد سجل",barb:"حلاق",viagem:"رحلة / توصيل",entrega:"توصيل سريع",servs:["حلاقة - $10","رحلة - $8","توصيل - $4"]},
+ru:{hero:"ПРИЛОЖЕНИЕ ПОЕЗДОК - МИР",sub:"GPS + PIX + Карта + Водитель",novo:"Новый заказ",cat:"Категория",cli:"Клиент",zap:"WhatsApp",ori:"Откуда",des:"Куда / Услуга",gps:"ВЗЯТЬ МОЙ GPS",calc:"РАССЧИТАТЬ ЦЕНУ",serv:"Услуга",data:"Дата",hora:"Время",conf:"ПОДТВЕРДИТЬ И СОХРАНИТЬ",zapBtn:"ОТПРАВИТЬ ВОДИТЕЛЮ",pix:"КОПИРОВАТЬ PIX",cart:"ОПЛАТИТЬ КАРТОЙ",hist:"История",limpar:"ОЧИСТИТЬ ИСТОРИЮ",mot:"ВОДИТЕЛИ",cad:"РЕГИСТРАЦИЯ ВОДИТЕЛЯ",dist:"Расстояние",price:"Цена",newOrder:"Новый заказ",from:"От",to:"До",fillName:"Заполните имя",saved:"Сохранено! Значение",fillDriver:"Заполните водителя",noHist:"Нет истории",barb:"Парикмахерская",viagem:"Поездка / Доставка",entrega:"Быстрая доставка",servs:["Стрижка - $10","Поездка - $8","Доставка - $4"]},
+hi:{hero:"राइड ऐप - वर्ल्डवाइड",sub:"GPS + PIX + कार्ड + ड्राइवर",novo:"नया ऑर्डर",cat:"श्रेणी",cli:"ग्राहक",zap:"WhatsApp",ori:"मूल",des:"गंतव्य / सेवा",gps:"मेरा GPS लें",calc:"कीमत गणना",serv:"सेवा",data:"तारीख",hora:"समय",conf:"पुष्टि और सहेजें",zapBtn:"ड्राइवर को भेजें",pix:"PIX कॉपी",cart:"कार्ड से भुगतान",hist:"इतिहास",limpar:"इतिहास साफ़ करें",mot:"ड्राइवर",cad:"ड्राइवर पंजीकरण",dist:"दूरी",price:"कीमत",newOrder:"नया ऑर्डर",from:"से",to:"तक",fillName:"नाम भरें",saved:"सहेजा गया! मूल्य",fillDriver:"ड्राइवर भरें",noHist:"कोई इतिहास नहीं",barb:"नाई",viagem:"यात्रा / डिलीवरी",entrega:"तेज़ डिलीवरी",servs:["कट - $10","यात्रा - $8","डिलीवरी - $4"]}
+};
+function getT(k){return dict[lang][k]||k;}
+function setLang(l){
+lang=l;
+document.querySelectorAll('.lang').forEach(e=>e.classList.remove('active'));
+event.target.classList.add('active');
+let t=dict[l];
+document.getElementById('tHero').innerText=t.hero;
+document.getElementById('pHero').innerText=t.sub;
+document.getElementById('hNovo').innerText=t.novo;
+document.getElementById('lCat').innerText=t.cat;
+document.getElementById('lCli').innerText=t.cli;
+document.getElementById('lZap').innerText=t.zap;
+document.getElementById('lOri').innerText=t.ori;
+document.getElementById('lDes').innerText=t.des;
+document.getElementById('bGPS').innerText=t.gps;
+document.getElementById('bCalc').innerText=t.calc;
+document.getElementById('lServ').innerText=t.serv;
+document.getElementById('lData').innerText=t.data;
+document.getElementById('lHora').innerText=t.hora;
+document.getElementById('bConf').innerText=t.conf;
+document.getElementById('bZap').innerText=t.zapBtn;
+document.getElementById('bPix').innerText=t.pix;
+document.getElementById('bCart').innerText=t.cart;
+document.getElementById('hHist').innerText=t.hist;
+document.getElementById('bLimpar').innerText=t.limpar;
+document.getElementById('hMot').innerText=t.mot;
+document.getElementById('bCad').innerText=t.cad;
+document.getElementById('categoria').innerHTML=`<option value="barbearia">${t.barb}</option><option value="viagem">${t.viagem}</option><option value="entrega">${t.entrega}</option>`;
+document.getElementById('serv').innerHTML=t.servs.map(s=>`<option>${s}</option>`).join('');
+atualizarHist();
+}
+document.getElementById('data').valueAsDate=new Date();
+atualizarHist(); renderMot(); gerarQR(12);
+document.getElementById('serv').innerHTML=dict.pt.servs.map(s=>`<option>${s}</option>`).join('');
 </script>
 </body>
 </html>
