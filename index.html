@@ -1,9 +1,9 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App Corridas - Mercado Pago</title>
+<title>App Corridas - Dona Rita</title>
 <style>
 body{background:#0f0f0f;color:#fff;font-family:sans-serif;margin:0;padding:10px}
 .card{background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
@@ -11,11 +11,12 @@ input,select,button{width:100%;padding:14px;border-radius:12px;border:1px solid 
 button{background:#fff;color:#111;cursor:pointer}
 .btn-g{background:#25D366;color:#fff}
 .btn-d{background:#222;color:#fff}
+.btn-mp{background:#009EE3;color:#fff}
 .top{display:flex;gap:6px;overflow-x:auto;padding:10px 0}
 .top span{padding:8px 12px;border-radius:20px;background:#1a1a1a;border:1px solid #333;cursor:pointer;font-size:12px;white-space:nowrap}
 .top span.active{background:#fff;color:#111}
 #qrcode{display:flex;justify-content:center;margin-top:12px}
-.qrbox{background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center;font-weight:900}
+.qrbox{background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center}
 </style>
 </head>
 <body>
@@ -27,38 +28,38 @@ button{background:#fff;color:#111;cursor:pointer}
 <span onclick="setLang('fr',this)">FR</span>
 </div>
 
-<h2 id="titulo" style="text-align:center;margin:20px 0">APP DE CORRIDAS - MERCADO PAGO</h2>
+<h2 id="titulo" style="text-align:center;margin:15px 0">APP DE CORRIDAS - DONA RITA</h2>
 
 <div class="card">
-<label>CLIENTE</label><input id="nome" placeholder="Seu nome">
-<label>ORIGEM</label><input id="origem" placeholder="Origem">
-<label>DESTINO</label><input id="destino" placeholder="Destino" value="5">
-<button class="btn-d" onclick="pegarGPS()">PEGAR MEU GPS</button>
-<button class="btn-d" onclick="calc()">CALCULAR PREÇO</button>
+<input id="nome" placeholder="Nome do cliente">
+<input id="origem" placeholder="Origem">
+<input id="destino" placeholder="Destino" value="5">
+<button class="btn-d" onclick="pegarGPS()">📍 PEGAR MEU GPS</button>
+<button class="btn-d" onclick="calc()">💰 CALCULAR PREÇO</button>
 <div id="res" style="text-align:center;padding:12px;background:#111;border-radius:10px;margin:10px 0;display:none"></div>
-<button onclick="salvar()">CONFIRMAR E SALVAR</button>
-<button class="btn-g" onclick="zap()">ENVIAR NO ZAP</button>
-<button class="btn-d" onclick="pix()">COPIAR PIX</button>
-<button class="btn-d" onclick="cartao()">PAGAR NO CARTAO - MERCADO PAGO</button>
 <div id="qrcode"></div>
+<button onclick="salvar()">✅ CONFIRMAR E SALVAR</button>
+<button class="btn-g" onclick="zap()">📱 ENVIAR NO ZAP</button>
+<button class="btn-mp" onclick="cartao()">💳 PAGAR COM CARTÃO / PIX - MERCADO PAGO</button>
 </div>
 
 <div class="card">
-<h3>Historico</h3>
+<h3>Histórico</h3>
 <div id="lista"></div>
-<button class="btn-d" style="margin-top:10px" onclick="limpar()">LIMPAR HISTORICO</button>
+<button class="btn-d" onclick="limpar()" style="margin-top:10px">LIMPAR</button>
 </div>
 
 <script>
 var hist = JSON.parse(localStorage.getItem('hist')||'[]');
 var preco = 0;
+var MEU_LINK = "https://link.mercadopago.com.br/donaritacorridas";
 var lang='pt';
 var t={
-pt:{tit:"APP DE CORRIDAS - MERCADO PAGO",calc:"CALCULAR PREÇO",gps:"PEGAR MEU GPS",save:"CONFIRMAR E SALVAR",zap:"ENVIAR NO ZAP",pix:"COPIAR PIX",card:"PAGAR NO CARTAO - MERCADO PAGO",dist:"Distancia",price:"Preco"},
-es:{tit:"APP DE CARRERAS - MERCADO PAGO",calc:"CALCULAR PRECIO",gps:"TOMAR GPS",save:"CONFIRMAR Y GUARDAR",zap:"ENVIAR WHATSAPP",pix:"COPIAR PIX",card:"PAGAR CON TARJETA",dist:"Distancia",price:"Precio"},
-en:{tit:"RIDE APP - MERCADO PAGO",calc:"CALCULATE PRICE",gps:"GET MY GPS",save:"CONFIRM AND SAVE",zap:"SEND WHATSAPP",pix:"COPY PIX",card:"PAY WITH CARD",dist:"Distance",price:"Price"},
-zh:{tit:"打车应用 - Mercado Pago",calc:"计算价格",gps:"获取GPS",save:"确认并保存",zap:"发送WhatsApp",pix:"复制PIX",card:"用卡支付",dist:"距离",price:"价格"},
-fr:{tit:"APP COURSES - MERCADO PAGO",calc:"CALCULER PRIX",gps:"PRENDRE GPS",save:"CONFIRMER",zap:"ENVOYER WHATSAPP",pix:"COPIER PIX",card:"PAYER PAR CARTE",dist:"Distance",price:"Prix"}
+pt:{tit:"APP DE CORRIDAS - DONA RITA",calc:"CALCULAR PREÇO"},
+es:{tit:"APP DE CARRERAS - DONA RITA",calc:"CALCULAR PRECIO"},
+en:{tit:"RIDE APP - DONA RITA",calc:"CALCULATE PRICE"},
+zh:{tit:"打车应用 - DONA RITA",calc:"计算价格"},
+fr:{tit:"APP COURSES - DONA RITA",calc:"CALCULER PRIX"}
 };
 function setLang(l,el){
 lang=l;
@@ -67,8 +68,7 @@ el.classList.add('active');
 document.getElementById('titulo').innerText=t[l].tit;
 }
 function pegarGPS(){
-if(!navigator.geolocation){alert('Sem GPS');return}
-navigator.geolocation.getCurrentPosition(function(p){
+navigator.geolocation.getCurrentPosition(p=>{
 document.getElementById('origem').value=p.coords.latitude+','+p.coords.longitude;
 });
 }
@@ -76,37 +76,36 @@ function calc(){
 var d = parseFloat(document.getElementById('destino').value)||5;
 preco = Math.round(5 + d*2.5);
 var h = new Date().getHours();
-if(h>=22||h<=5){preco=Math.round(preco*1.2)}
+if(h>=22||h<=5) preco=Math.round(preco*1.2);
 var r=document.getElementById('res');
 r.style.display='block';
-r.innerHTML=t[lang].dist+': '+d+'km<br>'+t[lang].price+': R$'+preco;
+r.innerHTML="Distância: "+d+"km<br>Preço: R$"+preco;
 gerarQR();
 }
 function gerarQR(){
 var q=document.getElementById('qrcode');
-q.innerHTML='<div class="qrbox"><div style="font-size:50px">⬛⬜⬛</div>MERCADO PAGO<br>R$'+preco+'<br><small style="font-size:10px">QR da sua conta</small></div>';
+var linkComValor = MEU_LINK;
+q.innerHTML='<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(linkComValor)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'<br><small>Escaneie para pagar</small><br><small style="font-size:9px">'+MEU_LINK+'</small></div>';
 }
 function salvar(){
 var n=document.getElementById('nome').value;
-if(!n){alert('Nome');return}
+if(!n){alert('Coloca o nome');return}
 hist.unshift({nome:n,valor:preco,data:new Date().toLocaleDateString()});
 localStorage.setItem('hist',JSON.stringify(hist));
 render();
 alert('Salvo R$'+preco);
 }
 function render(){
-document.getElementById('lista').innerHTML=hist.map(function(o){return '<div style="padding:8px 0;border-bottom:1px solid #222"><b>'+o.nome+'</b> - R$'+o.valor+' - '+o.data+'</div>'}).join('')||'Sem historico';
+document.getElementById('lista').innerHTML=hist.map(o=>'<div style="padding:8px 0;border-bottom:1px solid #222"><b>'+o.nome+'</b> - R$'+o.valor+' - '+o.data+'</div>').join('')||'Sem histórico';
 }
 function limpar(){localStorage.removeItem('hist');hist=[];render()}
 function zap(){
 var n=document.getElementById('nome').value||'Cliente';
-var txt='Novo pedido: '+n+' - Valor R$'+preco;
-window.open('https://wa.me/5541999999999?text='+encodeURIComponent(txt),'_blank');
+var txt='Olá! Corrida Dona Rita - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
+window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
-function pix(){navigator.clipboard.writeText('SEU-PIX-AQUI').then(function(){alert('PIX copiado')})}
 function cartao(){
-// AQUI ESTA SEU MERCADO PAGO - JA LINKADO
-window.open('https://link.mercadopago.com.br/SEU-LINK','_blank');
+window.open(MEU_LINK,'_blank');
 }
 render();
 </script>
