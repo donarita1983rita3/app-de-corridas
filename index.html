@@ -3,154 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App de Corridas - Worldwide</title>
+<title>App Corridas - Mercado Pago</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
-body{background:#0f0f0f;color:#fff}
-.lang-bar{display:flex;justify-content:center;gap:6px;padding:12px;background:#0f0f0f;position:sticky;top:0;z-index:99;flex-wrap:wrap;border-bottom:1px solid #222}
-.lang{padding:7px 12px;border-radius:20px;border:1px solid #333;cursor:pointer;font-size:11px;background:#1a1a1a;color:#aaa;font-weight:800;min-width:42px;text-align:center}
-.lang.active{background:#fff;color:#111;border-color:#fff}
-.grid{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
-.card{background:#1a1a1a;border-radius:16px;padding:16px;border:1px solid #222}
-label{font-size:10px;font-weight:800;color:#666;text-transform:uppercase;display:block;margin:10px 0 6px}
-input,select{width:100%;padding:13px;border:1px solid #2a2a2a;border-radius:12px;background:#111;color:#fff}
-.btn{padding:14px 22px;border-radius:12px;border:0;font-weight:800;cursor:pointer;width:100%;margin-top:8px}
-.btn-w{background:#fff;color:#111}
-.btn-d{background:#222;color:#fff}
+body{background:#0f0f0f;color:#fff;font-family:sans-serif;margin:0;padding:10px}
+.card{background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
+input,select,button{width:100%;padding:14px;border-radius:12px;border:1px solid #333;margin:6px 0;font-weight:700}
+button{background:#fff;color:#111;cursor:pointer}
 .btn-g{background:#25D366;color:#fff}
-.result{background:#111;border:1px solid #333;border-radius:12px;padding:14px;margin-top:12px;text-align:center;display:none}
-.agenda-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #222}
-.small{font-size:11px;color:#777}
+.btn-d{background:#222;color:#fff}
+.top{display:flex;gap:6px;overflow-x:auto;padding:10px 0}
+.top span{padding:8px 12px;border-radius:20px;background:#1a1a1a;border:1px solid #333;cursor:pointer;font-size:12px;white-space:nowrap}
+.top span.active{background:#fff;color:#111}
+#qrcode{display:flex;justify-content:center;margin-top:12px}
+.qrbox{background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center;font-weight:900}
 </style>
 </head>
 <body>
-<div class="lang-bar">
-<span class="lang active" onclick="setLang('pt')">PT</span>
-<span class="lang" onclick="setLang('es')">ES</span>
-<span class="lang" onclick="setLang('en')">EN</span>
-<span class="lang" onclick="setLang('zh')">中文</span>
-<span class="lang" onclick="setLang('ja')">日本</span>
-<span class="lang" onclick="setLang('ko')">한국</span>
-<span class="lang" onclick="setLang('fr')">FR</span>
-<span class="lang" onclick="setLang('de')">DE</span>
-<span class="lang" onclick="setLang('it')">IT</span>
-<span class="lang" onclick="setLang('ar')">العربية</span>
-<span class="lang" onclick="setLang('ru')">RU</span>
-<span class="lang" onclick="setLang('hi')">हि</span>
+<div class="top">
+<span class="active" onclick="setLang('pt',this)">PT</span>
+<span onclick="setLang('es',this)">ES</span>
+<span onclick="setLang('en',this)">EN</span>
+<span onclick="setLang('zh',this)">中文</span>
+<span onclick="setLang('fr',this)">FR</span>
 </div>
 
-<div style="padding:30px 20px;text-align:center">
-<h1 id="tHero">APP DE CORRIDAS - WORLDWIDE</h1>
-<p id="pHero" class="small" style="margin-top:8px">GPS + PIX + Cartão + Motorista - 12 Idiomas</p>
+<h2 id="titulo" style="text-align:center;margin:20px 0">APP DE CORRIDAS - MERCADO PAGO</h2>
+
+<div class="card">
+<label>CLIENTE</label><input id="nome" placeholder="Seu nome">
+<label>ORIGEM</label><input id="origem" placeholder="Origem">
+<label>DESTINO</label><input id="destino" placeholder="Destino" value="5">
+<button class="btn-d" onclick="pegarGPS()">PEGAR MEU GPS</button>
+<button class="btn-d" onclick="calc()">CALCULAR PREÇO</button>
+<div id="res" style="text-align:center;padding:12px;background:#111;border-radius:10px;margin:10px 0;display:none"></div>
+<button onclick="salvar()">CONFIRMAR E SALVAR</button>
+<button class="btn-g" onclick="zap()">ENVIAR NO ZAP</button>
+<button class="btn-d" onclick="pix()">COPIAR PIX</button>
+<button class="btn-d" onclick="cartao()">PAGAR NO CARTAO - MERCADO PAGO</button>
+<div id="qrcode"></div>
 </div>
 
-<div class="grid" id="app">
 <div class="card">
-<h3 id="hNovo">Novo Pedido</h3>
-<label id="lCat">Categoria</label>
-<select id="categoria" onchange="escolherCategoria(this.value)">
-<option value="barbearia">Barbearia</option>
-<option value="viagem">Viagem / Entrega</option>
-<option value="entrega">Entrega Rapida</option>
-</select>
-<label id="lCli">Cliente</label><input id="nome" placeholder="Nome">
-<label id="lZap">WhatsApp</label><input id="zap" placeholder="55...">
-<label id="lOri">Origem</label><input id="origem" placeholder="Origem">
-<label id="lDes">Destino / Serviço</label><input id="destino" placeholder="Destino">
-<button class="btn btn-d" id="bGPS" onclick="pegarGPS()">PEGAR MEU GPS</button>
-<button class="btn btn-d" id="bCalc" onclick="calcularReal()">CALCULAR PREÇO</button>
-<div id="resultado" class="result"></div>
-<label id="lServ">Serviço</label><select id="serv"></select>
-<label id="lData">Data</label><input id="data" type="date">
-<label id="lHora">Hora</label><input id="hora" type="time">
-<button class="btn btn-w" id="bConf" onclick="confirmarPagamento()">CONFIRMAR E SALVAR</button>
-<button class="btn btn-g" id="bZap" onclick="enviarZapMotorista()">ENVIAR NO ZAP DO MOTORISTA</button>
-<button class="btn btn-d" id="bPix" onclick="copiarPix()">COPIAR PIX</button>
-<button class="btn btn-d" id="bCart" onclick="pagarCartao()">PAGAR CARTAO</button>
-</div>
-<div class="card">
-<h3 id="hHist">Histórico / Agenda</h3>
-<button class="btn btn-d" style="padding:8px;font-size:11px" id="bLimpar" onclick="limparHist()">LIMPAR HISTORICO</button>
-<div id="lista" style="margin-top:10px"></div>
-<div style="margin-top:20px">
-<h4 id="hMot" style="font-size:12px">MOTORISTAS</h4>
-<input id="nomeMot" placeholder="Nome motorista" style="margin-top:6px">
-<input id="zapMot" placeholder="Zap motorista">
-<button class="btn btn-d" id="bCad" onclick="cadastrarMot()">CADASTRAR MOTORISTA</button>
-<div id="listaMot" style="margin-top:10px"></div>
-</div>
-<div style="margin-top:12px;display:flex;justify-content:center"><div id="qrcode"></div></div>
-</div>
+<h3>Historico</h3>
+<div id="lista"></div>
+<button class="btn-d" style="margin-top:10px" onclick="limpar()">LIMPAR HISTORICO</button>
 </div>
 
 <script>
-let categoria='viagem'; let historico=JSON.parse(localStorage.getItem('hist_dona')||'[]'); let motoristas=JSON.parse(localStorage.getItem('mot_dona')||'[]');
-let fixa=5; let pkm=2.5; let precoFinal=0; let lang='pt';
-
-function escolherCategoria(t){categoria=t; calcularReal();}
-async function pegarGPS(){if(!navigator.geolocation){alert('GPS nao suportado');return;} navigator.geolocation.getCurrentPosition(p=>{document.getElementById('origem').value=p.coords.latitude+','+p.coords.longitude;}, e=>alert('Erro GPS'));}
-async function calcularReal(){let dest=document.getElementById('destino').value||'5'; let dist=5; if(!isNaN(parseFloat(dest))){dist=parseFloat(dest)} precoFinal=Math.round(fixa + dist * pkm); let noturno=horaNoturna(); if(noturno)precoFinal=Math.round(precoFinal*1.2); let res=document.getElementById('resultado'); res.style.display='block'; res.innerHTML=`<b>${getT('dist')}: ${dist}km</b><br>${getT('price')}: R$${precoFinal} ${noturno?'(noturno)':''}`; return precoFinal;}
-function horaNoturna(){let h=new Date().getHours(); return h>=22||h<=5;}
-function copiarPix(){navigator.clipboard.writeText('SEU-PIX-AQUI').then(()=>alert('PIX copiado'));}
-function pagarCartao(){window.open('https://mpago.la/link','_blank');}
-function enviarZapMotorista(){let nome=document.getElementById('nome').value; let origem=document.getElementById('origem').value; let dest=document.getElementById('destino').value; if(!nome){alert(getT('fillName'));return;} let txt=`${getT('newOrder')}: ${nome} - ${getT('from')}: ${origem} ${getT('to')}: ${dest} - ${getT('price')}: R$${precoFinal}`; let zap = motoristas[0]?.zap || '5541999999999'; window.open(`https://wa.me/${zap.replace(/\D/g,'')}?text=${encodeURIComponent(txt)}`,'_blank');}
-function confirmarPagamento(){let nome=document.getElementById('nome').value; let serv=document.getElementById('serv').value; let data=document.getElementById('data').value; let hora=document.getElementById('hora').value; if(!nome){alert(getT('fillName'));return;} let o={id:Date.now(),nome,serv,data,hora,valor:precoFinal,categoria,destino:document.getElementById('destino').value}; historico.unshift(o); localStorage.setItem('hist_dona',JSON.stringify(historico)); atualizarHist(); gerarQR(12); alert(getT('saved')+' R$'+precoFinal);}
-function cadastrarMot(){let n=document.getElementById('nomeMot').value; let z=document.getElementById('zapMot').value; if(!n||!z){alert(getT('fillDriver'));return;} motoristas.push({nome:n,zap:z}); localStorage.setItem('mot_dona',JSON.stringify(motoristas)); renderMot();}
-function atualizarHist(){let h=document.getElementById('lista'); h.innerHTML=historico.map(o=>`<div class='agenda-item'><div><b>${o.nome}</b><br><span class='small'>${o.data||''} ${o.hora||''} - ${o.serv||o.destino||''} - R$${o.valor||0}</span></div></div>`).join('') || `<span class=small>${getT('noHist')}</span>`;}
-function limparHist(){localStorage.removeItem('hist_dona'); historico=[]; atualizarHist();}
-function gerarQR(t){let q=document.getElementById('qrcode'); if(q)q.innerHTML=`<div style='width:120px;height:120px;background:#fff;color:#111;display:grid;place-items:center;font-weight:900;border-radius:8px'>PIX QR<br>R$${precoFinal}</div>`;}
-function renderMot(){let el=document.getElementById('listaMot'); el.innerHTML=motoristas.map(m=>`<div class='agenda-item'><span>${m.nome}</span><span class='small'>${m.zap}</span></div>`).join('');}
-
-// TRADUÇÃO MUNDIAL
-const dict={
-pt:{hero:"APP DE CORRIDAS - WORLDWIDE",sub:"GPS + PIX + Cartão + Motorista - 12 Idiomas",novo:"Novo Pedido",cat:"Categoria",cli:"Cliente",zap:"WhatsApp",ori:"Origem",des:"Destino / Serviço",gps:"PEGAR MEU GPS",calc:"CALCULAR PREÇO",serv:"Serviço",data:"Data",hora:"Hora",conf:"CONFIRMAR E SALVAR",zapBtn:"ENVIAR NO ZAP DO MOTORISTA",pix:"COPIAR PIX",cart:"PAGAR CARTAO",hist:"Histórico / Agenda",limpar:"LIMPAR HISTORICO",mot:"MOTORISTAS",cad:"CADASTRAR MOTORISTA",dist:"Distancia",price:"Preço",newOrder:"Novo pedido",from:"De",to:"Para",fillName:"Preencha nome",saved:"Salvo! Valor",fillDriver:"Preencha motorista",noHist:"Sem historico",barb:"Barbearia",viagem:"Viagem / Entrega",entrega:"Entrega Rapida",servs:["Corte Masculino - R$35","Viagem - R$25","Entrega - R$15"]},
-es:{hero:"APP DE CARRERAS - MUNDIAL",sub:"GPS + PIX + Tarjeta + Conductor",novo:"Nuevo Pedido",cat:"Categoría",cli:"Cliente",zap:"WhatsApp",ori:"Origen",des:"Destino / Servicio",gps:"TOMAR MI GPS",calc:"CALCULAR PRECIO",serv:"Servicio",data:"Fecha",hora:"Hora",conf:"CONFIRMAR Y GUARDAR",zapBtn:"ENVIAR AL WHATSAPP",pix:"COPIAR PIX",cart:"PAGAR TARJETA",hist:"Historial",limpar:"LIMPIAR HISTORIAL",mot:"CONDUCTORES",cad:"REGISTRAR CONDUCTOR",dist:"Distancia",price:"Precio",newOrder:"Nuevo pedido",from:"De",to:"Para",fillName:"Rellene nombre",saved:"Guardado! Valor",fillDriver:"Rellene conductor",noHist:"Sin historial",barb:"Barbería",viagem:"Viaje / Entrega",entrega:"Entrega Rapida",servs:["Corte - $10","Viaje - $10","Entrega - $5"]},
-en:{hero:"RIDE APP - WORLDWIDE",sub:"GPS + PIX + Card + Driver",novo:"New Order",cat:"Category",cli:"Client",zap:"WhatsApp",ori:"Origin",des:"Destination / Service",gps:"GET MY GPS",calc:"CALCULATE PRICE",serv:"Service",data:"Date",hora:"Time",conf:"CONFIRM AND SAVE",zapBtn:"SEND TO DRIVER WHATSAPP",pix:"COPY PIX",cart:"PAY WITH CARD",hist:"History",limpar:"CLEAR HISTORY",mot:"DRIVERS",cad:"REGISTER DRIVER",dist:"Distance",price:"Price",newOrder:"New order",from:"From",to:"To",fillName:"Fill name",saved:"Saved! Value",fillDriver:"Fill driver",noHist:"No history",barb:"Barbershop",viagem:"Trip / Delivery",entrega:"Fast Delivery",servs:["Haircut - $20","Trip - $15","Delivery - $8"]},
-zh:{hero:"打车应用 - 全球版",sub:"GPS + PIX + 银行卡 + 司机",novo:"新订单",cat:"类别",cli:"客户",zap:"WhatsApp",ori:"起点",des:"目的地 / 服务",gps:"获取我的GPS",calc:"计算价格",serv:"服务",data:"日期",hora:"时间",conf:"确认并保存",zapBtn:"发送到司机WhatsApp",pix:"复制PIX",cart:"刷卡支付",hist:"历史记录",limpar:"清除历史",mot:"司机",cad:"注册司机",dist:"距离",price:"价格",newOrder:"新订单",from:"从",to:"到",fillName:"请填写姓名",saved:"已保存！金额",fillDriver:"请填写司机",noHist:"无历史记录",barb:"理发店",viagem:"行程 / 配送",entrega:"快速配送",servs:["理发 - ¥100","行程 - ¥80","配送 - ¥50"]},
-ja:{hero:"配車アプリ - ワールドワイド",sub:"GPS + PIX + カード + ドライバー",novo:"新規注文",cat:"カテゴリー",cli:"顧客",zap:"WhatsApp",ori:"出発地",des:"目的地 / サービス",gps:"GPSを取得",calc:"料金計算",serv:"サービス",data:"日付",hora:"時間",conf:"確認して保存",zapBtn:"ドライバーに送信",pix:"PIXをコピー",cart:"カードで支払う",hist:"履歴",limpar:"履歴をクリア",mot:"ドライバー",cad:"ドライバー登録",dist:"距離",price:"価格",newOrder:"新規注文",from:"から",to:"まで",fillName:"名前を入力",saved:"保存しました！金額",fillDriver:"ドライバーを入力",noHist:"履歴なし",barb:"床屋",viagem:"移動 / 配送",entrega:"速達",servs:["カット - ¥2000","移動 - ¥1500","配送 - ¥800"]},
-ko:{hero:"라이드 앱 - 월드와이드",sub:"GPS + PIX + 카드 + 드라이버",novo:"새 주문",cat:"카테고리",cli:"고객",zap:"WhatsApp",ori:"출발지",des:"목적지 / 서비스",gps:"내 GPS 가져오기",calc:"가격 계산",serv:"서비스",data:"날짜",hora:"시간",conf:"확인 및 저장",zapBtn:"드라이버에게 보내기",pix:"PIX 복사",cart:"카드로 결제",hist:"기록",limpar:"기록 지우기",mot:"드라이버",cad:"드라이버 등록",dist:"거리",price:"가격",newOrder:"새 주문",from:"부터",to:"까지",fillName:"이름 입력",saved:"저장됨! 금액",fillDriver:"드라이버 입력",noHist:"기록 없음",barb:"이발소",viagem:"이동 / 배달",entrega:"빠른 배달",servs:["커트 - ₩20000","이동 - ₩15000","배달 - ₩8000"]},
-fr:{hero:"APP DE COURSES - MONDIAL",sub:"GPS + PIX + Carte + Chauffeur",novo:"Nouvelle Commande",cat:"Catégorie",cli:"Client",zap:"WhatsApp",ori:"Origine",des:"Destination / Service",gps:"PRENDRE MON GPS",calc:"CALCULER LE PRIX",serv:"Service",data:"Date",hora:"Heure",conf:"CONFIRMER ET SAUVEGARDER",zapBtn:"ENVOYER AU CHAUFFEUR",pix:"COPIER PIX",cart:"PAYER PAR CARTE",hist:"Historique",limpar:"EFFACER L'HISTORIQUE",mot:"CHAUFFEURS",cad:"ENREGISTRER CHAUFFEUR",dist:"Distance",price:"Prix",newOrder:"Nouvelle commande",from:"De",to:"À",fillName:"Remplir nom",saved:"Enregistré! Valeur",fillDriver:"Remplir chauffeur",noHist:"Pas d'historique",barb:"Barbier",viagem:"Voyage / Livraison",entrega:"Livraison Rapide",servs:["Coupe - €15","Voyage - €12","Livraison - €6"]},
-de:{hero:"FAHRT APP - WELTWEIT",sub:"GPS + PIX + Karte + Fahrer",novo:"Neue Bestellung",cat:"Kategorie",cli:"Kunde",zap:"WhatsApp",ori:"Herkunft",des:"Ziel / Service",gps:"MEIN GPS HOLEN",calc:"PREIS BERECHNEN",serv:"Service",data:"Datum",hora:"Zeit",conf:"BESTÄTIGEN UND SPEICHERN",zapBtn:"AN FAHRER SENDEN",pix:"PIX KOPIEREN",cart:"MIT KARTE ZAHLEN",hist:"Verlauf",limpar:"VERLAUF LÖSCHEN",mot:"FAHRER",cad:"FAHRER REGISTRIEREN",dist:"Entfernung",price:"Preis",newOrder:"Neue Bestellung",from:"Von",to:"Nach",fillName:"Name ausfüllen",saved:"Gespeichert! Wert",fillDriver:"Fahrer ausfüllen",noHist:"Kein Verlauf",barb:"Friseur",viagem:"Fahrt / Lieferung",entrega:"Schnelle Lieferung",servs:["Haarschnitt - €15","Fahrt - €12","Lieferung - €6"]},
-it:{hero:"APP CORSE - WORLDWIDE",sub:"GPS + PIX + Carta + Autista",novo:"Nuovo Ordine",cat:"Categoria",cli:"Cliente",zap:"WhatsApp",ori:"Origine",des:"Destinazione / Servizio",gps:"PRENDI IL MIO GPS",calc:"CALCOLA PREZZO",serv:"Servizio",data:"Data",hora:"Ora",conf:"CONFERMA E SALVA",zapBtn:"INVIA ALL'AUTISTA",pix:"COPIA PIX",cart:"PAGA CON CARTA",hist:"Cronologia",limpar:"CANCELLA CRONOLOGIA",mot:"AUTISTI",cad:"REGISTRA AUTISTA",dist:"Distanza",price:"Prezzo",newOrder:"Nuovo ordine",from:"Da",to:"A",fillName:"Compila nome",saved:"Salvato! Valore",fillDriver:"Compila autista",noHist:"Nessuna cronologia",barb:"Barbiere",viagem:"Viaggio / Consegna",entrega:"Consegna Rapida",servs:["Taglio - €15","Viaggio - €12","Consegna - €6"]},
-ar:{hero:"تطبيق الرحلات - عالمي",sub:"GPS + PIX + بطاقة + سائق",novo:"طلب جديد",cat:"فئة",cli:"عميل",zap:"واتساب",ori:"الأصل",des:"الوجهة / الخدمة",gps:"احصل على GPS",calc:"احسب السعر",serv:"خدمة",data:"تاريخ",hora:"وقت",conf:"تأكيد وحفظ",zapBtn:"إرسال للسائق",pix:"نسخ PIX",cart:"الدفع بالبطاقة",hist:"السجل",limpar:"مسح السجل",mot:"السائقون",cad:"تسجيل سائق",dist:"مسافة",price:"سعر",newOrder:"طلب جديد",from:"من",to:"إلى",fillName:"املأ الاسم",saved:"تم الحفظ! القيمة",fillDriver:"املأ السائق",noHist:"لا يوجد سجل",barb:"حلاق",viagem:"رحلة / توصيل",entrega:"توصيل سريع",servs:["حلاقة - $10","رحلة - $8","توصيل - $4"]},
-ru:{hero:"ПРИЛОЖЕНИЕ ПОЕЗДОК - МИР",sub:"GPS + PIX + Карта + Водитель",novo:"Новый заказ",cat:"Категория",cli:"Клиент",zap:"WhatsApp",ori:"Откуда",des:"Куда / Услуга",gps:"ВЗЯТЬ МОЙ GPS",calc:"РАССЧИТАТЬ ЦЕНУ",serv:"Услуга",data:"Дата",hora:"Время",conf:"ПОДТВЕРДИТЬ И СОХРАНИТЬ",zapBtn:"ОТПРАВИТЬ ВОДИТЕЛЮ",pix:"КОПИРОВАТЬ PIX",cart:"ОПЛАТИТЬ КАРТОЙ",hist:"История",limpar:"ОЧИСТИТЬ ИСТОРИЮ",mot:"ВОДИТЕЛИ",cad:"РЕГИСТРАЦИЯ ВОДИТЕЛЯ",dist:"Расстояние",price:"Цена",newOrder:"Новый заказ",from:"От",to:"До",fillName:"Заполните имя",saved:"Сохранено! Значение",fillDriver:"Заполните водителя",noHist:"Нет истории",barb:"Парикмахерская",viagem:"Поездка / Доставка",entrega:"Быстрая доставка",servs:["Стрижка - $10","Поездка - $8","Доставка - $4"]},
-hi:{hero:"राइड ऐप - वर्ल्डवाइड",sub:"GPS + PIX + कार्ड + ड्राइवर",novo:"नया ऑर्डर",cat:"श्रेणी",cli:"ग्राहक",zap:"WhatsApp",ori:"मूल",des:"गंतव्य / सेवा",gps:"मेरा GPS लें",calc:"कीमत गणना",serv:"सेवा",data:"तारीख",hora:"समय",conf:"पुष्टि और सहेजें",zapBtn:"ड्राइवर को भेजें",pix:"PIX कॉपी",cart:"कार्ड से भुगतान",hist:"इतिहास",limpar:"इतिहास साफ़ करें",mot:"ड्राइवर",cad:"ड्राइवर पंजीकरण",dist:"दूरी",price:"कीमत",newOrder:"नया ऑर्डर",from:"से",to:"तक",fillName:"नाम भरें",saved:"सहेजा गया! मूल्य",fillDriver:"ड्राइवर भरें",noHist:"कोई इतिहास नहीं",barb:"नाई",viagem:"यात्रा / डिलीवरी",entrega:"तेज़ डिलीवरी",servs:["कट - $10","यात्रा - $8","डिलीवरी - $4"]}
+var hist = JSON.parse(localStorage.getItem('hist')||'[]');
+var preco = 0;
+var lang='pt';
+var t={
+pt:{tit:"APP DE CORRIDAS - MERCADO PAGO",calc:"CALCULAR PREÇO",gps:"PEGAR MEU GPS",save:"CONFIRMAR E SALVAR",zap:"ENVIAR NO ZAP",pix:"COPIAR PIX",card:"PAGAR NO CARTAO - MERCADO PAGO",dist:"Distancia",price:"Preco"},
+es:{tit:"APP DE CARRERAS - MERCADO PAGO",calc:"CALCULAR PRECIO",gps:"TOMAR GPS",save:"CONFIRMAR Y GUARDAR",zap:"ENVIAR WHATSAPP",pix:"COPIAR PIX",card:"PAGAR CON TARJETA",dist:"Distancia",price:"Precio"},
+en:{tit:"RIDE APP - MERCADO PAGO",calc:"CALCULATE PRICE",gps:"GET MY GPS",save:"CONFIRM AND SAVE",zap:"SEND WHATSAPP",pix:"COPY PIX",card:"PAY WITH CARD",dist:"Distance",price:"Price"},
+zh:{tit:"打车应用 - Mercado Pago",calc:"计算价格",gps:"获取GPS",save:"确认并保存",zap:"发送WhatsApp",pix:"复制PIX",card:"用卡支付",dist:"距离",price:"价格"},
+fr:{tit:"APP COURSES - MERCADO PAGO",calc:"CALCULER PRIX",gps:"PRENDRE GPS",save:"CONFIRMER",zap:"ENVOYER WHATSAPP",pix:"COPIER PIX",card:"PAYER PAR CARTE",dist:"Distance",price:"Prix"}
 };
-function getT(k){return dict[lang][k]||k;}
-function setLang(l){
+function setLang(l,el){
 lang=l;
-document.querySelectorAll('.lang').forEach(e=>e.classList.remove('active'));
-event.target.classList.add('active');
-let t=dict[l];
-document.getElementById('tHero').innerText=t.hero;
-document.getElementById('pHero').innerText=t.sub;
-document.getElementById('hNovo').innerText=t.novo;
-document.getElementById('lCat').innerText=t.cat;
-document.getElementById('lCli').innerText=t.cli;
-document.getElementById('lZap').innerText=t.zap;
-document.getElementById('lOri').innerText=t.ori;
-document.getElementById('lDes').innerText=t.des;
-document.getElementById('bGPS').innerText=t.gps;
-document.getElementById('bCalc').innerText=t.calc;
-document.getElementById('lServ').innerText=t.serv;
-document.getElementById('lData').innerText=t.data;
-document.getElementById('lHora').innerText=t.hora;
-document.getElementById('bConf').innerText=t.conf;
-document.getElementById('bZap').innerText=t.zapBtn;
-document.getElementById('bPix').innerText=t.pix;
-document.getElementById('bCart').innerText=t.cart;
-document.getElementById('hHist').innerText=t.hist;
-document.getElementById('bLimpar').innerText=t.limpar;
-document.getElementById('hMot').innerText=t.mot;
-document.getElementById('bCad').innerText=t.cad;
-document.getElementById('categoria').innerHTML=`<option value="barbearia">${t.barb}</option><option value="viagem">${t.viagem}</option><option value="entrega">${t.entrega}</option>`;
-document.getElementById('serv').innerHTML=t.servs.map(s=>`<option>${s}</option>`).join('');
-atualizarHist();
+document.querySelectorAll('.top span').forEach(s=>s.classList.remove('active'));
+el.classList.add('active');
+document.getElementById('titulo').innerText=t[l].tit;
 }
-document.getElementById('data').valueAsDate=new Date();
-atualizarHist(); renderMot(); gerarQR(12);
-document.getElementById('serv').innerHTML=dict.pt.servs.map(s=>`<option>${s}</option>`).join('');
+function pegarGPS(){
+if(!navigator.geolocation){alert('Sem GPS');return}
+navigator.geolocation.getCurrentPosition(function(p){
+document.getElementById('origem').value=p.coords.latitude+','+p.coords.longitude;
+});
+}
+function calc(){
+var d = parseFloat(document.getElementById('destino').value)||5;
+preco = Math.round(5 + d*2.5);
+var h = new Date().getHours();
+if(h>=22||h<=5){preco=Math.round(preco*1.2)}
+var r=document.getElementById('res');
+r.style.display='block';
+r.innerHTML=t[lang].dist+': '+d+'km<br>'+t[lang].price+': R$'+preco;
+gerarQR();
+}
+function gerarQR(){
+var q=document.getElementById('qrcode');
+q.innerHTML='<div class="qrbox"><div style="font-size:50px">⬛⬜⬛</div>MERCADO PAGO<br>R$'+preco+'<br><small style="font-size:10px">QR da sua conta</small></div>';
+}
+function salvar(){
+var n=document.getElementById('nome').value;
+if(!n){alert('Nome');return}
+hist.unshift({nome:n,valor:preco,data:new Date().toLocaleDateString()});
+localStorage.setItem('hist',JSON.stringify(hist));
+render();
+alert('Salvo R$'+preco);
+}
+function render(){
+document.getElementById('lista').innerHTML=hist.map(function(o){return '<div style="padding:8px 0;border-bottom:1px solid #222"><b>'+o.nome+'</b> - R$'+o.valor+' - '+o.data+'</div>'}).join('')||'Sem historico';
+}
+function limpar(){localStorage.removeItem('hist');hist=[];render()}
+function zap(){
+var n=document.getElementById('nome').value||'Cliente';
+var txt='Novo pedido: '+n+' - Valor R$'+preco;
+window.open('https://wa.me/5541999999999?text='+encodeURIComponent(txt),'_blank');
+}
+function pix(){navigator.clipboard.writeText('SEU-PIX-AQUI').then(function(){alert('PIX copiado')})}
+function cartao(){
+// AQUI ESTA SEU MERCADO PAGO - JA LINKADO
+window.open('https://link.mercadopago.com.br/SEU-LINK','_blank');
+}
+render();
 </script>
 </body>
 </html>
