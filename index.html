@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App Corridas - Dona Rita</title>
+<title>App Corridas</title>
 <style>
 body{background:#0f0f0f;color:#fff;font-family:sans-serif;margin:0;padding:10px}
 .card{background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
@@ -28,7 +28,7 @@ button{background:#fff;color:#111;cursor:pointer}
 <span onclick="setLang('fr',this)">FR</span>
 </div>
 
-<h2 id="titulo" style="text-align:center;margin:15px 0">APP DE CORRIDAS - DONA RITA</h2>
+<h2 id="titulo" style="text-align:center;margin:15px 0">APP DE CORRIDAS</h2>
 
 <div class="card">
 <input id="nome" placeholder="Nome do cliente">
@@ -55,11 +55,11 @@ var preco = 0;
 var MEU_LINK = "https://link.mercadopago.com.br/donaritacorridas";
 var lang='pt';
 var t={
-pt:{tit:"APP DE CORRIDAS - DONA RITA",calc:"CALCULAR PREÇO"},
-es:{tit:"APP DE CARRERAS - DONA RITA",calc:"CALCULAR PRECIO"},
-en:{tit:"RIDE APP - DONA RITA",calc:"CALCULATE PRICE"},
-zh:{tit:"打车应用 - DONA RITA",calc:"计算价格"},
-fr:{tit:"APP COURSES - DONA RITA",calc:"CALCULER PRIX"}
+pt:{tit:"APP DE CORRIDAS",calc:"CALCULAR PREÇO"},
+es:{tit:"APP DE CARRERAS",calc:"CALCULAR PRECIO"},
+en:{tit:"RIDE APP",calc:"CALCULATE PRICE"},
+zh:{tit:"打车应用",calc:"计算价格"},
+fr:{tit:"APP COURSES",calc:"CALCULER PRIX"}
 };
 function setLang(l,el){
 lang=l;
@@ -84,8 +84,7 @@ gerarQR();
 }
 function gerarQR(){
 var q=document.getElementById('qrcode');
-var linkComValor = MEU_LINK;
-q.innerHTML='<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(linkComValor)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'<br><small>Escaneie para pagar</small><br><small style="font-size:9px">'+MEU_LINK+'</small></div>';
+q.innerHTML='<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(MEU_LINK)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'<br><small>Escaneie para pagar</small><br><small style="font-size:9px">'+MEU_LINK+'</small></div>';
 }
 function salvar(){
 var n=document.getElementById('nome').value;
@@ -101,7 +100,7 @@ document.getElementById('lista').innerHTML=hist.map(o=>'<div style="padding:8px 
 function limpar(){localStorage.removeItem('hist');hist=[];render()}
 function zap(){
 var n=document.getElementById('nome').value||'Cliente';
-var txt='Olá! Corrida Dona Rita - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
+var txt='Olá! Corrida - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
 window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 function cartao(){
