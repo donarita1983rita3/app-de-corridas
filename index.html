@@ -3,86 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ease Flash - App de Corridas</title>
-<style>
-body{background:#0f0f0f;color:#fff;font-family:sans-serif;margin:0;padding:10px}
-.card{background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
-input,select,button{width:100%;padding:14px;border-radius:12px;border:1px solid #333;margin:6px 0;font-weight:700}
-button{background:#fff;color:#111;cursor:pointer}
-.btn-g{background:#25D366;color:#fff}
-.btn-d{background:#222;color:#fff}
-.btn-mp{background:#009EE3;color:#fff}
-.top{display:flex;gap:6px;overflow-x:auto;padding:10px 0}
-.top span{padding:8px 12px;border-radius:20px;background:#1a1a1a;border:1px solid #333;cursor:pointer;font-size:12px;white-space:nowrap}
-.top span.active{background:#fff;color:#111}
-#qrcode{display:flex;justify-content:center;margin-top:12px}
-.qrbox{background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center}
-</style>
+<title>EASE FLASH APP DE CORRIDAS</title>
 </head>
-<body>
-<div class="top">
-<span class="active" onclick="setLang('pt',this)">PT</span>
-<span onclick="setLang('es',this)">ES</span>
-<span onclick="setLang('en',this)">EN</span>
-<span onclick="setLang('zh',this)">中文</span>
-<span onclick="setLang('fr',this)">FR</span>
-</div>
+<body style="background:#0f0f0f;color:#fff;font-family:sans-serif;margin:0;padding:10px">
+<h2 style="text-align:center;font-size:28px">EASE FLASH APP DE CORRIDAS</h2>
 
-<h2 id="titulo" style="text-align:center;margin:15px 0">EASE FLASH APP DE CORRIDAS</h2>
-
-<div class="card">
-<input id="nome" placeholder="Nome do cliente">
-<input id="origem" placeholder="Origem">
-<input id="destino" placeholder="Destino" value="5">
-<button class="btn-d" onclick="pegarGPS()">📍 PEGAR MEU GPS</button>
-<button class="btn-d" onclick="calc()">💰 CALCULAR PREÇO</button>
+<div style="background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0">
+<input id="nome" placeholder="Nome do cliente" style="width:100%;padding:14px;border-radius:12px;margin:6px 0">
+<input id="origem" placeholder="Origem" style="width:100%;padding:14px;border-radius:12px;margin:6px 0">
+<input id="destino" placeholder="Destino" value="5" style="width:100%;padding:14px;border-radius:12px;margin:6px 0">
+<button onclick="calc()" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin:6px 0">💰 CALCULAR PREÇO</button>
 <div id="res" style="text-align:center;padding:12px;background:#111;border-radius:10px;margin:10px 0;display:none"></div>
-<div id="qrcode"></div>
-<button onclick="salvar()">✅ CONFIRMAR E SALVAR</button>
-<button class="btn-g" onclick="zap()">📱 ENVIAR NO ZAP</button>
-<button class="btn-mp" onclick="cartao()">💳 PAGAR COM CARTÃO / PIX - MERCADO PAGO</button>
+<div id="qrcode" style="display:flex;justify-content:center"></div>
+<button onclick="salvar()" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin:6px 0;background:#fff;color:#111">✅ CONFIRMAR E SALVAR</button>
+<button onclick="zap()" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin:6px 0;background:#25D366;color:#fff">📱 ENVIAR NO ZAP</button>
+<button onclick="cartao()" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin:6px 0;background:#009EE3;color:#fff">💳 PAGAR COM CARTÃO / PIX - MERCADO PAGO</button>
 </div>
 
-<div class="card">
+<div style="background:#1a1a1a;border-radius:16px;padding:16px;margin:10px 0">
 <h3>Histórico</h3>
 <div id="lista"></div>
-<button class="btn-d" onclick="limpar()" style="margin-top:10px">LIMPAR</button>
 </div>
 
 <script>
 var hist = JSON.parse(localStorage.getItem('hist')||'[]');
 var preco = 0;
 var MEU_LINK = "https://link.mercadopago.com.br/donaritacorridas";
-var t={
-pt:{tit:"EASE FLASH APP DE CORRIDAS"},
-es:{tit:"EASE FLASH APP DE CARRERAS"},
-en:{tit:"EASE FLASH RIDE APP"},
-zh:{tit:"EASE FLASH 打车应用"},
-fr:{tit:"EASE FLASH APP COURSES"}
-};
-function setLang(l,el){
-document.querySelectorAll('.top span').forEach(s=>s.classList.remove('active'));
-el.classList.add('active');
-document.getElementById('titulo').innerText=t[l].tit;
-}
-function pegarGPS(){
-navigator.geolocation.getCurrentPosition(p=>{
-document.getElementById('origem').value=p.coords.latitude+','+p.coords.longitude;
-});
-}
 function calc(){
 var d = parseFloat(document.getElementById('destino').value)||5;
 preco = Math.round(5 + d*2.5);
-var h = new Date().getHours();
-if(h>=22||h<=5) preco=Math.round(preco*1.2);
 var r=document.getElementById('res');
 r.style.display='block';
 r.innerHTML="Distância: "+d+"km<br>Preço: R$"+preco;
-gerarQR();
-}
-function gerarQR(){
 var q=document.getElementById('qrcode');
-q.innerHTML='<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(MEU_LINK)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'<br><small>Escaneie para pagar</small></div>';
+q.innerHTML='<div style="background:#fff;color:#111;padding:12px;border-radius:12px;text-align:center"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(MEU_LINK)+'" style="width:180px"><br><b>MERCADO PAGO</b><br>R$'+preco+'</div>';
 }
 function salvar(){
 var n=document.getElementById('nome').value;
@@ -95,15 +49,12 @@ alert('Salvo R$'+preco);
 function render(){
 document.getElementById('lista').innerHTML=hist.map(o=>'<div style="padding:8px 0;border-bottom:1px solid #222"><b>'+o.nome+'</b> - R$'+o.valor+' - '+o.data+'</div>').join('')||'Sem histórico';
 }
-function limpar(){localStorage.removeItem('hist');hist=[];render()}
 function zap(){
 var n=document.getElementById('nome').value||'Cliente';
 var txt='Olá! Ease Flash - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
 window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
-function cartao(){
-window.open(MEU_LINK,'_blank');
-}
+function cartao(){window.open(MEU_LINK,'_blank');}
 render();
 </script>
 </body>
