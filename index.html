@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <style>
 body{background:#000;color:#fff;font-family:sans-serif;margin:0;padding:10px}
 .card{background:#111;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
-input{width:100%;padding:12px;border-radius:12px;border:1px solid #333;margin:5px 0;background:#fff;color:#111;font-weight:600;box-sizing:border-box}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #333;margin:5px 0;background:#fff;color:#111;font-weight:600;box-sizing:border-box}
 button{width:100%;padding:13px;border-radius:12px;border:none;margin:5px 0;font-weight:900;cursor:pointer;font-size:14px}
 .btn-yellow{background:#FFE600;color:#000}
 .btn-white{background:#fff;color:#000}
@@ -17,7 +17,8 @@ button{width:100%;padding:13px;border-radius:12px;border:none;margin:5px 0;font-
 .active{background:#FFE600 !important;color:#000 !important}
 h2{color:#FFE600;text-align:center}
 h3{color:#FFE600;margin:10px 0 5px 0}
-.item{padding:8px;border-bottom:1px solid #222;display:flex;justify-content:space-between}
+.item{padding:8px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+.badge{background:#FFE600;color:#000;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:900}
 </style>
 </head>
 <body>
@@ -27,8 +28,13 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 <button id="t2" onclick="aba(2)">MOTORISTAS</button>
 <button id="t3" onclick="aba(3)">CLIENTES</button>
 </div>
+
 <div id="aba1" class="card">
+<label style="color:#FFE600;font-size:12px">ESCOLHER CLIENTE CADASTRADO (opcional)</label>
+<select id="selCliente" onchange="usaCliente()"><option value="">-- Digitar manual --</option></select>
 <input id="nome" placeholder="Nome do cliente">
+<label style="color:#FFE600;font-size:12px;margin-top:8px;display:block">ESCOLHER MOTORISTA (opcional)</label>
+<select id="selMotorista"><option value="">-- Sem motorista --</option></select>
 <input id="origem" placeholder="Origem">
 <input id="destino" placeholder="Destino KM" value="5">
 <button class="btn-yellow" onclick="calc()">💰 CALCULAR PREÇO</button>
@@ -40,16 +46,17 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 <h3>Histórico Corridas</h3>
 <div id="lista"></div>
 </div>
+
 <div id="aba2" class="card" style="display:none">
 <h3>Cadastro Motorista</h3>
 <input id="m_nome" placeholder="Nome do motorista">
 <input id="m_tel" placeholder="WhatsApp">
 <input id="m_placa" placeholder="Placa do carro">
-<input id="m_carro" placeholder="Modelo / Cor do carro">
-<input id="m_cnh" placeholder="CNH">
+<input id="m_carro" placeholder="Modelo / Cor">
 <button class="btn-yellow" onclick="addMotorista()">+ CADASTRAR MOTORISTA</button>
 <div id="listaMotorista" style="margin-top:12px"></div>
 </div>
+
 <div id="aba3" class="card" style="display:none">
 <h3>Cadastro Cliente</h3>
 <input id="c_nome" placeholder="Nome completo">
@@ -58,6 +65,7 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 <button class="btn-yellow" onclick="addCliente()">+ CADASTRAR CLIENTE</button>
 <div id="listaCliente" style="margin-top:12px"></div>
 </div>
+
 <script>
 var hist = JSON.parse(localStorage.getItem('hist')||'[]');
 var motoristas = JSON.parse(localStorage.getItem('motoristas')||'[]');
@@ -72,6 +80,13 @@ document.getElementById('t1').className=n==1?'active':'';
 document.getElementById('t2').className=n==2?'active':'';
 document.getElementById('t3').className=n==3?'active':'';
 }
+function usaCliente(){
+var idx=document.getElementById('selCliente').value;
+if(idx==="") return;
+var c=clientes[idx];
+document.getElementById('nome').value=c.nome;
+document.getElementById('origem').value=c.end||"";
+}
 function calc(){
 var d = parseFloat(document.getElementById('destino').value)||5;
 preco = Math.round(5 + d*2.5);
@@ -83,33 +98,37 @@ document.getElementById('qrcode').innerHTML='<div style="background:#fff;color:#
 function salvar(){
 var n=document.getElementById('nome').value;
 if(!n){alert('Coloca o nome');return}
-hist.unshift({nome:n,valor:preco,data:new Date().toLocaleDateString()});
+var motSel=document.getElementById('selMotorista');
+var motTxt=motSel.value!==""?motoristas[motSel.value].nome+" - "+motoristas[motSel.value].placa:"Sem motorista";
+hist.unshift({nome:n,valor:preco,motorista:motTxt,data:new Date().toLocaleDateString()});
 localStorage.setItem('hist',JSON.stringify(hist));
 renderHist();
-alert('Salvo R$'+preco);
+alert('Salvo R$'+preco+' - '+motTxt);
 }
 function renderHist(){
-document.getElementById('lista').innerHTML=hist.map(o=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - R$'+o.valor+'</span><span>'+o.data+'</span></div>').join('')||'Sem corridas';
+document.getElementById('lista').innerHTML=hist.map(o=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - R$'+o.valor+'<br><small style="color:#aaa">'+(o.motorista||"")+'</small></span><span>'+o.data+'</span></div>').join('')||'Sem corridas';
 }
 function zap(){
 var n=document.getElementById('nome').value||'Cliente';
-var txt='Olá! ⚡ Ease Flash - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
+var motSel=document.getElementById('selMotorista');
+var motTxt=motSel.value!==""?motoristas[motSel.value].nome+" - "+motoristas[motSel.value].placa:"";
+var txt='Olá! ⚡ Ease Flash - Cliente: '+n+' - Motorista: '+motTxt+' - Valor R$'+preco+' - Pague aqui: '+MEU_LINK;
 window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 function cartao(){window.open(MEU_LINK,'_blank');}
 function addMotorista(){
 var nome=document.getElementById('m_nome').value;
 if(!nome){alert('Nome do motorista');return}
-var m={nome:nome,tel:document.getElementById('m_tel').value,placa:document.getElementById('m_placa').value,carro:document.getElementById('m_carro').value,cnh:document.getElementById('m_cnh').value};
+var m={nome:nome,tel:document.getElementById('m_tel').value,placa:document.getElementById('m_placa').value,carro:document.getElementById('m_carro').value};
 motoristas.unshift(m);
 localStorage.setItem('motoristas',JSON.stringify(motoristas));
-document.getElementById('m_nome').value='';document.getElementById('m_tel').value='';document.getElementById('m_placa').value='';document.getElementById('m_carro').value='';document.getElementById('m_cnh').value='';
-renderMotoristas();
+document.getElementById('m_nome').value='';document.getElementById('m_tel').value='';document.getElementById('m_placa').value='';document.getElementById('m_carro').value='';
+renderMotoristas();renderSelects();
 }
 function renderMotoristas(){
-document.getElementById('listaMotorista').innerHTML=motoristas.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - '+o.placa+' - '+o.carro+'<br><small>'+o.tel+'</small></span><button onclick="delM('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum motorista';
+document.getElementById('listaMotorista').innerHTML=motoristas.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - '+o.placa+'<br><small>'+o.tel+' - '+o.carro+'</small></span><button onclick="delM('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum motorista';
 }
-function delM(i){motoristas.splice(i,1);localStorage.setItem('motoristas',JSON.stringify(motoristas));renderMotoristas();}
+function delM(i){motoristas.splice(i,1);localStorage.setItem('motoristas',JSON.stringify(motoristas));renderMotoristas();renderSelects();}
 function addCliente(){
 var nome=document.getElementById('c_nome').value;
 if(!nome){alert('Nome do cliente');return}
@@ -117,13 +136,19 @@ var c={nome:nome,tel:document.getElementById('c_tel').value,end:document.getElem
 clientes.unshift(c);
 localStorage.setItem('clientes',JSON.stringify(clientes));
 document.getElementById('c_nome').value='';document.getElementById('c_tel').value='';document.getElementById('c_end').value='';
-renderClientes();
+renderClientes();renderSelects();
 }
 function renderClientes(){
 document.getElementById('listaCliente').innerHTML=clientes.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b><br><small>'+o.tel+' - '+o.end+'</small></span><button onclick="delC('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum cliente';
 }
-function delC(i){clientes.splice(i,1);localStorage.setItem('clientes',JSON.stringify(clientes));renderClientes();}
-renderHist();renderMotoristas();renderClientes();
+function delC(i){clientes.splice(i,1);localStorage.setItem('clientes',JSON.stringify(clientes));renderClientes();renderSelects();}
+function renderSelects(){
+var selC=document.getElementById('selCliente');
+var selM=document.getElementById('selMotorista');
+selC.innerHTML='<option value="">-- Digitar manual --</option>'+clientes.map((o,i)=>'<option value="'+i+'">'+o.nome+' - '+o.end+'</option>').join('');
+selM.innerHTML='<option value="">-- Sem motorista --</option>'+motoristas.map((o,i)=>'<option value="'+i+'">'+o.nome+' - '+o.placa+'</option>').join('');
+}
+renderHist();renderMotoristas();renderClientes();renderSelects();
 </script>
 </body>
 </html>
