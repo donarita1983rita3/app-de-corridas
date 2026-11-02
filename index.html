@@ -1,12 +1,4 @@
- Agora sim! Vamos deixar o *EASE FLASH* completo com cadastro!
-
-Vou colocar:
-- *Cadastro de Motorista* (nome, telefone, placa, carro)
-- *Cadastro de Clientes* (nome, telefone, endereço)
-- Tudo salvo no app
-
-É só fazer igual você já aprendeu: apaga tudo no GitHub e cola esse código novo:
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -15,12 +7,11 @@ Vou colocar:
 <style>
 body{background:#000;color:#fff;font-family:sans-serif;margin:0;padding:10px}
 .card{background:#111;border-radius:16px;padding:16px;margin:10px 0;border:1px solid #222}
-input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #333;margin:5px 0;background:#fff;color:#111;font-weight:600;box-sizing:border-box}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #333;margin:5px 0;background:#fff;color:#111;font-weight:600;box-sizing:border-box}
 button{width:100%;padding:13px;border-radius:12px;border:none;margin:5px 0;font-weight:900;cursor:pointer;font-size:14px}
 .btn-yellow{background:#FFE600;color:#000}
 .btn-white{background:#fff;color:#000}
 .btn-blue{background:#009EE3;color:#fff}
-.btn-gray{background:#222;color:#FFE600;border:1px solid #FFE600}
 .tab{display:flex;gap:8px;margin:10px 0}
 .tab button{flex:1;padding:10px}
 .active{background:#FFE600 !important;color:#000 !important}
@@ -31,14 +22,11 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 </head>
 <body>
 <h2>⚡ EASE FLASH APP DE CORRIDAS ⚡</h2>
-
 <div class="tab">
 <button id="t1" class="active" onclick="aba(1)">CORRIDA</button>
 <button id="t2" onclick="aba(2)">MOTORISTAS</button>
 <button id="t3" onclick="aba(3)">CLIENTES</button>
 </div>
-
-<!-- ABA 1 - CORRIDA -->
 <div id="aba1" class="card">
 <input id="nome" placeholder="Nome do cliente">
 <input id="origem" placeholder="Origem">
@@ -52,20 +40,16 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 <h3>Histórico Corridas</h3>
 <div id="lista"></div>
 </div>
-
-<!-- ABA 2 - MOTORISTA -->
 <div id="aba2" class="card" style="display:none">
 <h3>Cadastro Motorista</h3>
 <input id="m_nome" placeholder="Nome do motorista">
-<input id="m_tel" placeholder="WhatsApp (ex: 41 99999-9999)">
+<input id="m_tel" placeholder="WhatsApp">
 <input id="m_placa" placeholder="Placa do carro">
 <input id="m_carro" placeholder="Modelo / Cor do carro">
 <input id="m_cnh" placeholder="CNH">
 <button class="btn-yellow" onclick="addMotorista()">+ CADASTRAR MOTORISTA</button>
 <div id="listaMotorista" style="margin-top:12px"></div>
 </div>
-
-<!-- ABA 3 - CLIENTE -->
 <div id="aba3" class="card" style="display:none">
 <h3>Cadastro Cliente</h3>
 <input id="c_nome" placeholder="Nome completo">
@@ -74,14 +58,12 @@ h3{color:#FFE600;margin:10px 0 5px 0}
 <button class="btn-yellow" onclick="addCliente()">+ CADASTRAR CLIENTE</button>
 <div id="listaCliente" style="margin-top:12px"></div>
 </div>
-
 <script>
 var hist = JSON.parse(localStorage.getItem('hist')||'[]');
 var motoristas = JSON.parse(localStorage.getItem('motoristas')||'[]');
 var clientes = JSON.parse(localStorage.getItem('clientes')||'[]');
 var preco = 0;
 var MEU_LINK = "https://link.mercadopago.com.br/donaritacorridas";
-
 function aba(n){
 document.getElementById('aba1').style.display=n==1?'block':'none';
 document.getElementById('aba2').style.display=n==2?'block':'none';
@@ -90,7 +72,6 @@ document.getElementById('t1').className=n==1?'active':'';
 document.getElementById('t2').className=n==2?'active':'';
 document.getElementById('t3').className=n==3?'active':'';
 }
-
 function calc(){
 var d = parseFloat(document.getElementById('destino').value)||5;
 preco = Math.round(5 + d*2.5);
@@ -116,8 +97,6 @@ var txt='Olá! ⚡ Ease Flash - Cliente: '+n+' - Valor R$'+preco+' - Pague aqui:
 window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 function cartao(){window.open(MEU_LINK,'_blank');}
-
-// MOTORISTAS
 function addMotorista(){
 var nome=document.getElementById('m_nome').value;
 if(!nome){alert('Nome do motorista');return}
@@ -131,8 +110,6 @@ function renderMotoristas(){
 document.getElementById('listaMotorista').innerHTML=motoristas.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b> - '+o.placa+' - '+o.carro+'<br><small>'+o.tel+'</small></span><button onclick="delM('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum motorista';
 }
 function delM(i){motoristas.splice(i,1);localStorage.setItem('motoristas',JSON.stringify(motoristas));renderMotoristas();}
-
-// CLIENTES
 function addCliente(){
 var nome=document.getElementById('c_nome').value;
 if(!nome){alert('Nome do cliente');return}
@@ -146,20 +123,7 @@ function renderClientes(){
 document.getElementById('listaCliente').innerHTML=clientes.map((o,i)=>'<div class="item"><span><b style="color:#FFE600">'+o.nome+'</b><br><small>'+o.tel+' - '+o.end+'</small></span><button onclick="delC('+i+')" style="width:auto;padding:5px 10px;background:#333;color:#fff">X</button></div>').join('')||'Nenhum cliente';
 }
 function delC(i){clientes.splice(i,1);localStorage.setItem('clientes',JSON.stringify(clientes));renderClientes();}
-
 renderHist();renderMotoristas();renderClientes();
 </script>
 </body>
 </html>
-*O que você ganhou agora:*
-
-- Aba *CORRIDA* (igual antes, amarelo)
-- Aba *MOTORISTAS*: cadastra nome, zap, placa, carro, CNH. Salva e pode apagar
-- Aba *CLIENTES*: cadastra nome, zap, endereço. Salva e pode apagar
-
-Tudo fica salvo no celular, não apaga!
-
-Cola lá e clica Commit changes, depois abre:
-*https://donarita1983rita3.github.io/app-de-corridas/?v=cadastros*
-
-Me fala se funcionou!
