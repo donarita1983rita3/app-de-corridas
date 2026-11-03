@@ -1,8 +1,8 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>EASE FLASH CORRIDAS</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -71,70 +71,70 @@ input,select{width:100%;padding:9px;border-radius:8px;border:1px solid #444;back
 <script>
 let map=null;
 function init(){
- map=L.map('map').setView([-25.52,-48.52],13);
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
- map.on('click',function(e){
-  if(!o.value){o.value=e.latlng.lat.toFixed(4);}
-  else{d.value=e.latlng.lat.toFixed(4);}
- });
- L.marker([-25.5205,-48.5223]).addTo(map).bindPopup('Centro');
- L.marker([-25.531,-48.51]).addTo(map).bindPopup('Vila Garcia');
- L.marker([-25.508,-48.522]).addTo(map).bindPopup('Rocio');
+map=L.map('map').setView([-25.52,-48.52],13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+map.on('click',function(e){
+if(!o.value){o.value=e.latlng.lat.toFixed(4);}
+else{d.value=e.latlng.lat.toFixed(4);}
+});
+L.marker([-25.5205,-48.5223]).addTo(map).bindPopup('Centro');
+L.marker([-25.531,-48.51]).addTo(map).bindPopup('Vila Garcia');
+L.marker([-25.508,-48.522]).addTo(map).bindPopup('Rocio');
 }
 function show(id){
- document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
- document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- event.target.classList.add('active');
- if(id=='c4'&&!map)setTimeout(init,250);
- if(map)setTimeout(()=>map.invalidateSize(),250);
- load();
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+event.target.classList.add('active');
+if(id=='c4'&&!map)setTimeout(init,250);
+if(map)setTimeout(()=>map.invalidateSize(),250);
+load();
 }
 function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}
 function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function addM(){
- let m={n:mn.value,w:mw.value,p:mp.value,x:mx.value,id:Date.now()};
- if(!m.n)return;
- let a=get('m');a.push(m);set('m',a);
- mn.value=mw.value=mp.value=mx.value='';load();
+let m={n:mn.value,w:mw.value,p:mp.value,x:mx.value,id:Date.now()};
+if(!m.n)return;
+let a=get('m');a.push(m);set('m',a);
+mn.value=mw.value=mp.value=mx.value='';load();
 }
 function addCl(){
- let c={n:cn.value,w:cw.value,e:ce.value,id:Date.now()};
- if(!c.n)return;
- let a=get('cl');a.push(c);set('cl',a);
- cn.value=cw.value=ce.value='';load();
+let c={n:cn.value,w:cw.value,e:ce.value,id:Date.now()};
+if(!c.n)return;
+let a=get('cl');a.push(c);set('cl',a);
+cn.value=cw.value=ce.value='';load();
 }
 function addC(){
- let c={cl:sc.value,o:o.value,d:d.value,v:v.value,id:Date.now()};
- if(!c.o)return;
- let a=get('c');a.push(c);set('c',a);
- o.value=d.value=v.value='';load();
+let c={cl:sc.value,o:o.value,d:d.value,v:v.value,id:Date.now()};
+if(!c.o)return;
+let a=get('c');a.push(c);set('c',a);
+o.value=d.value=v.value='';load();
 }
 function pix(chave){
- let url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(chave);
- qri.src=url;
- qrp.innerText='Chave: '+chave;
- qrbox.style.display='block';
- window.scrollTo(0,0);
+let url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(chave);
+qri.src=url;
+qrp.innerText='Chave: '+chave;
+qrbox.style.display='block';
+window.scrollTo(0,0);
 }
 function load(){
- let a=get('m');let h='';
- for(let i=0;i<a.length;i++){
-  h+='<div class=item><b>'+a[i].n+'</b> '+a[i].p+'<br>'+a[i].w+'<br><button onclick="pix(\''+a[i].x+'\')" style="background:#FFEB00;border:none;padding:5px 8px;border-radius:5px;font-weight:bold;margin-top:3px">PIX QR: '+a[i].x+'</button></div>';
- }
- if(!h)h='Nenhum motorista';
- lm.innerHTML=h;
- let b=get('cl');let h2='';
- for(let i=0;i<b.length;i++){h2+='<div class=item><b>'+b[i].n+'</b> '+b[i].w+'<br>'+b[i].e+'</div>';}
- if(!h2)h2='Nenhum cliente';
- lcl.innerHTML=h2;
- let c=get('c');let h3='';
- for(let i=0;i<c.length;i++){h3+='<div class=item>'+c[i].o+' -> '+c[i].d+'<br>R$'+c[i].v+' - '+c[i].cl+'</div>';}
- if(!h3)h3='Nenhuma corrida';
- lc.innerHTML=h3;
- let s=get('cl');let op='<option>Selecione cliente</option>';
- for(let i=0;i<s.length;i++){op+='<option>'+s[i].n+'</option>';}
- sc.innerHTML=op;
+let a=get('m');let h='';
+for(let i=0;i<a.length;i++){
+h+='<div class=item><b>'+a[i].n+'</b> '+a[i].p+'<br>'+a[i].w+'<br><button onclick="pix(\''+a[i].x+'\')" style="background:#FFEB00;border:none;padding:5px 8px;border-radius:5px;font-weight:bold;margin-top:3px">PIX QR: '+a[i].x+'</button></div>';
+}
+if(!h)h='Nenhum motorista';
+lm.innerHTML=h;
+let b=get('cl');let h2='';
+for(let i=0;i<b.length;i++){h2+='<div class=item><b>'+b[i].n+'</b> '+b[i].w+'<br>'+b[i].e+'</div>';}
+if(!h2)h2='Nenhum cliente';
+lcl.innerHTML=h2;
+let c=get('c');let h3='';
+for(let i=0;i<c.length;i++){h3+='<div class=item>'+c[i].o+' -> '+c[i].d+'<br>R$'+c[i].v+' - '+c[i].cl+'</div>';}
+if(!h3)h3='Nenhuma corrida';
+lc.innerHTML=h3;
+let s=get('cl');let op='<option>Selecione cliente</option>';
+for(let i=0;i<s.length;i++){op+='<option>'+s[i].n+'</option>';}
+sc.innerHTML=op;
 }
 window.onload=function(){load();init();}
 </script>
