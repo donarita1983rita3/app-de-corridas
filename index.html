@@ -3,30 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EASE FLASH - PARANAGUÁ</title>
+<title>EASE FLASH CORRIDAS</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
 body{margin:0;background:#0a0a0a;color:#fff}
 .header{background:#111;padding:12px;text-align:center;position:sticky;top:0;z-index:1000}
-.header h1{color:#FFEB00;margin:0;font-size:20px}
+.header h1{color:#FFEB00;margin:0;font-size:22px}
 .tabs{display:flex;gap:6px;justify-content:center;padding:10px;background:#111}
 .tab{padding:8px 14px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;background:#333;color:#fff;font-size:12px}
 .tab.active{background:#FFEB00;color:#000}
-.section{display:none;padding:12px}.section.active{display:block}
+.section{display:none;padding:12px}
+.section.active{display:block}
 .card{background:#1c1c1c;border-radius:15px;padding:15px;margin-bottom:12px;border:1px solid #333}
 .card h3{color:#FFEB00;margin:0 0 10px 0}
 input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#222;color:#fff;margin:5px 0}
 .btn{background:#FFEB00;color:#000;border:none;padding:13px;width:100%;border-radius:12px;font-weight:bold;cursor:pointer;margin-top:8px}
-#map{height:300px;border-radius:12px;margin:10px 0}
+#map{height:320px;border-radius:12px;margin:10px 0}
 .item{background:#222;padding:12px;border-radius:10px;margin:6px 0;display:flex;justify-content:space-between;align-items:center}
 .badge{background:#FFEB00;color:#000;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:bold}
 .small{font-size:11px;opacity:.7}
 </style>
 </head>
 <body>
-<div class="header"><h1>⚡ EASE FLASH - PARANAGUÁ ⚡</h1></div>
+<div class="header"><h1>EASE FLASH CORRIDAS</h1></div>
 <div class="tabs">
 <button class="tab active" onclick="showTab('corrida')">CORRIDA</button>
 <button class="tab" onclick="showTab('motoristas')">MOTORISTAS</button>
@@ -36,7 +37,7 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #444;ba
 
 <div id="corrida" class="section active">
 <div class="card">
-<h3>🚀 Nova Corrida</h3>
+<h3>Nova Corrida</h3>
 <select id="cCliente"></select>
 <input id="origem" placeholder="Origem - clique no mapa">
 <input id="destino" placeholder="Destino - clique no mapa">
@@ -51,11 +52,11 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #444;ba
 <div class="card">
 <h3>Cadastro Motorista</h3>
 <input id="mNome" placeholder="Nome do motorista">
-<input id="mWhats" placeholder="WhatsApp (41) 9xxxx-xxxx">
-<input id="mPlaca" placeholder="Placa / ou BIKE">
+<input id="mWhats" placeholder="WhatsApp">
+<input id="mPlaca" placeholder="Placa ou BIKE">
 <input id="mModelo" placeholder="Modelo / Cor">
 <input id="mPix" placeholder="Chave PIX">
-<select id="mStatus"><option>Disponível</option><option>Ocupado</option><option>Offline</option></select>
+<select id="mStatus"><option>Disponivel</option><option>Ocupado</option><option>Offline</option></select>
 <button class="btn" onclick="addMotorista()">+ CADASTRAR MOTORISTA</button>
 </div>
 <div id="listaMotoristas"></div>
@@ -66,85 +67,84 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #444;ba
 <h3>Cadastro Cliente</h3>
 <input id="clNome" placeholder="Nome do cliente">
 <input id="clWhats" placeholder="WhatsApp">
-<input id="clEndereco" placeholder="Endereço">
-<input id="clRef" placeholder="Ponto referência">
+<input id="clEndereco" placeholder="Endereco">
+<input id="clRef" placeholder="Ponto referencia">
 <button class="btn" onclick="addCliente()">+ CADASTRAR CLIENTE</button>
 </div>
 <div id="listaClientes"></div>
 </div>
 
 <div id="mapa" class="section">
-<div class="card"><h3>Mapa Original - Paranaguá</h3><div id="map"></div>
-<button class="btn" onclick="centralizar()">📍 Centralizar Paranaguá</button>
+<div class="card">
+<h3>Mapa Original - Paranagua</h3>
+<div id="map"></div>
+<button class="btn" onclick="centralizar()">Centralizar Paranagua</button>
 </div>
 </div>
 
 <script>
-let map, origemLatLng=null, destinoLatLng=null;
+let map=null,origemLatLng=null,destinoLatLng=null;
 function initMap(){
- map = L.map('map').setView([-25.52, -48.52], 13);
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
- map.on('click', function(e){
-   if(!origemLatLng){ origemLatLng=e.latlng; L.marker(e.latlng).addTo(map).bindPopup('Origem').openPopup(); document.getElementById('origem').value = e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5); }
-   else if(!destinoLatLng){ destinoLatLng=e.latlng; L.marker(e.latlng).addTo(map).bindPopup('Destino').openPopup(); document.getElementById('destino').value = e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5); }
-   else { origemLatLng=null; destinoLatLng=null; map.eachLayer(l=>{if(l instanceof L.Marker) map.removeLayer(l)}); }
+ map=L.map('map').setView([-25.52,-48.52],13);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OpenStreetMap'}).addTo(map);
+ map.on('click',function(e){
+   if(!origemLatLng){origemLatLng=e.latlng;L.marker(e.latlng).addTo(map).bindPopup('Origem').openPopup();document.getElementById('origem').value=e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5);}
+   else if(!destinoLatLng){destinoLatLng=e.latlng;L.marker(e.latlng).addTo(map).bindPopup('Destino').openPopup();document.getElementById('destino').value=e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5);}
  });
- L.marker([-25.5205,-48.5223]).addTo(map).bindPopup('Centro - Praça 29');
+ L.marker([-25.5205,-48.5223]).addTo(map).bindPopup('Centro - Praca 29');
  L.marker([-25.531,-48.510]).addTo(map).bindPopup('Vila Garcia');
  L.marker([-25.508,-48.522]).addTo(map).bindPopup('Rocio');
 }
-function centralizar(){ map.setView([-25.52,-48.52],13); }
+function centralizar(){if(map)map.setView([-25.52,-48.52],13);}
 function showTab(id){
  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- event.target.classList.add('active');
- if(id==='mapa' && !map){ setTimeout(initMap,200); } else if(map){ setTimeout(()=>map.invalidateSize(),200); }
- renderAll();
+ document.getElementById(id).classList.add('active');event.target.classList.add('active');
+ if(id==='mapa'){if(!map)setTimeout(initMap,300);else setTimeout(()=>map.invalidateSize(),300);}renderAll();
 }
 function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}
 function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function addMotorista(){
- let m={nome:mNome.value, whats:mWhats.value, placa:mPlaca.value, modelo:mModelo.value, pix:mPix.value, status:mStatus.value, id:Date.now()};
- if(!m.nome) return alert('Nome obrigatório');
- let arr=get('motoristas'); arr.push(m); set('motoristas',arr);
- mNome.value=mWhats.value=mPlaca.value=mModelo.value=mPix.value=''; renderMotoristas();
+ let m={nome:mNome.value,whats:mWhats.value,placa:mPlaca.value,modelo:mModelo.value,pix:mPix.value,status:mStatus.value,id:Date.now()};
+ if(!m.nome){alert('Nome obrigatorio');return;}let arr=get('motoristas');arr.push(m);set('motoristas',arr);
+ mNome.value=mWhats.value=mPlaca.value=mModelo.value=mPix.value='';renderMotoristas();
 }
 function renderMotoristas(){
- let arr=get('motoristas');
- listaMotoristas.innerHTML=arr.map(m=>`<div class="item"><div><b>${m.nome}</b><br><span class="small">${m.placa} • ${m.modelo}</span><br><span class="badge">${m.status}</span></div><div><span class="badge">${m.whats}</span><br><button onclick="del('motoristas',${m.id})" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhum motorista</p>';
- updateClienteSelect();
+ let arr=get('motoristas');let html='';
+ for(let i=0;i<arr.length;i++){let m=arr[i];html+='<div class="item"><div><b>'+m.nome+'</b><br><span class="small">'+m.placa+' - '+m.modelo+'</span><br><span class="badge">'+m.status+'</span></div><div><span class="badge">'+m.whats+'</span><br><button onclick="delMotorista('+m.id+')" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px">X</button></div></div>';}
+ if(html==='')html='<p style="text-align:center;opacity:.5">Nenhum motorista</p>';
+ listaMotoristas.innerHTML=html;updateClienteSelect();
 }
+function delMotorista(id){del('motoristas',id);}
 function addCliente(){
- let c={nome:clNome.value, whats:clWhats.value, endereco:clEndereco.value, ref:clRef.value, id:Date.now()};
- if(!c.nome) return alert('Nome obrigatório');
- let arr=get('clientes'); arr.push(c); set('clientes',arr);
- clNome.value=clWhats.value=clEndereco.value=clRef.value=''; renderClientes();
+ let c={nome:clNome.value,whats:clWhats.value,endereco:clEndereco.value,ref:clRef.value,id:Date.now()};
+ if(!c.nome){alert('Nome obrigatorio');return;}let arr=get('clientes');arr.push(c);set('clientes',arr);
+ clNome.value=clWhats.value=clEndereco.value=clRef.value='';renderClientes();
 }
 function renderClientes(){
- let arr=get('clientes');
- listaClientes.innerHTML=arr.map(c=>`<div class="item"><div><b>${c.nome}</b><br><span class="small">${c.endereco} - ${c.ref}</span></div><div><span class="badge">${c.whats}</span><br><button onclick="del('clientes',${c.id})" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhum cliente</p>';
- updateClienteSelect();
+ let arr=get('clientes');let html='';
+ for(let i=0;i<arr.length;i++){let c=arr[i];html+='<div class="item"><div><b>'+c.nome+'</b><br><span class="small">'+c.endereco+' - '+c.ref+'</span></div><div><span class="badge">'+c.whats+'</span><br><button onclick="delCliente('+c.id+')" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px">X</button></div></div>';}
+ if(html==='')html='<p style="text-align:center;opacity:.5">Nenhum cliente</p>';
+ listaClientes.innerHTML=html;updateClienteSelect();
 }
+function delCliente(id){del('clientes',id);}
 function addCorrida(){
- let co={cliente:cCliente.value, origem:origem.value, destino:destino.value, valor:valor.value, tipo:tipo.value, status:'Aberta', id:Date.now()};
- if(!co.origem) return alert('Origem');
- let arr=get('corridas'); arr.push(co); set('corridas',arr);
- origem.value=destino.value=valor.value=''; origemLatLng=destinoLatLng=null; renderCorridas();
+ let co={cliente:cCliente.value,origem:origem.value,destino:destino.value,valor:valor.value,tipo:tipo.value,status:'Aberta',id:Date.now()};
+ if(!co.origem){alert('Informe origem');return;}let arr=get('corridas');arr.push(co);set('corridas',arr);
+ origem.value=destino.value=valor.value='';origemLatLng=null;destinoLatLng=null;renderCorridas();
 }
 function renderCorridas(){
- let arr=get('corridas');
- listaCorridas.innerHTML=arr.map(c=>`<div class="item"><div><b>${c.origem.substring(0,25)} → ${c.destino.substring(0,25)}</b><br><span class="small">${c.tipo} • R$ ${c.valor} • ${c.cliente}</span><br><span class="badge">${c.status}</span></div><div><button onclick="aceitar(${c.id})" style="background:#FFEB00;border:none;padding:8px 12px;border-radius:8px;font-weight:bold">Aceitar</button><br><button onclick="del('corridas',${c.id})" style="background:#444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px;width:100%">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhuma corrida</p>';
+ let arr=get('corridas');let html='';
+ for(let i=0;i<arr.length;i++){let c=arr[i];html+='<div class="item"><div><b>'+c.origem.substring(0,20)+' -> '+c.destino.substring(0,20)+'</b><br><span class="small">'+c.tipo+' - R$ '+c.valor+'</span><br><span class="badge">'+c.status+'</span></div><div><button onclick="aceitar('+c.id+')" style="background:#FFEB00;border:none;padding:8px 12px;border-radius:8px;font-weight:bold">Aceitar</button><br><button onclick="delCorrida('+c.id+')" style="background:#444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px;width:100%">X</button></div></div>';}
+ if(html==='')html='<p style="text-align:center;opacity:.5">Nenhuma corrida</p>';
+ listaCorridas.innerHTML=html;
 }
-function aceitar(id){
- let arr=get('corridas'); let c=arr.find(x=>x.id===id); if(c){c.status='Aceita'; set('corridas',arr); renderCorridas();}
-}
-function del(k,id){ let arr=get(k); set(k,arr.filter(x=>x.id!==id)); renderAll(); }
-function updateClienteSelect(){
- let arr=get('clientes'); cCliente.innerHTML='<option value="">Selecione cliente</option>'+arr.map(c=>`<option>${c.nome} - ${c.whats}</option>`).join('');
-}
-function renderAll(){ renderMotoristas(); renderClientes(); renderCorridas(); }
-window.onload=()=>{ renderAll(); initMap(); }
+function delCorrida(id){del('corridas',id);}
+function aceitar(id){let arr=get('corridas');for(let i=0;i<arr.length;i++){if(arr[i].id===id)arr[i].status='Aceita';}set('corridas',arr);renderCorridas();}
+function del(k,id){let arr=get(k);let novo=[];for(let i=0;i<arr.length;i++){if(arr[i].id!==id)novo.push(arr[i]);}set(k,novo);renderAll();}
+function updateClienteSelect(){let arr=get('clientes');let html='<option value="">Selecione cliente</option>';for(let i=0;i<arr.length;i++){html+='<option>'+arr[i].nome+' - '+arr[i].whats+'</option>';}cCliente.innerHTML=html;}
+function renderAll(){renderMotoristas();renderClientes();renderCorridas();}
+window.onload=function(){renderAll();initMap();}
 </script>
 </body>
 </html>
