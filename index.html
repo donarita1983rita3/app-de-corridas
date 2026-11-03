@@ -10,17 +10,18 @@
 *{box-sizing:border-box;font-family:Arial}
 body{margin:0;background:#0a0a0a;color:#fff}
 .header{background:#111;padding:12px;text-align:center}
-.header h1{color:#FFEB00;margin:0}
-.tabs{display:flex;gap:5px;justify-content:center;padding:10px;background:#111}
-.tab{padding:8px 12px;border-radius:20px;border:none;font-weight:bold;background:#333;color:#fff;font-size:11px}
+.header h1{color:#FFEB00;margin:0;font-size:20px}
+.tabs{display:flex;gap:4px;justify-content:center;padding:8px;background:#111}
+.tab{padding:7px 10px;border-radius:20px;border:none;font-weight:bold;background:#333;color:#fff;font-size:10px}
 .tab.active{background:#FFEB00;color:#000}
-.section{display:none;padding:10px}
+.section{display:none;padding:8px}
 .section.active{display:block}
-.card{background:#1c1c1c;border-radius:12px;padding:12px;margin-bottom:10px;border:1px solid #333}
-input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;margin:4px 0}
-.btn{background:#FFEB00;color:#000;border:none;padding:12px;width:100%;border-radius:10px;font-weight:bold;margin-top:6px}
-#map{height:300px;border-radius:10px}
-.item{background:#222;padding:10px;border-radius:8px;margin:5px 0}
+.card{background:#1c1c1c;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #333}
+input,select{width:100%;padding:9px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;margin:3px 0}
+.btn{background:#FFEB00;color:#000;border:none;padding:11px;width:100%;border-radius:10px;font-weight:bold;margin-top:5px}
+#map{height:280px;border-radius:10px}
+.item{background:#222;padding:9px;border-radius:8px;margin:4px 0;font-size:13px}
+.qr{width:150px;height:150px;background:#fff;padding:5px;border-radius:8px;display:block;margin:5px auto}
 </style>
 </head>
 <body>
@@ -34,8 +35,8 @@ input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #444;bac
 <div id="c1" class="section active">
 <div class="card">
 <select id="sc"></select>
-<input id="o" placeholder="Origem - clique no mapa">
-<input id="d" placeholder="Destino - clique no mapa">
+<input id="o" placeholder="Origem">
+<input id="d" placeholder="Destino">
 <input id="v" type="number" placeholder="Valor R$">
 <button class="btn" onclick="addC()">CRIAR CORRIDA</button>
 </div>
@@ -46,6 +47,7 @@ input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #444;bac
 <input id="mn" placeholder="Nome motorista">
 <input id="mw" placeholder="WhatsApp">
 <input id="mp" placeholder="Placa ou BIKE">
+<input id="mx" placeholder="Chave PIX">
 <button class="btn" onclick="addM()">CADASTRAR MOTORISTA</button>
 </div>
 <div id="lm"></div>
@@ -59,8 +61,12 @@ input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #444;bac
 </div>
 <div id="lcl"></div>
 </div>
-<div id="c4" class="section">
-<div class="card"><div id="map"></div></div>
+<div id="c4" class="section"><div class="card"><div id="map"></div></div></div>
+<div id="qrbox" class="card" style="display:none;text-align:center">
+<h3 style="color:#FFEB00">PIX QR CODE</h3>
+<img id="qri" class="qr">
+<p id="qrp"></p>
+<button class="btn" onclick="qrbox.style.display='none'">FECHAR</button>
 </div>
 <script>
 let map=null;
@@ -80,17 +86,17 @@ function show(id){
  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
  document.getElementById(id).classList.add('active');
  event.target.classList.add('active');
- if(id=='c4'&&!map)setTimeout(init,300);
- if(map)setTimeout(()=>map.invalidateSize(),300);
+ if(id=='c4'&&!map)setTimeout(init,250);
+ if(map)setTimeout(()=>map.invalidateSize(),250);
  load();
 }
 function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}
 function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function addM(){
- let m={n:mn.value,w:mw.value,p:mp.value,id:Date.now()};
+ let m={n:mn.value,w:mw.value,p:mp.value,x:mx.value,id:Date.now()};
  if(!m.n)return;
  let a=get('m');a.push(m);set('m',a);
- mn.value=mw.value=mp.value='';load();
+ mn.value=mw.value=mp.value=mx.value='';load();
 }
 function addCl(){
  let c={n:cn.value,w:cw.value,e:ce.value,id:Date.now()};
@@ -104,16 +110,28 @@ function addC(){
  let a=get('c');a.push(c);set('c',a);
  o.value=d.value=v.value='';load();
 }
+function pix(chave){
+ let url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(chave);
+ qri.src=url;
+ qrp.innerText='Chave: '+chave;
+ qrbox.style.display='block';
+ window.scrollTo(0,0);
+}
 function load(){
  let a=get('m');let h='';
- for(let i=0;i<a.length;i++){h+='<div class=item><b>'+a[i].n+'</b> '+a[i].w+' '+a[i].p+'</div>';}
- if(!h)h='Nenhum motorista';lm.innerHTML=h;
+ for(let i=0;i<a.length;i++){
+  h+='<div class=item><b>'+a[i].n+'</b> '+a[i].p+'<br>'+a[i].w+'<br><button onclick="pix(\''+a[i].x+'\')" style="background:#FFEB00;border:none;padding:5px 8px;border-radius:5px;font-weight:bold;margin-top:3px">PIX QR: '+a[i].x+'</button></div>';
+ }
+ if(!h)h='Nenhum motorista';
+ lm.innerHTML=h;
  let b=get('cl');let h2='';
- for(let i=0;i<b.length;i++){h2+='<div class=item><b>'+b[i].n+'</b> '+b[i].w+'</div>';}
- if(!h2)h2='Nenhum cliente';lcl.innerHTML=h2;
+ for(let i=0;i<b.length;i++){h2+='<div class=item><b>'+b[i].n+'</b> '+b[i].w+'<br>'+b[i].e+'</div>';}
+ if(!h2)h2='Nenhum cliente';
+ lcl.innerHTML=h2;
  let c=get('c');let h3='';
- for(let i=0;i<c.length;i++){h3+='<div class=item>'+c[i].o+' -> '+c[i].d+' R$'+c[i].v+'</div>';}
- if(!h3)h3='Nenhuma corrida';lc.innerHTML=h3;
+ for(let i=0;i<c.length;i++){h3+='<div class=item>'+c[i].o+' -> '+c[i].d+'<br>R$'+c[i].v+' - '+c[i].cl+'</div>';}
+ if(!h3)h3='Nenhuma corrida';
+ lc.innerHTML=h3;
  let s=get('cl');let op='<option>Selecione cliente</option>';
  for(let i=0;i<s.length;i++){op+='<option>'+s[i].n+'</option>';}
  sc.innerHTML=op;
