@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -6,16 +6,17 @@
 <title>EASE FLASH - Cadastro Motorista</title>
 <style>
 body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif;padding:15px}
-h1{color:#FFEB00;text-align:center;font-size:22px;margin:15px 0}
-.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:15px}
-.tab{padding:10px 18px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;background:#ddd;color:#000}
+h1{color:#FFEB00;text-align:center;font-size:22px;margin:15px 0 5px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:15px 0}
+.tab{padding:12px 18px;border-radius:22px;border:none;font-weight:bold;background:#e5e5e5;color:#000}
 .tab.active{background:#FFEB00}
-.card{background:#151515;border-radius:18px;padding:16px;border:1px solid #333}
+.card{background:#151515;border-radius:20px;padding:16px;border:1px solid #333}
 .card h2{color:#FFEB00;margin:0 0 12px;font-size:18px}
-input{width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:none;margin-bottom:12px;font-size:15px;outline:none}
-.btn{width:100%;background:#FFEB00;color:#000;font-weight:bold;padding:16px;border-radius:12px;border:none;font-size:16px;cursor:pointer}
-.success{display:none;background:#00c851;color:#fff;padding:12px;border-radius:10px;margin-top:12px;text-align:center;font-weight:bold}
-small{color:#888;display:block;text-align:center;margin-top:10px}
+input{width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:none;margin-bottom:12px;font-size:15px}
+.btn{width:100%;background:#FFEB00;color:#000;font-weight:bold;padding:16px;border-radius:12px;border:none;font-size:16px}
+.item{border-bottom:1px solid #333;padding:10px 0;display:flex;justify-content:space-between;align-items:center}
+.item b{color:#FFEB00}
+.x{background:#333;color:#fff;border:none;width:32px;height:32px;border-radius:50%}
 </style>
 </head>
 <body>
@@ -28,7 +29,44 @@ small{color:#888;display:block;text-align:center;margin-top:10px}
 <div class="card">
 <h2>Cadastro Motorista</h2>
 <input id="nome" placeholder="Nome do motorista">
-<input id="zap" placeholder="WhatsApp (41) 9xxxx-xxxx">
+<input id="zap" placeholder="WhatsApp">
 <input id="placa" placeholder="Placa do carro">
 <input id="modelo" placeholder="Modelo / Cor">
-<input id="pix"
+<input id="pix" placeholder="PIX para receber">
+<button class="btn" onclick="cadastrar()">+ CADASTRAR MOTORISTA</button>
+<div id="lista" style="margin-top:15px"></div>
+</div>
+<script>
+function mostrar(){
+ let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
+ let html='';
+ lista.forEach((m,i)=>{
+   html+=`<div class="item"><div><b>${m.nome}</b> - ${m.placa}<br>${m.zap} - ${m.modelo}<br><small style="color:#aaa">PIX: ${m.pix}</small></div><button class="x" onclick="remover(${i})">X</button></div>`;
+ });
+ document.getElementById('lista').innerHTML=html;
+}
+function remover(i){
+ let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
+ lista.splice(i,1);
+ localStorage.setItem('motoristas',JSON.stringify(lista));
+ mostrar();
+}
+function cadastrar(){
+ const nome=document.getElementById('nome').value.trim();
+ const zap=document.getElementById('zap').value.trim();
+ const placa=document.getElementById('placa').value.trim();
+ const modelo=document.getElementById('modelo').value.trim();
+ const pix=document.getElementById('pix').value.trim();
+ if(!nome||!zap||!placa||!modelo||!pix){alert('Preencha tudo incluindo PIX!');return;}
+ let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
+ lista.push({nome,zap,placa,modelo,pix});
+ localStorage.setItem('motoristas',JSON.stringify(lista));
+ const texto=`*NOVO MOTORISTA EASE FLASH*%0A%0A*Nome:* ${nome}%0A*WhatsApp:* ${zap}%0A*Placa:* ${placa}%0A*Modelo/Cor:* ${modelo}%0A*PIX:* ${pix}`;
+ window.open(`https://wa.me/554188099495?text=${texto}`,'_blank');
+ mostrar();
+ document.getElementById('nome').value='';document.getElementById('zap').value='';document.getElementById('placa').value='';document.getElementById('modelo').value='';document.getElementById('pix').value='';
+}
+mostrar();
+</script>
+</body>
+</html>
