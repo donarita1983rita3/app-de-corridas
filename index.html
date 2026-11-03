@@ -3,70 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EASE FLASH - Cadastro Motorista</title>
+<title>EASE FLASH - PARANAGUÁ</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif;padding:15px}
-h1{color:#FFEB00;text-align:center;font-size:22px;margin:15px 0 5px}
-.tabs{display:flex;gap:8px;justify-content:center;margin:15px 0}
-.tab{padding:12px 18px;border-radius:22px;border:none;font-weight:bold;background:#e5e5e5;color:#000}
-.tab.active{background:#FFEB00}
-.card{background:#151515;border-radius:20px;padding:16px;border:1px solid #333}
-.card h2{color:#FFEB00;margin:0 0 12px;font-size:18px}
-input{width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:none;margin-bottom:12px;font-size:15px}
-.btn{width:100%;background:#FFEB00;color:#000;font-weight:bold;padding:16px;border-radius:12px;border:none;font-size:16px}
-.item{border-bottom:1px solid #333;padding:10px 0;display:flex;justify-content:space-between;align-items:center}
-.item b{color:#FFEB00}
-.x{background:#333;color:#fff;border:none;width:32px;height:32px;border-radius:50%}
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#0a0a0a;color:#fff}
+.header{background:#111;padding:12px;text-align:center;position:sticky;top:0;z-index:1000}
+.header h1{color:#FFEB00;margin:0;font-size:20px}
+.tabs{display:flex;gap:6px;justify-content:center;padding:10px;background:#111}
+.tab{padding:8px 14px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;background:#333;color:#fff;font-size:12px}
+.tab.active{background:#FFEB00;color:#000}
+.section{display:none;padding:12px}.section.active{display:block}
+.card{background:#1c1c1c;border-radius:15px;padding:15px;margin-bottom:12px;border:1px solid #333}
+.card h3{color:#FFEB00;margin:0 0 10px 0}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#222;color:#fff;margin:5px 0}
+.btn{background:#FFEB00;color:#000;border:none;padding:13px;width:100%;border-radius:12px;font-weight:bold;cursor:pointer;margin-top:8px}
+#map{height:300px;border-radius:12px;margin:10px 0}
+.item{background:#222;padding:12px;border-radius:10px;margin:6px 0;display:flex;justify-content:space-between;align-items:center}
+.badge{background:#FFEB00;color:#000;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:bold}
+.small{font-size:11px;opacity:.7}
 </style>
 </head>
 <body>
-<h1>⚡ EASE FLASH APP DE CORRIDAS ⚡</h1>
+<div class="header"><h1>⚡ EASE FLASH - PARANAGUÁ ⚡</h1></div>
 <div class="tabs">
-<span class="tab">CORRIDA</span>
-<span class="tab active">MOTORISTAS</span>
-<span class="tab">CLIENTES</span>
+<button class="tab active" onclick="showTab('corrida')">CORRIDA</button>
+<button class="tab" onclick="showTab('motoristas')">MOTORISTAS</button>
+<button class="tab" onclick="showTab('clientes')">CLIENTES</button>
+<button class="tab" onclick="showTab('mapa')">MAPA</button>
 </div>
+
+<div id="corrida" class="section active">
 <div class="card">
-<h2>Cadastro Motorista</h2>
-<input id="nome" placeholder="Nome do motorista">
-<input id="zap" placeholder="WhatsApp">
-<input id="placa" placeholder="Placa do carro">
-<input id="modelo" placeholder="Modelo / Cor">
-<input id="pix" placeholder="PIX para receber">
-<button class="btn" onclick="cadastrar()">+ CADASTRAR MOTORISTA</button>
-<div id="lista" style="margin-top:15px"></div>
+<h3>🚀 Nova Corrida</h3>
+<select id="cCliente"></select>
+<input id="origem" placeholder="Origem - clique no mapa">
+<input id="destino" placeholder="Destino - clique no mapa">
+<input id="valor" type="number" placeholder="Valor R$">
+<select id="tipo"><option>Moto/Bike</option><option>Carro</option><option>Flash - Encomenda</option></select>
+<button class="btn" onclick="addCorrida()">+ CRIAR CORRIDA</button>
 </div>
+<div id="listaCorridas"></div>
+</div>
+
+<div id="motoristas" class="section">
+<div class="card">
+<h3>Cadastro Motorista</h3>
+<input id="mNome" placeholder="Nome do motorista">
+<input id="mWhats" placeholder="WhatsApp (41) 9xxxx-xxxx">
+<input id="mPlaca" placeholder="Placa / ou BIKE">
+<input id="mModelo" placeholder="Modelo / Cor">
+<input id="mPix" placeholder="Chave PIX">
+<select id="mStatus"><option>Disponível</option><option>Ocupado</option><option>Offline</option></select>
+<button class="btn" onclick="addMotorista()">+ CADASTRAR MOTORISTA</button>
+</div>
+<div id="listaMotoristas"></div>
+</div>
+
+<div id="clientes" class="section">
+<div class="card">
+<h3>Cadastro Cliente</h3>
+<input id="clNome" placeholder="Nome do cliente">
+<input id="clWhats" placeholder="WhatsApp">
+<input id="clEndereco" placeholder="Endereço">
+<input id="clRef" placeholder="Ponto referência">
+<button class="btn" onclick="addCliente()">+ CADASTRAR CLIENTE</button>
+</div>
+<div id="listaClientes"></div>
+</div>
+
+<div id="mapa" class="section">
+<div class="card"><h3>Mapa Original - Paranaguá</h3><div id="map"></div>
+<button class="btn" onclick="centralizar()">📍 Centralizar Paranaguá</button>
+</div>
+</div>
+
 <script>
-function mostrar(){
- let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
- let html='';
- lista.forEach((m,i)=>{
-   html+=`<div class="item"><div><b>${m.nome}</b> - ${m.placa}<br>${m.zap} - ${m.modelo}<br><small style="color:#aaa">PIX: ${m.pix}</small></div><button class="x" onclick="remover(${i})">X</button></div>`;
+let map, origemLatLng=null, destinoLatLng=null;
+function initMap(){
+ map = L.map('map').setView([-25.52, -48.52], 13);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+ map.on('click', function(e){
+   if(!origemLatLng){ origemLatLng=e.latlng; L.marker(e.latlng).addTo(map).bindPopup('Origem').openPopup(); document.getElementById('origem').value = e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5); }
+   else if(!destinoLatLng){ destinoLatLng=e.latlng; L.marker(e.latlng).addTo(map).bindPopup('Destino').openPopup(); document.getElementById('destino').value = e.latlng.lat.toFixed(5)+','+e.latlng.lng.toFixed(5); }
+   else { origemLatLng=null; destinoLatLng=null; map.eachLayer(l=>{if(l instanceof L.Marker) map.removeLayer(l)}); }
  });
- document.getElementById('lista').innerHTML=html;
+ L.marker([-25.5205,-48.5223]).addTo(map).bindPopup('Centro - Praça 29');
+ L.marker([-25.531,-48.510]).addTo(map).bindPopup('Vila Garcia');
+ L.marker([-25.508,-48.522]).addTo(map).bindPopup('Rocio');
 }
-function remover(i){
- let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
- lista.splice(i,1);
- localStorage.setItem('motoristas',JSON.stringify(lista));
- mostrar();
+function centralizar(){ map.setView([-25.52,-48.52],13); }
+function showTab(id){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ event.target.classList.add('active');
+ if(id==='mapa' && !map){ setTimeout(initMap,200); } else if(map){ setTimeout(()=>map.invalidateSize(),200); }
+ renderAll();
 }
-function cadastrar(){
- const nome=document.getElementById('nome').value.trim();
- const zap=document.getElementById('zap').value.trim();
- const placa=document.getElementById('placa').value.trim();
- const modelo=document.getElementById('modelo').value.trim();
- const pix=document.getElementById('pix').value.trim();
- if(!nome||!zap||!placa||!modelo||!pix){alert('Preencha tudo incluindo PIX!');return;}
- let lista=JSON.parse(localStorage.getItem('motoristas')||'[]');
- lista.push({nome,zap,placa,modelo,pix});
- localStorage.setItem('motoristas',JSON.stringify(lista));
- const texto=`*NOVO MOTORISTA EASE FLASH*%0A%0A*Nome:* ${nome}%0A*WhatsApp:* ${zap}%0A*Placa:* ${placa}%0A*Modelo/Cor:* ${modelo}%0A*PIX:* ${pix}`;
- window.open(`https://wa.me/554188099495?text=${texto}`,'_blank');
- mostrar();
- document.getElementById('nome').value='';document.getElementById('zap').value='';document.getElementById('placa').value='';document.getElementById('modelo').value='';document.getElementById('pix').value='';
+function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}
+function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function addMotorista(){
+ let m={nome:mNome.value, whats:mWhats.value, placa:mPlaca.value, modelo:mModelo.value, pix:mPix.value, status:mStatus.value, id:Date.now()};
+ if(!m.nome) return alert('Nome obrigatório');
+ let arr=get('motoristas'); arr.push(m); set('motoristas',arr);
+ mNome.value=mWhats.value=mPlaca.value=mModelo.value=mPix.value=''; renderMotoristas();
 }
-mostrar();
+function renderMotoristas(){
+ let arr=get('motoristas');
+ listaMotoristas.innerHTML=arr.map(m=>`<div class="item"><div><b>${m.nome}</b><br><span class="small">${m.placa} • ${m.modelo}</span><br><span class="badge">${m.status}</span></div><div><span class="badge">${m.whats}</span><br><button onclick="del('motoristas',${m.id})" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhum motorista</p>';
+ updateClienteSelect();
+}
+function addCliente(){
+ let c={nome:clNome.value, whats:clWhats.value, endereco:clEndereco.value, ref:clRef.value, id:Date.now()};
+ if(!c.nome) return alert('Nome obrigatório');
+ let arr=get('clientes'); arr.push(c); set('clientes',arr);
+ clNome.value=clWhats.value=clEndereco.value=clRef.value=''; renderClientes();
+}
+function renderClientes(){
+ let arr=get('clientes');
+ listaClientes.innerHTML=arr.map(c=>`<div class="item"><div><b>${c.nome}</b><br><span class="small">${c.endereco} - ${c.ref}</span></div><div><span class="badge">${c.whats}</span><br><button onclick="del('clientes',${c.id})" style="background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhum cliente</p>';
+ updateClienteSelect();
+}
+function addCorrida(){
+ let co={cliente:cCliente.value, origem:origem.value, destino:destino.value, valor:valor.value, tipo:tipo.value, status:'Aberta', id:Date.now()};
+ if(!co.origem) return alert('Origem');
+ let arr=get('corridas'); arr.push(co); set('corridas',arr);
+ origem.value=destino.value=valor.value=''; origemLatLng=destinoLatLng=null; renderCorridas();
+}
+function renderCorridas(){
+ let arr=get('corridas');
+ listaCorridas.innerHTML=arr.map(c=>`<div class="item"><div><b>${c.origem.substring(0,25)} → ${c.destino.substring(0,25)}</b><br><span class="small">${c.tipo} • R$ ${c.valor} • ${c.cliente}</span><br><span class="badge">${c.status}</span></div><div><button onclick="aceitar(${c.id})" style="background:#FFEB00;border:none;padding:8px 12px;border-radius:8px;font-weight:bold">Aceitar</button><br><button onclick="del('corridas',${c.id})" style="background:#444;color:#fff;border:none;padding:4px 8px;border-radius:6px;margin-top:4px;width:100%">X</button></div></div>`).join('')||'<p style="text-align:center;opacity:.5">Nenhuma corrida</p>';
+}
+function aceitar(id){
+ let arr=get('corridas'); let c=arr.find(x=>x.id===id); if(c){c.status='Aceita'; set('corridas',arr); renderCorridas();}
+}
+function del(k,id){ let arr=get(k); set(k,arr.filter(x=>x.id!==id)); renderAll(); }
+function updateClienteSelect(){
+ let arr=get('clientes'); cCliente.innerHTML='<option value="">Selecione cliente</option>'+arr.map(c=>`<option>${c.nome} - ${c.whats}</option>`).join('');
+}
+function renderAll(){ renderMotoristas(); renderClientes(); renderCorridas(); }
+window.onload=()=>{ renderAll(); initMap(); }
 </script>
 </body>
 </html>
