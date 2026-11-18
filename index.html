@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EASE FLASH CORRIDAS - CHAMOU, CHEGOU!</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"EASE FLASH CORRIDAS","short_name":"EASE FLASH","display":"standalone","background_color":"%23ffcc00","theme_color":"%23ffcc00","start_url":"https://donarita1983rita3.github.io/app-de-corridas/"}'>
+<meta name="theme-color" content="#ffcc00">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#f5f5f5}
@@ -23,6 +27,8 @@ label{font-size:13px;font-weight:700;display:block;margin-top:10px}
 input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;margin-top:4px;font-size:14px}
 .btn{width:100%;padding:13px;border:none;border-radius:10px;background:#ffcc00;font-weight:900;font-size:15px;margin-top:14px;cursor:pointer}
 .btn-black{background:#111;color:#ffcc00}
+.btn-green{background:#25D366;color:#fff}
+.btn-download{background:#000;color:#ffcc00;font-size:16px;padding:16px;border:2px solid #ffcc00;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 .qr-box{text-align:center}
 .qr-box img{width:170px;height:170px;border:6px solid #fff;box-shadow:0 0 0 1px #ddd;border-radius:10px}
 .price{font-size:12px;color:#666;margin-top:6px}
@@ -31,11 +37,19 @@ input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;mar
 .moto-car button.active{border-color:#ffcc00;background:#fffde6}
 .footer{text-align:center;font-size:11px;color:#888;padding:15px}
 #page-motoristas,#page-clientes,#page-mapa{display:none}
+.banner-download{background:#111;color:#fff;padding:14px;text-align:center;border-bottom:3px solid #ffcc00}
+.banner-download p{font-size:13px;margin-bottom:8px}
 </style>
 </head>
 <body>
 
 <div class="header"><h1 id="t_title">EASE FLASH CORRIDAS</h1><p id="t_sub">CHAMOU, CHEGOU! PARANAGUÁ</p></div>
+
+<div class="banner-download">
+<p>📲 Baixe o app e peça em 5 segundos!</p>
+<button class="btn btn-download" onclick="baixarApp()">⬇️ BAIXAR APLICATIVO EASE FLASH</button>
+<p style="font-size:11px;margin-top:6px;color:#ffcc00">Funciona em Android e iPhone - Grátis</p>
+</div>
 
 <div class="lang-bar">
 <button onclick="setLang('pt',this)" class="active">BR PT</button>
@@ -60,19 +74,21 @@ input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;mar
 <div id="page-corrida" class="card">
 <h2 id="t_ride">Pedir Corrida</h2>
 <div class="moto-car">
-<button id="btnCar" class="active" onclick="setModo('car')">CARRO</button>
-<button id="btnMoto" onclick="setModo('moto')">MOTO</button>
+<button id="btnCar" class="active" onclick="setModo('car')">🚗 CARRO</button>
+<button id="btnMoto" onclick="setModo('moto')">🏍️ MOTO</button>
 </div>
 <label id="t_from">De onde?</label><input id="from" placeholder="Ex: Rodoviaria Paranaguá">
 <label id="t_to">Para onde?</label><input id="to" placeholder="Ex: Centro, Porto">
 <label id="t_pay">Pagamento</label>
 <select id="pay"><option>Dinheiro / Pix</option><option>QR Code - Mercado Pago</option><option>PayPal</option><option>Cartão</option></select>
 <button class="btn" onclick="pedir()" id="t_call">CHAMAR AGORA - CHAMOU, CHEGOU!</button>
-<p style="text-align:center;font-size:12px;margin-top:8px">EASE FLASH - Carro e Moto em Paranaguá</p>
+<button class="btn btn-green" onclick="pedir()">📲 CHAMAR NO WHATSAPP 41 98809-9495</button>
+<p style="text-align:center;font-size:12px;margin-top:8px">EASE FLASH - Carro e Moto em Paranaguá 24h</p>
 <div class="qr-box" style="margin-top:12px">
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://donarita1983rita3.github.io/app-de-corridas/">
-<p class="price">Aponta a câmera - Chama no WhatsApp 41 98809-9495</p>
+<p class="price">Aponta a câmera - Baixa o app e pede direto!</p>
 </div>
+<button class="btn btn-black" onclick="baixarApp()">⬇️ BAIXAR APP NO CELULAR</button>
 </div>
 
 <div id="page-motoristas" class="card">
@@ -95,80 +111,4 @@ input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;mar
 
 <div id="page-mapa" class="card">
 <h2>Mapa - Paranaguá</h2>
-<iframe src="https://maps.google.com/maps?q=Paranagua,PR&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;border-radius:10px"></iframe>
-</div>
-</div>
-
-<div class="footer">EASE FLASH © 2026 - Paranaguá - WhatsApp: 41 98809-9495</div>
-
-<script>
-const WHATS = "5541988099495";
-let modoAtual = "car";
-
-function showTab(t){
-  ['corrida','motoristas','clientes','mapa'].forEach(id=>{
-    document.getElementById('page-'+id).style.display = id===t ? 'block' : 'none';
-    document.getElementById('tab-'+id).classList.toggle('active', id===t);
-  });
-  if(t==='corrida') document.getElementById('page-corrida').style.display='block';
-}
-function setModo(m){
-  modoAtual=m;
-  document.getElementById('btnCar').classList.toggle('active', m==='car');
-  document.getElementById('btnMoto').classList.toggle('active', m==='moto');
-}
-function pedir(){
-  let de=document.getElementById('from').value||"Não informado";
-  let para=document.getElementById('to').value||"Não informado";
-  let pag=document.getElementById('pay').value;
-  let msg="Olá! EASE FLASH! CHAMOU, CHEGOU!%0A%0AQuero corrida:%0ADe: "+encodeURIComponent(de)+"%0APara: "+encodeURIComponent(para)+"%0ATipo: "+modoAtual.toUpperCase()+"%0APagamento: "+encodeURIComponent(pag);
-  window.open("https://wa.me/"+WHATS+"?text="+msg,"_blank");
-}
-function cadMotorista(){
-  let nome=document.getElementById('nomeM').value;
-  let zap=document.getElementById('zapM').value;
-  let veic=document.getElementById('veicM').value;
-  let placa=document.getElementById('placaM').value;
-  let email=document.getElementById('emailM').value;
-  let msg="Quero ser MOTORISTA EASE FLASH!%0A%0ANome: "+encodeURIComponent(nome)+"%0AWhats: "+encodeURIComponent(zap)+"%0AVeiculo: "+veic+"%0APlaca: "+encodeURIComponent(placa)+"%0AEmail: "+encodeURIComponent(email);
-  window.open("https://wa.me/"+WHATS+"?text="+msg,"_blank");
-}
-function cadCliente(){
-  let nome=document.getElementById('nomeC').value;
-  let zap=document.getElementById('zapC').value;
-  let bairro=document.getElementById('bairroC').value;
-  let msg="Quero ser CLIENTE EASE FLASH!%0A%0ANome: "+encodeURIComponent(nome)+"%0AWhats: "+encodeURIComponent(zap)+"%0ABairro: "+encodeURIComponent(bairro);
-  window.open("https://wa.me/"+WHATS+"?text="+msg,"_blank");
-}
-
-const traducao={
-  pt:{title:"EASE FLASH CORRIDAS",sub:"CHAMOU, CHEGOU! PARANAGUÁ",ride:"Pedir Corrida",from:"De onde?",to:"Para onde?",pay:"Pagamento",call:"CHAMAR AGORA - CHAMOU, CHEGOU!",driver:"Cadastro Motorista",client:"Cadastro Cliente",register:"CADASTRAR COMO MOTORISTA"},
-  en:{title:"EASE FLASH RIDES",sub:"YOU CALLED, WE ARRIVED! PARANAGUÁ",ride:"Request Ride",from:"From where?",to:"To where?",pay:"Payment",call:"CALL NOW - YOU CALLED, WE ARRIVED!",driver:"Driver Registration",client:"Client Registration",register:"REGISTER AS DRIVER"},
-  es:{title:"EASE FLASH VIAJES",sub:"¡LLAMASTE, LLEGAMOS! PARANAGUÁ",ride:"Pedir Viaje",from:"¿Desde dónde?",to:"¿Hasta dónde?",pay:"Pago",call:"LLAMAR AHORA - ¡LLAMASTE, LLEGAMOS!",driver:"Registro Conductor",client:"Registro Cliente",register:"REGISTRAR COMO CONDUCTOR"},
-  fr:{title:"EASE FLASH COURSES",sub:"APPELÉ, ARRIVÉ! PARANAGUÁ",ride:"Demander Course",from:"D'où?",to:"Où?",pay:"Paiement",call:"APPELER MAINTENANT",driver:"Inscription Chauffeur",client:"Inscription Client",register:"S'INSCRIRE COMME CHAUFFEUR"},
-  de:{title:"EASE FLASH FAHRTEN",sub:"GERUFEN, ANGEKOMMEN! PARANAGUÁ",ride:"Fahrt bestellen",from:"Woher?",to:"Wohin?",pay:"Zahlung",call:"JETZT RUFEN",driver:"Fahrer Registrierung",client:"Kunden Registrierung",register:"ALS FAHRER REGISTRIEREN"},
-  it:{title:"EASE FLASH CORSE",sub:"CHIAMATO, ARRIVATO! PARANAGUÁ",ride:"Richiedi Corsa",from:"Da dove?",to:"Dove?",pay:"Pagamento",call:"CHIAMA ORA",driver:"Registrazione Autista",client:"Registrazione Cliente",register:"REGISTRATI COME AUTISTA"},
-  zh:{title:"EASE FLASH 出行",sub:"随叫随到! PARANAGUÁ",ride:"叫车",from:"从哪里?",to:"到哪里?",pay:"支付",call:"立即叫车",driver:"司机注册",client:"客户注册",register:"注册为司机"},
-  ja:{title:"EASE FLASH ライド",sub:"呼んだら、到着! PARANAGUÁ",ride:"ライドを注文",from:"どこから?",to:"どこへ?",pay:"支払い",call:"今すぐ呼ぶ",driver:"ドライバー登録",client:"お客様登録",register:"ドライバーとして登録"},
-  ar:{title:"EASE FLASH مشاوير",sub:"اتصل، وصلنا! PARANAGUÁ",ride:"اطلب مشوار",from:"من أين؟",to:"إلى أين؟",pay:"الدفع",call:"اتصل الآن",driver:"تسجيل سائق",client:"تسجيل عميل",register:"سجل كسائق"}
-};
-
-function setLang(lang,btn){
-  document.querySelectorAll('.lang-bar button').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  let t=traducao[lang]||traducao.pt;
-  document.getElementById('t_title').innerText=t.title;
-  document.getElementById('t_sub').innerText=t.sub;
-  document.getElementById('t_ride').innerText=t.ride;
-  document.getElementById('t_from').innerText=t.from;
-  document.getElementById('t_to').innerText=t.to;
-  document.getElementById('t_pay').innerText=t.pay;
-  document.getElementById('t_call').innerText=t.call;
-  document.getElementById('t_driverTitle').innerText=t.driver;
-  document.getElementById('t_clientTitle').innerText=t.client;
-  document.getElementById('t_register').innerText=t.register;
-}
-showTab('corrida');
-</script>
-</body>
-</html>
+<iframe src="https://maps.google.com/maps?q=Paranagua,PR&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;border-radius:10px"></
